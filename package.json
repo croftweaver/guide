@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build && node scripts/anchor-ids.mjs && node scripts/build-marker.mjs",
+    "build": "node scripts/check-glossary-links.mjs && astro build && node scripts/anchor-ids.mjs && node scripts/build-marker.mjs",
     "preview": "astro preview",
     "og": "node scripts/run_og.mjs",
     "ship": "bash scripts/ship.sh",

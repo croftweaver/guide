@@ -4,17 +4,17 @@
 
 export const SITE = {
   url: 'https://guide.croftweaver.com',          // production origin, no trailing slash
-  name: 'Example',
-  legalName: 'Example GmbH',
+  name: 'Croftweaver Guide',
+  legalName: 'Croftweaver',
   locale: 'en',
   themeColor: '#000000',               // matches the brand primary + manifest
-  // Home <title> is special-cased (NOT "Example | Example"). Keep ≤ 60 chars.
-  titleHome: 'Example: clear, keyword-tuned home page title',
-  tagline: 'One-line positioning.',
+  // Home <title> is special-cased (NOT "Croftweaver Guide | Croftweaver Guide"). Keep ≤ 60 chars.
+  titleHome: 'Get found on Google and in AI answers | Croftweaver Guide',
+  tagline: 'A free guide to being found on Google and in AI answers.',
   // 120–160 chars: default meta description + Organization/WebPage schema text.
   description:
-    'Example is a short, specific description of what this site offers and who ' +
-    'it is for, written plainly and within the 120 to 160 character window.',
+    'A free guide for people who run a website and would rather not learn jargon. ' +
+    'Every claim about Google or AI names its source, and links it.',
 } as const;
 
 // og:locale derivation — ONE implementation shared by Base.astro (emission)
@@ -30,7 +30,7 @@ export function ogLocaleFor(lang: string): string | undefined {
 }
 
 export const COMPANY = {
-  legalName: 'Example GmbH',
+  legalName: 'Croftweaver',
   logo: '/images/logo.png',            // resolved against SITE.url for schema
 } as const;
 

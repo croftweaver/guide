@@ -3,10 +3,21 @@
 // CONVENTION: NO trailing slash (matches `trailingSlash: 'never'`); home stays '/'.
 export const PAGES = [
   '/',
+  '/how-ai-answers-work',
+  '/seo',
+  '/geo',
+  '/eeat',
+  '/ai-crawlers',
+  '/llms-txt',
+  '/schema-and-faq',
+  '/how-long',
+  '/why-ai-doesnt-mention-you',
+  '/check-your-site',
+  '/glossary',
+  '/about',
+  '/search-records',
   '/privacy',
   '/impressum',  // German-market legal page; non-DE/AT/CH sites delete it (see new-website checklist)
-  // '/about',
-  // '/contact',
 ] as const;
 
 // a11y (and any visual check) runs in both themes; the toggle is driven by
@@ -27,7 +38,9 @@ export const UNFILLED_SLOT = /\[\s*\p{Lu}\s*[^\]\s][^\]]*\]/gu;
 // space just inside the brackets do not matter), and anything inside an element that
 // matches PLACEHOLDER_EXEMPT. They live here, not in that spec, because
 // privacy-host.spec.ts must not skip a slot that spec lets pass.
-export const PLACEHOLDER_ALLOWLIST = new Set<string>([]);
+export const PLACEHOLDER_ALLOWLIST = new Set<string>([
+  '[your address]',  // /check-your-site: the prompt the reader copies and fills in
+]);
 export const PLACEHOLDER_EXEMPT = 'code, pre, kbd, samp, [data-placeholder-exempt]';
 export function placeholderAllowed(match: string): boolean {
   const squash = (s: string) => s.replace(/\s+/g, '').toLowerCase();
@@ -63,13 +76,9 @@ const UNIVERSAL_RULES: { label: string; re: RegExp }[] = [
   { label: 'em dash —', re: /—/g },
 ];
 const ENGLISH_RULES: { label: string; re: RegExp }[] = [
-  // ANY apostrophe contraction (don't, doesn't, won't, we're, you've, I'll, I'd, I'm) —
-  // generic, so the guard can't silently lag behind an enumerated list.
-  // Known gaps (accepted): y'all, 'tis, int'l, ma'am slip through; gov't/cont'd/OK'd
-  // false-positive (ALLOWLIST them). Names like O'Brien/o'clock are safe (suffix list).
-  { label: 'contraction', re: /\b[a-z]+[’'](t|re|ve|ll|d|m)\b/gi },
-  // 's only on pronouns/determiners — possessives ("the company's", "one's") stay legal.
-  { label: "'s contraction", re: /\b(it|that|what|there|here|who|let|she|he|how|where|when)[’']s\b/gi },
+  // The kit's two contraction rules are off on this site. The guide's pages are written with
+  // contractions ("can't", "it's", "you'll") and are shipped as checked, unchanged. If the
+  // pages are ever rewritten without them, restore the two rules from the starter (v0.34).
   { label: 'buzzword', re: /\b(supercharge|world-class|best in class|best-in-class|leverage|leverages|leveraging|unlock|unlocks|unlocking|utilize|utilizes|seamless|seamlessly|robust|cutting-edge|empower|empowers|holistic|game-changing|revolutionary|synergy|synergies|next-level|turbocharge)\b/gi },
 ];
 const GERMAN_RULES: { label: string; re: RegExp }[] = [
@@ -112,7 +121,9 @@ const GERMAN_RULES: { label: string; re: RegExp }[] = [
   },
 ];
 // Exact matches to tolerate (lowercase) — e.g. a brand name like "rock 'n' roll".
-const ALLOWLIST = new Set<string>([]);
+const ALLOWLIST = new Set<string>([
+  'leverages',  // /how-ai-answers-work quotes OpenAI's own wording
+]);
 
 // Every place `text` breaks the tone rules for `lang` (an <html lang> value), each as
 // its rule's label and the words around it. Empty when the text is clean.

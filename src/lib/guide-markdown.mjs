@@ -50,6 +50,8 @@ function tablePlugin() {
         visit(node, ctx) {
           const [head, body] = kids(node);
           const headers = kids(kids(head)[0]).map((th) => ctx.textContent(th).replace(/\s+/g, ' ').trim());
+          // The kit's "long-head": a wider first column when the row headers are long.
+          const longHead = kids(body).some((tr) => ctx.textContent(kids(tr)[0]).trim().length > 30);
           const label = (lastHeading ? `${lastHeading}: ` : '') + headers.join(', ');
           ctx.setProperty(node, 'role', 'table');
           ctx.setProperty(head, 'role', 'rowgroup');
@@ -80,7 +82,7 @@ function tablePlugin() {
           });
           ctx.wrapNode(node, {
             type: 'element', tagName: 'div',
-            properties: { className: ['table-wrap', 'stack'], role: 'region', 'aria-label': label, tabindex: '0' },
+            properties: { className: longHead ? ['table-wrap', 'stack', 'long-head'] : ['table-wrap', 'stack'], role: 'region', 'aria-label': label, tabindex: '0' },
             children: [],
           });
         },

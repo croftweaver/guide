@@ -10,34 +10,49 @@ read the glossary once, then follow the steps for your site's model.
 | Word | What it actually means |
 |---|---|
 | **commit** | **Save a snapshot** of your changes on your own computer, with a short note describing them. Nothing is online yet — it's like saving a document. |
-| **push** | **Upload** your saved snapshots to GitHub (the cloud). On most sites this is what triggers a build (not on one that deploys by command, see "Deploy by command"). |
-| **branch** | A **named line of work**. Your site has up to two: `main` and (sometimes) `production`. Think of them as "the draft" and "the published version." |
+| **push** | **Upload** your saved snapshots to GitHub (the cloud). On this site a push to `production` triggers the build; a push to any other branch builds nothing. |
+| **branch** | A **named line of work**. Your site has two: `main` and `production`. Think of them as "the draft" and "the published version." |
 | **checkout** | **Switch** which branch you're looking at / working on. `git checkout main` = "show me the draft." |
 | **merge** | **Copy the changes** from one branch into another — e.g. take everything in `main` and bring it into `production` to publish. |
 
 A normal edit is always the same three moves: **commit** (save) → **push** (upload) →
-the site rebuilds automatically (except on a site that deploys by command, see "Deploy by
-command"). The only question is *which branch* you push to, and that's
-what your model below decides.
+publish. A push to `main` builds nothing on Cloudflare; the site is built when `main` is
+published to `production` with `npm run ship`.
 
 ---
 
-## Which model is your site? (check your README)
+## How this site is published (Workers)
 
-Your site uses **one** of these. If you're not sure, your README's "Deploy" section says
-which, or just look at your branches: only `main` = single-stage; `main` **and**
-`production` = two-stage. One more case: if your site isn't connected to GitHub in
-Cloudflare, a push publishes nothing. See "Deploy by command" below.
+This site is a **Cloudflare Worker** that serves the built files from `dist/` and runs no
+code of its own (`wrangler.jsonc` has no `main`). It is **two-stage**: `production` is the
+live branch, `main` is the draft. Cloudflare's Workers Builds is connected to this repo with
+these settings (changing any of them changes what the public sees):
+
+| Setting | Value |
+|---|---|
+| Production branch | `production` |
+| Build command | `npm run build` |
+| Deploy command | `npx wrangler deploy` |
+| Builds for other branches | **off** |
+
+A push to any branch except `production` starts no build. The first publish, before the
+domain is attached, ends with `npm run ship` printing its "still serves an OLD build"
+warning and exiting 1 although the build went through: the site has no address for ship to
+poll yet. A build slower than ship's four-minute wait ends the same way. In both cases open
+the build's `/build.txt` yourself and compare it with the commit id ship printed (on a
+folder that publishes GitHub's `main`, `git rev-parse HEAD` may be a different commit).
 
 ---
 
 ## Two-stage (recommended) — "preview first, then publish"
 
-`main` is an **unlisted, noindexed preview**; `production` is the **live** site. You can
-push freely to `main` — nothing reaches your live domain until you publish. (Search engines
-are told to ignore the preview, but it isn't password-protected: **anyone who has the preview
-URL can open it.** Don't put confidential content on a preview unless the project is behind
-Cloudflare Access or similar.)
+`main` is the draft; `production` is the **live** site. You can push freely to `main` —
+nothing reaches your live domain until you publish. A push to `main` builds nothing on
+Cloudflare. To look at a draft online, run `npm run deploy:preview` from your computer (see
+below). Cloudflare marks a Preview `noindex` (seen on another Worker's Preview; not yet
+checked on this one), but it isn't password-protected: **anyone who has
+the preview URL can open it.** Don't put confidential content on a preview unless the
+project is behind Cloudflare Access or similar.
 
 **Every time you change the site:**
 
@@ -46,12 +61,12 @@ Cloudflare Access or similar.)
 git add -A
 git commit -m "describe what you changed, e.g. update opening hours"
 
-# 2. Upload them — this builds your NOINDEXED PREVIEW (not on the live domain yet)
+# 2. Upload them to GitHub (nothing is built on Cloudflare for `main`)
 git push
 
-# 3. Look at the preview. Open the preview link from Cloudflare
-#    (stable address: main.<your-project>.pages.dev; if Cloudflare gave the project an
-#    address other than its name, use the one on the project's page) and check it's right.
+# 3. Optional: put the draft online as a Preview and check it. This uses your own
+#    Cloudflare login (`npx wrangler login`, once) and prints the Preview address.
+npm run deploy:preview
 
 # 4. Happy? Publish it to the live site — ONE command:
 npm run ship
@@ -60,8 +75,10 @@ npm run ship
 `npm run ship` uploads `main` to the live (`production`) branch for you — you never run the
 branch commands by hand. Then it **waits and verifies** that the live site really serves the
 new version (every build stamps its id into `/build.txt`; ship polls for it, up to 4 min).
-"✓ LIVE — verified" means it's truly online; a warning means Cloudflare didn't build — the
-message tells you exactly what to click. Never assume a push went live without that check.
+"✓ LIVE — verified" means it's truly online; a warning means Cloudflare didn't build, or
+built slower than ship waits (see "How this site is published") — open the build in the
+Cloudflare dashboard (Workers & Pages → this Worker → Builds) and read `/build.txt` against
+the commit id ship printed. Never assume a push went live without that check.
 
 > **Each upload may run a quick self-check** (it builds the site and runs the tests before
 > uploading — so does `npm run ship`, which uploads too). It can take a minute, and **if
@@ -69,7 +86,7 @@ message tells you exactly what to click. Never assume a push went live without t
 > page. To skip the check on a *manual* `git push` you've already verified:
 > `git push --no-verify`. If **`npm run ship`** stops partway, don't force it — ask for help.
 
-> **Nothing reaches the live domain until step 4.** Steps 1–3 only update the noindexed preview.
+> **Nothing reaches the live domain until step 4.** Steps 1–3 only update GitHub and a Preview.
 
 ### On a shared computer: publish GitHub's `main` instead
 
@@ -103,89 +120,10 @@ published", and the last line says how many there were. So the one thing to keep
 
 ---
 
-## Single-stage (simplest) — "push = live"
-
-One branch, `main`, and it **is** the live site. There's no preview — every upload goes
-straight online. Simple, but there's no safety net, so check locally first (`npm run dev`).
-
-> **"Push = live" is a promise, not a fact.** Cloudflare can silently stop building (it
-> happened in production: green pushes, no deploy). After an important upload, confirm the
-> change is really online — `curl https://your-site/build.txt` shows which build is serving
-> (compare with `git rev-parse HEAD`). If it's stale: Cloudflare dashboard → your project →
-> Deployments (retry the failed build, or re-connect GitHub under Settings → Builds).
-
-> **You need a custom domain for Google to see the site.** A bare Cloudflare
-> `*.pages.dev` URL is **noindexed by design** (so stray preview URLs never get indexed).
-> Until you attach your real domain in Cloudflare, the live site works but search engines
-> ignore it. Once your real domain shows the new site, your assistant switches the
-> `pages.dev` address to forward visitors there, so a link to it in an AI answer still
-> brings people to your real domain.
-
-**Every time you change the site:**
-
-```bash
-# 1. (Optional but wise) preview locally first
-npm run dev        # opens a local copy in your browser; Ctrl-C to stop
-
-# 2. Save your changes
-git add -A
-git commit -m "describe what you changed"
-
-# 3. Upload — this goes LIVE within a minute
-git push
-```
-
----
-
-## Deploy by command — if your site isn't connected to GitHub in Cloudflare
-
-Some sites are uploaded to Cloudflare by command and have no GitHub connection there
-(your README's "Deploy" section says if yours is one; if you're not sure, ask your
-assistant).
-Such a site has no preview step, and `git push` only updates GitHub. **Nothing goes online
-until someone runs the commands below.** They publish `main`, so first check your change
-locally (`npm run dev`), then save and upload it on `main` with `git add -A`, `git commit`
-and `git push` as above. Skip `npm run ship` here: it waits for Cloudflare to build, and on
-such a site Cloudflare never does.
-
-```bash
-# Get the newest main from GitHub, build the site, then upload it to Cloudflare.
-# One command over four lines: copy all of it. The last line puts the site LIVE.
-git switch main &&
-  git pull &&
-  CF_PAGES_BRANCH=<production-branch> npm run build &&
-  npx wrangler pages deploy dist --project-name <your-project> --branch <production-branch>
-```
-
-`<your-project>` is your site's project name in Cloudflare. `<production-branch>` is the
-branch the project was created with: `main` on a single-stage site, `production` on a
-two-stage one. You upload from `main` either way: with no preview step, `main` holds the
-change you just checked and saved. Put the same branch name in both places, and leave both in:
-
-- `CF_PAGES_BRANCH=` lets your visitor statistics run on the live site, once they are
-  switched on (`USE_ANALYTICS = true` in `src/config.ts`; a new site has them off). With
-  them on and this left out, the live site counts no visitors, with no error to tell you.
-  (It only works when the name matches `PROD_BRANCH` in `src/config.ts`. If you're not sure
-  it does, ask your assistant to check.)
-- Without `--branch`, the upload can land as a preview instead of on the live site.
-
-The `&&` means each line runs only if the one before it worked. If `git` or the build stops
-with an error, nothing was uploaded: ask for help rather than running the upload on its own.
-If the upload itself shows an error, part of it may have gone live anyway: ask for help
-before running it again. The first
-time, `npx` may ask "Ok to proceed?": type `y`. If the command says you aren't logged in, run
-`npx wrangler login` once (it opens your browser so you can log in to Cloudflare), then
-run it again. If it says "Failed to automatically retrieve account IDs" (this happened
-with a Cloudflare token that could not look up the account), ask your assistant to give
-it your account id (`CLOUDFLARE_ACCOUNT_ID`), then run it again.
-On Windows, run it in Git Bash or WSL.
-
----
-
 ## If something goes wrong
 
-- **Mistake already live?** Don't panic — in the **Cloudflare dashboard → your Pages
-  project → Deployments**, every past version is listed; click an older one →
+- **Mistake already live?** Don't panic — in the **Cloudflare dashboard → Workers & Pages →
+  this Worker → Deployments**, every past version is listed; click an older one →
   **Rollback** to restore it instantly.
 - **Made a typo in the last save (not pushed yet)?** Re-edit, then
   `git add -A && git commit -m "fix typo"` again.
@@ -250,8 +188,8 @@ With `ship.fromGitHub` switched on (see "On a shared computer" above), you may a
 - **"has no runnable scripts/hooks/pre-push"?** GitHub's `main` lacks the pre-push check this
   mode insists on, so it publishes nothing. Ask for help.
 
-When in doubt, ask before you `npm run ship`, `git push` or the deploy command above — those
-are the only commands that change what the public sees.
+When in doubt, ask before you `npm run ship`, `npm run deploy:preview` or `git push` to
+`production` — those are the only commands that put anything online.
 
 ---
 
@@ -307,39 +245,31 @@ per `AGENTS.md` §2.*
 ### Always say whether it's PREVIEW or LIVE
 
 A non-technical owner cannot tell a preview URL from the live site. So **every time** you
-push to `main` (or they do), state it explicitly — never let a preview read as live:
+push to `main` (or they do), state it explicitly. A push to `main` builds nothing on
+Cloudflare, so say that too; a Preview exists only after `npm run deploy:preview`:
 
-> ✅ Your changes are on the **preview**: `https://main.<project>.pages.dev` — **this is NOT
-> live yet.** When it looks right, run `npm run ship` to publish to `<live-domain>`.
+> ✅ Your changes are on GitHub's `main`. **Nothing is online yet, and nothing is live.** To
+> look at them online, run `npm run deploy:preview`; when they look right, run
+> `npm run ship` to publish to `<live-domain>`.
 
-Only after `npm run ship` (or the merge into `production`) **and** the Cloudflare production
-build finishes is it actually live at `<live-domain>`. After `npm run ship` prints
+Only after `npm run ship` (or a merge into `production`) **and** the Cloudflare build
+finishes is it actually live at `<live-domain>`. After `npm run ship` prints
 "✓ LIVE — verified" (it polls `/build.txt` until the live site serves the new SHA), announce
-it live on that result — no manual re-check needed. For a plain merge into `production` — or
-when ship reports it could not verify — confirm manually before announcing ("✅ now live
-at …"). On a **single-stage** site there is no preview: say plainly that the push **is
-going live now**. On a site **not connected to GitHub** ("Deploy by command" above), this
-rule wins over both models: a push builds nothing, not even a preview. Say the change is
-saved on GitHub only, and goes live when the deploy command runs. Deliver these
+it live on that result — no manual re-check needed. When ship reports it could not verify
+(the first publish, before the domain exists, always does), confirm by reading the build's
+`/build.txt` before announcing ("✅ now live at …"). Deliver these
 announcements in the owner's language, like everything else you say to them.
 
-**Which URL to quote.** Where Cloudflare gave the project an address other than its name
-(it does when the name is taken), use that address, from the project's page, in place of
-`<project>.pages.dev` below. Prefer the
-**memorable `pages.dev` alias** — the branch alias
-`main.<project>.pages.dev` (or, before go-live, the project alias `<project>.pages.dev` —
-after go-live it redirects to the live domain) — over the random
-per-deploy hash URL `<hash>.<project>.pages.dev`. The hash URL is ugly but **immutable**, so
-keep it as a **backup**: when an alias looks **stale** (cache/propagation lag, or it's still
-serving an older build), the hash URL pins the exact fresh deployment and confirms the new
-build is up. For a **brand-new page**, though, the next section wins: until the production
-build is Active, the page exists only on the hash URL. Whichever URL you quote, **open it
-and confirm it loads** rather than reporting it blind — and note it for the project.
-(A `pages.dev` URL is also the signal you deployed to **Pages**, not a Worker — if a deploy
-ever prints a `*.workers.dev` URL, stop: you published the wrong project type.)
+**Which URL to quote.** The Preview alias that `npm run deploy:preview` prints, and the
+version URL beside it, are the only Preview addresses. They should answer with `noindex`
+(seen on another Worker's Preview; not yet checked on this one). The `*.workers.dev` address is switched off
+(`workers_dev: false`) and serves nothing. Whichever URL you quote, **open it and confirm it
+loads** rather than reporting it blind. (If a deploy ever prints a `*.pages.dev` URL, stop:
+you published the wrong project type.)
 
-### Never request a page on the live domain before its build is Active
+### Never request a page on the live domain before its build has finished
 
+(Seen on Cloudflare Pages sites; not yet checked on this Worker. Until it is, treat it as true.)
 The edge caches whatever it first sees. If anyone — you, the owner's browser, a link
 checker — requests a brand-new path on the live domain while the production build is still
 running, a zone cache rule (Cache Everything on HTML) will cache the **404**, and a cached
@@ -348,19 +278,17 @@ minutes past a 30-minute `max-age`, immune to plain re-requests. Only a **manual
 purge** clears it (Cloudflare dashboard → the zone → Caching → Purge Cache → custom purge by
 URL; wrangler's OAuth token has `zone (read)` only and cannot purge programmatically). So:
 
-- Until the production deployment shows **Active**, verify new pages ONLY on the hash
-  deployment URL (`<hash>.<project>.pages.dev`) — pre-Active the live domain still serves
-  the *previous* deployment, so a brand-new path 404s there no matter how you request it.
-  Check Active status without touching the live domain: `wrangler pages deployment list`,
-  the `<project>.pages.dev` alias (Cloudflare's own domain, outside the zone cache — but
-  only before go-live; once `CANONICAL_URL` is set it redirects to the live domain, so
-  don't follow it), or ask the owner — NEVER poll the live custom domain to see whether the build is done.
-  (`npm run ship`'s built-in check is the one exception: it polls `/build.txt` — a path
-  that exists in every build — with a cache-bust.) Once Active, check the live domain with a
-  `?cb=<anything>` cache-bust first (under default cache settings that is a distinct cache
-  key, so it cannot poison the bare URL).
-- Touch the **bare canonical URL last**, after Active — and only then tell the owner the
-  link is safe to open. Announcing a URL before Active invites the owner to click it —
+- Until the production build has finished (the Builds page in the dashboard shows it
+  succeeded), verify new pages ONLY on the build's version URL, which the build log prints:
+  before it finishes the live domain still serves the *previous* version, so a brand-new path
+  404s there no matter how you request it. Check the build without touching the live domain:
+  the Builds page in the dashboard must show the intended commit's build as succeeded, or ask
+  the owner — NEVER poll the live custom domain to see whether the build is done. (`npm run ship`'s built-in check is the one exception: it polls
+  `/build.txt` — a path that exists in every build — with a cache-bust.) Once the build has
+  finished, check the live domain with a `?cb=<anything>` cache-bust first (under default
+  cache settings that is a distinct cache key, so it cannot poison the bare URL).
+- Touch the **bare canonical URL last**, after the build has finished — and only then tell the owner the
+  link is safe to open. Announcing a URL before then invites the owner to click it —
   and that first request makes the edge cache the 404 for everyone.
 - The same applies to Search Console **Request Indexing**: Googlebot is served the same
   edge cache, so requesting indexing while a stale 404 is cached shows Google exactly the

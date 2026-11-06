@@ -25,13 +25,8 @@
 #      lets THE INIT STUB run: 'unsafe-inline' alone in the directive, or the stub's own
 #      sha256 hash. Off for the other three, with no tag, no half of one and no mention of
 #      the script's path or id. No build links to /go/email: the browser counts the tap.
-#   4. In server mode (USE_ANALYTICS = true and ANALYTICS.mode = 'server' in src/config.ts),
-#      steps 2 and 3 are replaced: the same four builds, all with no analytics tag (no page
-#      loads the script, so _headers needs no analytics host); on the live build every email
-#      link goes to /go/email, the Function that counts the tap, and on the other three none
-#      does.
-# With USE_ANALYTICS = false in src/config.ts (as the starter ships), steps 2 to 4
-# turn around (the mode is then ignored): public/_headers must NOT list the host (with or without a path) in
+# With USE_ANALYTICS = false in src/config.ts (as the starter ships), steps 2 and 3
+# turn around: public/_headers must NOT list the host (with or without a path) in
 # script-src, script-src-elem, connect-src or default-src, and all four builds, the live one
 # included, must be off. A config.ts that never
 # names USE_ANALYTICS (a site made before the switch) counts as true; one that names it
@@ -95,12 +90,12 @@ if [ -z "$host" ] || [ -z "$id" ]; then
 fi
 host="${host%/}"
 ANALYTICS_SRC="${host}/js/${id}.js"
-# The mode: 'script' (the default, and what a config.ts from before the key existed means)
-# or 'server', where the Pages Function counts and no page carries a tag.
+# The mode: only 'script' exists on this Workers site. 'server' counted on a Pages Function,
+# and functions/ was removed, so a 'server' mode would write no tag and count nothing.
 mode="$(sed -nE "s/^[[:space:]]*mode:[[:space:]]*['\"]([a-z]+)['\"].*/\1/p" src/config.ts)"
 mode="${mode:-script}"
-if [ "$mode" != script ] && [ "$mode" != server ]; then
-  echo "✗ analytics gate: mode in src/config.ts is '$mode'; expected 'script' or 'server'."
+if [ "$mode" != script ]; then
+  echo "✗ analytics gate: mode in src/config.ts is '$mode'; this site has no Function, so only 'script' works."
   exit 1
 fi
 export ANALYTICS_SRC
@@ -667,24 +662,16 @@ go_selftest() {
   echo "✓ analytics gate: the email-link reader reads its $k fixture pages as expected"
 }
 
-# expect_go <case> <what> <all|none>: all = every email link on every page goes to
-# /go/email (the live build in server mode, else taps go uncounted); none = no link goes
-# there (every other build: no Function answers /go/email under astro preview or dev, and
-# in script mode the browser counts the tap instead).
+# expect_go <case> <what>: no email link may go to /go/email, because nothing answers it on
+# this site (no Function).
 expect_go() {
-  local name="$1" what="$2" want="$3" counts bad
+  local name="$1" what="$2" counts bad
   counts="$(go_links "$work/$name")" || { echo "✗ $what: could not read the built pages."; fail=1; return; }
-  if [ "$want" = all ]; then
-    bad="$(printf '%s\n' "$counts" | awk '$1 != $2 { path = $0; sub(/^[^ ]* [^ ]* [^ ]* /, "", path); print path }')"
-  else
-    bad="$(printf '%s\n' "$counts" | awk '$3 > 0 { path = $0; sub(/^[^ ]* [^ ]* [^ ]* /, "", path); print path }')"
-  fi
+  bad="$(printf '%s\n' "$counts" | awk '$3 > 0 { path = $0; sub(/^[^ ]* [^ ]* [^ ]* /, "", path); print path }')"
   if [ -z "$bad" ]; then
-    if [ "$want" = all ]; then echo "✓ $what: every email link goes to /go/email"
-    else echo "✓ $what: no link goes to /go/email"; fi
+    echo "✓ $what: no link goes to /go/email"
   else
-    if [ "$want" = all ]; then echo "✗ $what: email links that do not go to /go/email, so their taps would not be counted, on these pages:"
-    else echo "✗ $what: links to /go/email, where this build needs plain mailto: links (the Function is not asked here), on these pages:"; fi
+    echo "✗ $what: links to /go/email, which nothing answers on this site, on these pages:"
     while IFS= read -r page; do printf '    %s\n' "${page#"$work/$name/"}"; done <<< "$bad"
     fail=1
   fi
@@ -704,36 +691,17 @@ report_problems() {
 selftest
 go_selftest
 
-if [ "$use" != false ] && [ "$mode" = server ]; then
-  echo "· analytics gate: server mode, so no page loads the script and public/_headers needs no analytics host"
-  build live set "$prod"
-  expect_off live "CF_PAGES_BRANCH=$prod (the live build, server mode)"
-  expect_go live "CF_PAGES_BRANCH=$prod (the live build, server mode)" all
-  for c in "unset:unset::CF_PAGES_BRANCH unset (a plain npm run build)" \
-           "empty:set::CF_PAGES_BRANCH= (a preview by command)" \
-           "preview:set:$preview:CF_PAGES_BRANCH=$preview (a preview branch)"; do
-    IFS=: read -r name how value what <<<"$c"
-    build "$name" "$how" "$value"
-    expect_off "$name" "$what"
-    expect_go "$name" "$what" none
-  done
-  if [ "$fail" -eq 0 ]; then
-    echo "✓ analytics gate: $checked builds in server mode, no script in any; email links counted on the live build only"
-  fi
-  exit "$fail"
-fi
-
 if [ "$use" = false ]; then
   report_problems "$(csp_host_left public/_headers)" "analytics is off, and public/_headers lists $host in none of script-src, script-src-elem, connect-src and default-src"
   build live set "$prod"
   expect_off live "CF_PAGES_BRANCH=$prod (the live build, analytics off)"
-  expect_go live "CF_PAGES_BRANCH=$prod (the live build, analytics off)" none
+  expect_go live "CF_PAGES_BRANCH=$prod (the live build, analytics off)"
 else
 report_problems "$(csp_host_problems public/_headers)" "public/_headers lists $host as a token in script-src and connect-src"
 
 build live set "$prod"
 expect_on live "CF_PAGES_BRANCH=$prod (the live build)"
-expect_go live "CF_PAGES_BRANCH=$prod (the live build)" none
+expect_go live "CF_PAGES_BRANCH=$prod (the live build)"
 # The CSP is judged against every distinct stub the live build wrote (the pages normally share one).
 kept=()
 for stubfile in "$work"/stubs/*.js; do
@@ -750,15 +718,15 @@ fi
 
 build unset unset
 expect_off unset "CF_PAGES_BRANCH unset (a plain npm run build)"
-expect_go unset "CF_PAGES_BRANCH unset (a plain npm run build)" none
+expect_go unset "CF_PAGES_BRANCH unset (a plain npm run build)"
 
 build empty set ""
 expect_off empty "CF_PAGES_BRANCH= (a preview by command)"
-expect_go empty "CF_PAGES_BRANCH= (a preview by command)" none
+expect_go empty "CF_PAGES_BRANCH= (a preview by command)"
 
 build preview set "$preview"
 expect_off preview "CF_PAGES_BRANCH=$preview (a preview branch)"
-expect_go preview "CF_PAGES_BRANCH=$preview (a preview branch)" none
+expect_go preview "CF_PAGES_BRANCH=$preview (a preview branch)"
 
 if [ "$fail" -eq 0 ]; then
   if [ "$use" = false ]; then

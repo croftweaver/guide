@@ -16,14 +16,9 @@ file into a handed-off repo so the receiving party can get running too.
    both steps at once). Optional unless GitHub asks for it: GitHub requires two-factor only
    for some accounts, and tells those by email and on the site.
 2. **Cloudflare account.** https://dash.cloudflare.com/sign-up. Hosts the site
-   (Pages) and, if you move the domain's DNS there, the DNS. The free plan covers a small
-   site. Cloudflare serves plain files free and without limit only while no Function runs,
-   and this site's `functions/_middleware.ts` runs on every request: each page view, image
-   and crawler visit counts against the free plan's 100,000 Functions requests a day, shared
-   by every Pages Function and Worker in the account and reset at midnight UTC. After the
-   first deploy, set the project's **Settings → Runtime → Fail open / closed** to **Fail
-   open** (a free-plan setting), so the site stays online if that runs out. Upgrade to
-   Workers Paid ($5/mo) when a feature needs it or a site gets near the limit.
+   (a Worker that serves static files, no code of its own) and, if you move the domain's DNS
+   there, the DNS. The free plan covers a small site. Cloudflare serves static files free and
+   without limit while no Worker script runs, and this site has none.
    **Recommended: protect this account too.** It decides whether your website is online and,
    with the DNS here, where your domain points. In the dashboard, **My Profile →
    Authentication**, turn on **two-factor authentication**; a security key is the strongest
@@ -41,7 +36,7 @@ file into a handed-off repo so the receiving party can get running too.
 brew install node          # JS runtime + npm — runs Astro, the build, the tests
 brew install git           # version control (the deploy = "push to GitHub")
 brew install gh            # GitHub CLI — create repos & push from the terminal
-npm  install -g wrangler   # Cloudflare CLI — local Functions preview & manual deploys
+npm  install -g wrangler   # Cloudflare CLI — Previews (npm run deploy:preview) & Worker deploys
 
 # image optimisation (see website-design-system)
 brew install webp          # cwebp/dwebp — PNG/JPG → WebP
@@ -104,7 +99,7 @@ npx playwright install chromium        # per machine, once
 | node / npm | Runs Astro, builds the site, runs the test suite. |
 | git | Version control; the deploy is "push to GitHub". |
 | gh | Create the GitHub repo + push without a browser. |
-| wrangler | Cloudflare CLI — `wrangler pages dev` local Functions, manual deploys. |
+| wrangler | Cloudflare CLI — Previews and Worker deploys. This repo pins its own version; `npx wrangler` uses it. |
 | @playwright/test | Drives a real browser for the tests (per-project dev dep). |
 | @axe-core/playwright | WCAG accessibility scanner inside Playwright (per-project dev dep). |
 | cwebp / avifenc | Convert raster images to WebP / AVIF. |

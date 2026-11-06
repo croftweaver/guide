@@ -1,7 +1,7 @@
 # AGENTS.md — rules for AI assistants (Codex, Claude Code) working on this site
 
-Website of [SITE_NAME]. Astro, static, GitHub → Cloudflare Pages.
-Live: [LIVE_URL] · Preview: [PREVIEW_URL]
+Website of [SITE_NAME]. Astro, static, GitHub → Cloudflare Workers (static assets, no Worker code).
+Live: https://guide.croftweaver.com · Preview: the address `npm run deploy:preview` prints
 
 <!-- Scaffold note (delete after filling): new-website fills the [BRACKET] slots at
      scaffold time — SITE_NAME, LIVE_URL, PREVIEW_URL (two-stage: main.<project>.pages.dev;
@@ -134,41 +134,26 @@ applies there; instead of steps 2 to 4, only this:
     skips the branch rules, and never `--auto`, which merges later, unasked, on checks
     that were not looked at.
   - Then say what the merge did on this site, as "What a merge means" below describes
-    it: the preview rebuilds, the live site rebuilds, or nothing is published until the
-    deploy command runs.
+    it: a merge puts nothing online; that happens when `main` is published to `production` (`npm run ship`).
   - No signed-in GitHub CLI, or `gh` cannot reach GitHub: say so and ask the person to
     press the button.
-- **Preview before merging:** once the repo is connected to Cloudflare by git
-  integration (the `new-website` skill's setup script does that, or `website-team-setup`
-  §6 by hand), every pull request gets its own preview address from Cloudflare, listed
-  under the pull request's checks. Look at the change there before merging. Until then
-  (a site uploaded by `wrangler pages deploy`, see `PUBLISHING.md`, "Deploy by command")
-  there is no pull-request preview: check locally with `npm run dev`.
-- **What a merge means** depends on the publish model of this site. Both blocks
-  assume the git integration above; on a site deployed by command a merge publishes
-  nothing until someone runs the deploy command in `PUBLISHING.md`, "Deploy by
-  command".
-
-  <!-- PUBLISH MODEL: keep ONE of the two blocks below, delete the other. -->
-
-  **Two-stage (main = preview, production = live).** A merge into `main` rebuilds
-  the preview [PREVIEW_URL] within a few minutes. Nothing reaches [LIVE_URL] until
-  someone runs `npm run ship`, which publishes `main` to `production` and verifies the
-  live site serves the new build. Who may run it is set in §5. The assistant never
-  runs `npm run ship` unasked, and always says whether an address is the preview or
-  the live site (see `PUBLISHING.md`). `npm run ship` stops when the folder is not on
-  `main` or has unsaved files, unless `git config ship.fromGitHub true` is set in this
-  folder: then it publishes GitHub's `main` from a temporary copy and only lists the
-  folder's unsaved files (for a folder that several people or assistants share; see
-  `PUBLISHING.md`, "On a shared computer"). With it on, an edit that is only in this
-  folder never goes live, so whether to switch it on is the owner's call: do not switch
-  it on or off unasked. `git config --local --get ship.fromGitHub` shows whether it is on.
-
-  **Single-stage (merge = online).** Cloudflare rebuilds the live site from `main`
-  after every merge (takes a few minutes). Whether the new state is there is shown by
-  [LIVE_URL]/build.txt (must show the commit id of the merge). Because a merge
-  publishes, the merge conditions above are the only gate: a red check or a leftover
-  placeholder must never be merged.
+- **Preview before merging:** a pull request gets no preview from Cloudflare on this site
+  (builds for branches other than `production` are off). To look at a change online, the
+  owner runs `npm run deploy:preview` from the branch, with their own Cloudflare login.
+  Otherwise check locally with `npm run dev`.
+- **What a merge means.** A merge into `main` builds nothing on Cloudflare. Nothing
+  reaches https://guide.croftweaver.com until `main` is published to `production`, which
+  `npm run ship` does (a push to `production` by hand does the same, so never make one); Cloudflare's Workers Builds then builds that branch, and ship
+  verifies that the live site serves the new build. Who may run it is set in §5. The
+  assistant never runs `npm run ship` or `npm run deploy:preview` unasked, and always says
+  whether an address is a Preview or the live site (see `PUBLISHING.md`). `npm run ship`
+  stops when the folder is not on `main` or has unsaved files, unless
+  `git config ship.fromGitHub true` is set in this folder: then it publishes GitHub's
+  `main` from a temporary copy and only lists the folder's unsaved files (for a folder
+  that several people or assistants share; see `PUBLISHING.md`, "On a shared computer").
+  With it on, an edit that is only in this folder never goes live, so whether to switch it
+  on is the owner's call: do not switch it on or off unasked.
+  `git config --local --get ship.fromGitHub` shows whether it is on.
 
 - **Checks before the pull request: one command, the same for every change.** Text
   changes too: the tests catch the mistakes text edits typically make (banned
@@ -260,7 +245,7 @@ For everyone, the owner included:
 - Deleting a page's entry from `UNFILLED_UNTIL_LAUNCH` in
   `tests/placeholders.spec.ts` once that page is filled belongs to filling it, at
   every rights level. The test asks for it.
-- Changes to `.github/`, `scripts/`, `functions/`, `public/_headers`,
+- Changes to `.github/`, `scripts/`, `wrangler.jsonc`, `public/_headers`,
   `astro.config.mjs`, `package.json` or `AGENTS.md` affect tests, the server or
   publishing. Say so explicitly in the pull request.
 

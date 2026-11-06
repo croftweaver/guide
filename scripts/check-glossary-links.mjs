@@ -4,9 +4,9 @@
 // entry, or to an outside source, does not count.
 // On the glossary page, a term first used inside its own entry is exempt. A glossary link
 // to an entry that does not exist fails too. Reads the Markdown in content/, as written.
-// It reads ATX headings (# …), inline links, single-backtick code, and the plural with a
-// trailing "s" only. It refuses a page with a reference-link definition or a double-backtick
-// span (it cannot read them), so such a page fails loudly instead of being half-checked.
+// It reads ATX headings at the start of a line (# …), inline links, single-backtick code, fenced
+// code and the plural with a trailing "s", and nothing else: a page that uses any other form
+// listed in UNREADABLE fails with that form named, never half-checked.
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,7 +20,7 @@ const blank = (s) => ' '.repeat(s.length);
 const glossary = read('glossary.md');
 const terms = [...glossary.matchAll(/^## (.+?) \{#([a-z0-9-]+)\}/gm)].map((m) => [m[1], m[2]]);
 // Every heading anchor on the glossary page can be linked to, not only the term entries.
-const anchors = [...glossary.matchAll(/^ {0,3}#{1,6} .*?\{#([a-z0-9-]+)\}/gm)].map((m) => m[1]);
+const anchors = [...glossary.matchAll(/^#{1,6} .*?\{#([a-z0-9-]+)\}/gm)].map((m) => m[1]);
 if (terms.length === 0) { console.error('✗ glossary check: no terms found in content/glossary.md'); process.exit(1); }
 if (new Set(anchors).size !== anchors.length) { console.error('✗ glossary check: duplicate anchors in content/glossary.md'); process.exit(1); }
 
@@ -28,18 +28,28 @@ if (new Set(anchors).size !== anchors.length) { console.error('✗ glossary chec
 // the draft checker never covered it either, and the page text is kept as checked.
 const SKIP = new Set(['search-records.md']);
 const problems = [];
+const UNREADABLE = [
+  [/^ {0,3}\[[^\]]+\]:\s/m, 'a reference-link definition'],
+  [/\]\[/, 'a reference link'],
+  [/(?<!`)``(?!`)/, 'a double-backtick span'],
+  [/^ {1,3}#{1,6}\s/m, 'an indented heading'],
+  [/^[^\n]+\n(?:=+|-+)[ \t]*$/m, 'a setext heading'],
+  [/!\[/, 'an image'],
+  [/^~~~/m, 'a tilde-fenced block'],
+];
 const pages = readdirSync(dir).filter((f) => f.endsWith('.md') && !SKIP.has(f)).sort();
 for (const page of pages) {
   const text = read(page);
   // Fenced code is not prose: blank it (same length, so offsets still match `text`).
   const clean = text.replace(/^```[\s\S]*?^```/gm, blank);
-  if (/^ {0,3}\[[^\]]+\]:\s/m.test(clean) || /(?<!`)``(?!`)/.test(clean)) {
-    problems.push(`${page}: has a reference-link definition or a double-backtick span, which this check cannot read; write the link inline and the code with single backticks`);
+  const bad = UNREADABLE.find(([re]) => re.test(clean));
+  if (bad) {
+    problems.push(`${page}: uses ${bad[1]}, which this check does not read; write it the plain way`);
     continue;
   }
-  const noCode = clean.split('\n').map((l) => (/^ {0,3}#/.test(l) ? blank(l) : l)).join('\n').replace(/`[^`\n]*`/g, blank);
+  const noCode = clean.split('\n').map((l) => (l.startsWith('#') ? blank(l) : l)).join('\n').replace(/`[^`\n]*`/g, blank);
   // Targets as the site serves them, so every way of writing a link to an entry compares equal.
-  const spans = [...noCode.matchAll(/(?<!!)\[([^\]]+)\]\(([^)]+)\)/g)].map((m) => [m.index, m.index + m[0].length, fixHref(m[2].trim().split(/\s+/)[0])]);
+  const spans = [...noCode.matchAll(/\[([^\]]+)\]\(([^)]+)\)/g)].map((m) => [m.index, m.index + m[0].length, fixHref(m[2].trim().split(/\s+/)[0])]);
   const body = noCode.replace(/(?<=\])\(([^)]+)\)/g, (m, t) => '(' + ' '.repeat(t.length) + ')');
   for (const [term, anc] of terms) {
     const m = new RegExp('(?<![\\p{L}\\p{N}_-])' + esc(term) + 's?(?![\\p{L}\\p{N}_-])', 'iu').exec(body);

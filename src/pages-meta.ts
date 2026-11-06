@@ -28,13 +28,13 @@ export const GUIDE_PAGES: GuidePage[] = [
   },
   {
     slug: 'geo',
-    title: 'GEO: what it is, and what it isn\'t',
+    title: 'GEO: what it is, and what it is not',
     description:
       'GEO is a name for work aimed at being quoted in AI answers. What Google says about it, what the research found, and what we suggest.',
   },
   {
     slug: 'eeat',
-    title: 'E-E-A-T: show who\'s behind your site',
+    title: 'E-E-A-T: show who is behind your site',
     description:
       'E-E-A-T is not a ranking factor, says Google; it is what its reviewers look for. For a small business it mostly means: make it clear who you are.',
   },
@@ -64,7 +64,7 @@ export const GUIDE_PAGES: GuidePage[] = [
   },
   {
     slug: 'why-ai-doesnt-mention-you',
-    title: 'Why doesn\'t ChatGPT mention my business?',
+    title: 'Why does ChatGPT not mention you?',
     description:
       'You are not alone. The usual reasons a local business is not named by AI assistants, each with its source named and linked.',
   },

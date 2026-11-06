@@ -1,6 +1,6 @@
-# AI crawlers: who's reading your website, and who should you let in?
+# AI crawlers: who is reading your website, and who should you let in?
 
-Search engines and AI companies send programs to read websites. They're called
+Search engines and AI companies send programs to read websites. They are called
 [crawlers](/glossary/#crawler) ([Google](https://developers.google.com/search/docs/fundamentals/how-search-works)).
 Some read your pages so they can show them in answers. Some read them to train AI. Some come only
 because a person asked an AI to open one of your pages. OpenAI, for one, runs a separate visitor
@@ -24,7 +24,7 @@ site's visibility" in Claude's search
 recommends allowing its crawler if you want to appear in its results
 ([Perplexity](https://docs.perplexity.ai/docs/resources/perplexity-crawlers)).
 
-### I don't want my pages used to train AI
+### I do not want my pages used to train AI
 
 You can say no to training and still be found. Each company has a name for its training use:
 [GPTBot](/glossary/#gptbot) (OpenAI), [ClaudeBot](/glossary/#claudebot) (Anthropic),
@@ -32,16 +32,16 @@ You can say no to training and still be found. Each company has a name for its t
 [Applebot-Extended](/glossary/#applebot-extended) (Apple) and
 [Meta-ExternalAgent](/glossary/#meta-externalagent) (Meta). We suggest you block the ones you mind.
 
-OpenAI, Google and Apple each say that blocking their training name doesn't take you out of their
+OpenAI, Google and Apple each say that blocking their training name does not take you out of their
 search ([OpenAI](https://developers.openai.com/api/docs/bots),
 [Google](https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers),
 [Apple](https://support.apple.com/en-us/119829)). One thing to know: Anthropic's page talks about
-leaving out your "future materials"; it doesn't say what happens to pages it has already collected
+leaving out your "future materials"; it does not say what happens to pages it has already collected
 ([Anthropic](https://support.claude.com/en/articles/8896518-anthropic-crawlers)).
 
 ### I want to stay in Google, but not in its AI answers
 
-Don't block Googlebot for this: its rules cover all of Google Search, not only the AI parts
+Do not block Googlebot for this: its rules cover all of Google Search, not only the AI parts
 ([Google](https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers)).
 
 Use the switch Google made for it instead. In [Search Console](/glossary/#search-console), under
@@ -62,7 +62,7 @@ AI answer ([Microsoft](https://www.bing.com/webmasters/help/Webmaster-Guidelines
 Look at Cloudflare first, because it has its own settings for AI visitors. Since 15 September 2026,
 choosing "Block" there stops Googlebot, Bingbot and [Applebot](/glossary/#applebot) too, "search included". To stop
 training and keep search, Cloudflare says to choose "Disallow AI Training"
-([Cloudflare](https://blog.cloudflare.com/accountable-mixed-use-ai-crawlers/)). You'll find these
+([Cloudflare](https://blog.cloudflare.com/accountable-mixed-use-ai-crawlers/)). You will find these
 under Security Settings for your domain
 ([Cloudflare](https://blog.cloudflare.com/accountable-mixed-use-ai-crawlers/)). Cloudflare's help page, updated 2 November 2026,
 lists that choice as "Disallow", for training only
@@ -70,7 +70,7 @@ lists that choice as "Disallow", for training only
 
 ## See what your site says today
 
-Type `yoursite.com/robots.txt` into your browser. You'll see a short text file, your
+Type `yoursite.com/robots.txt` into your browser. You will see a short text file, your
 [robots.txt](/glossary/#robots-txt). It tells crawlers which pages they may visit
 ([Google](https://developers.google.com/search/docs/crawling-indexing/robots/intro)).
 
@@ -87,7 +87,7 @@ see [Check your site](/check-your-site/).
 
 ## Good to know
 
-- **It's a request, not a lock.** The standard behind robots.txt says crawlers are "requested to
+- **It is a request, not a lock.** The standard behind robots.txt says crawlers are "requested to
   honor" it, and that it is "not a form of access authorization"
   ([IETF, RFC 9309](https://www.rfc-editor.org/rfc/rfc9309)).
 - **Some visitors skip it when a person asks.** OpenAI says robots.txt "may not apply" to
@@ -101,7 +101,7 @@ see [Check your site](/check-your-site/).
   ([Google](https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers)).
   Google, Microsoft, OpenAI, Anthropic, Perplexity, Apple and Common Crawl each publish a way to
   check whether a visitor really is theirs, on the pages linked below.
-- **Apple copies your Google rules.** If your file doesn't name [Applebot](/glossary/#applebot)
+- **Apple copies your Google rules.** If your file does not name [Applebot](/glossary/#applebot)
   but does name Googlebot, Applebot follows the Googlebot rules
   ([Apple](https://support.apple.com/en-us/119829)).
 - **Changes take about a day.** OpenAI says about 24 hours for search
@@ -113,14 +113,14 @@ see [Check your site](/check-your-site/).
   ([what we searched, 29 October 2026](search-records.md#google-extended-ai-overviews)). For
   those, use the Search Console switch above.
 
-## Who's who
+## Who is who
 
 ### Google
 
 - **Googlebot** reads pages for Google Search, "including Discover and all Google Search
   features". Its rules apply to all of them
   ([Google](https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers)).
-- **Google-Extended** isn't a visitor. It's a name you can use in robots.txt to keep your pages
+- **Google-Extended** is not a visitor. It is a name you can use in robots.txt to keep your pages
   out of training Google's Gemini models, and out of the look-ups behind Gemini's answers. Google
   says it "does not impact a site's inclusion in
   Google Search"
@@ -135,7 +135,7 @@ see [Check your site](/check-your-site/).
 
 ### OpenAI (ChatGPT)
 
-- **OAI-SearchBot** finds pages for ChatGPT search. Blocked sites won't be shown in ChatGPT search
+- **OAI-SearchBot** finds pages for ChatGPT search. Blocked sites will not be shown in ChatGPT search
   answers, "though can still appear as navigational links".
 - **GPTBot** collects pages that may be used to train OpenAI's models. Blocking it is a no to
   training, and has no effect on OAI-SearchBot: "Each setting is independent of the others".
@@ -165,7 +165,7 @@ Both: [Perplexity](https://docs.perplexity.ai/docs/resources/perplexity-crawlers
 
 - **Applebot** reads pages for search in Spotlight, Siri and Safari, and its data may also be used
   to train Apple's models.
-- **Applebot-Extended** isn't a visitor. It's a name you use in robots.txt to say no to training;
+- **Applebot-Extended** is not a visitor. It is a name you use in robots.txt to say no to training;
   pages that use it "can still be included in search results".
 
 Both: [Apple](https://support.apple.com/en-us/119829).

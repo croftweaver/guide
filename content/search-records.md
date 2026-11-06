@@ -134,7 +134,7 @@ https://croftweaver.com/about Answer with the number first, then one sentence on
 | Claude (Opus, medium effort, Max plan) | about 75, 78 | Read it ("Read croftweaver.com") | Yes |
 | Perplexity (free account, signed in, setting "Best") | 68, 68 | Cited it as a source | Yes |
 
-**Not recorded:** the time of each run. On "Best", Perplexity picks the model and doesn't say
+**Not recorded:** the time of each run. On "Best", Perplexity picks the model and does not say
 which. Six answers say nothing about other pages or other days.
 
 ---

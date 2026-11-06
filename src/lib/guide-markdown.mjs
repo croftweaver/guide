@@ -5,7 +5,6 @@
 //   serves its pages without a trailing slash (astro.config.mjs);
 // - a table gets the markup the site's table style needs (tables.css, tests/tables.spec.ts):
 //   a "stack" wrapper, header scopes, a row header per row, roles and a label per cell;
-// - a table cell holding only "—" (nothing to say) is left out of the tone check.
 import { satteri } from '@astrojs/markdown-satteri';
 
 export function fixHref(href) {
@@ -63,16 +62,12 @@ function tablePlugin() {
                 // The first cell is the row header: a <th>, so the node is replaced.
                 ctx.replaceNode(cell, {
                   type: 'element', tagName: 'th',
-                  properties: {
-                    scope: 'row', role: 'rowheader',
-                    ...(ctx.textContent(cell).trim() === '—' ? { 'data-tov-exempt': '' } : {}),
-                  },
+                  properties: { scope: 'row', role: 'rowheader' },
                   children: cell.children,
                 });
               } else {
                 ctx.setProperty(cell, 'role', 'cell');
                 ctx.setProperty(cell, 'data-label', headers[i] ?? '');
-                if (ctx.textContent(cell).trim() === '—') ctx.setProperty(cell, 'data-tov-exempt', '');
               }
             });
           });

@@ -54,7 +54,7 @@ says.
   even need a [sitemap](/glossary/#sitemap)
   ([Google, Dec 2025](https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview)).
 
-## What doesn't work
+## What does not work
 
 - **Secrets.** "There are no secrets here that'll automatically rank your site first in Google
   (sorry!)"

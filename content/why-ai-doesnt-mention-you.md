@@ -1,6 +1,6 @@
-# Why doesn't ChatGPT mention my business?
+# Why does ChatGPT not mention my business?
 
-**The short answer:** you're not alone, and the answers change over time. What the companies say,
+**The short answer:** you are not alone, and the answers change over time. What the companies say,
 and what you can check yourself, is below.
 
 ## How common is it?
@@ -16,7 +16,7 @@ wording, model updates, and time, so a business that wasn't named here can still
 
 ## The usual reasons
 
-**1. It didn't look anything up.** An AI can answer from what it learned in
+**1. It did not look anything up.** An AI can answer from what it learned in
 [training](/glossary/#training-data), or by searching the web first: Anthropic's developer docs for its
 web search tool, for one, say Claude
 "answers directly without searching when the request draws on stable knowledge"
@@ -28,13 +28,13 @@ ChatGPT search answers", though they "can still appear as navigational links"
 [robots.txt](/glossary/#robots-txt) and, if you use Cloudflare, its settings. →
 [AI crawlers](/ai-crawlers/)
 
-**3. Google can't show your page.** For Google's own AI answers, "a page must be indexed and
+**3. Google cannot show your page.** For Google's own AI answers, "a page must be indexed and
 eligible to be shown in Google Search with a [snippet](/glossary/#snippet)"
 ([Google, Jul 2026](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)).
 [Search Console](/glossary/#search-console)'s URL Inspection tool gives "detailed crawl, [index](/glossary/#index), and serving
 information" about your pages ([Google](https://search.google.com/search-console/about)).
 
-**4. You're hard to place.** Google says its local results are "mainly based on relevance,
+**4. You are hard to place.** Google says its local results are "mainly based on relevance,
 distance, and popularity", where relevance is "how well a Business Profile matches what someone is
 searching for" ([Google](https://support.google.com/business/answer/7091?hl=en)). For its AI
 answers, Google says "Google Business Profiles can help your products and services to be visible in
@@ -48,7 +48,7 @@ show what's being said about products and services across the web". It also warn
 inauthentic [mentions](/glossary/#mention) "isn't as helpful as it might seem"
 ([Google, Jul 2026](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)).
 
-**6. It's a different day.** The same question can get a different answer: Clixera's caution above.
+**6. It is a different day.** The same question can get a different answer: Clixera's caution above.
 
 ## What about Copilot and the others?
 

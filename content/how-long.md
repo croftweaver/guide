@@ -6,14 +6,14 @@ For AI assistants, some companies have measured new pages on sites that already 
 medians of four days to about three weeks
 ([MaxAEO, Jul 2026](https://maxaeo.ai/blog/time-to-citation-ai-search/)). For a brand-new website,
 we found no published measurement, with a stated method, of how long AI assistants take to first
-cite it ([what we searched](search-records.md#how-long)). So we're measuring our own.
+cite it ([what we searched](search-records.md#how-long)). So we are measuring our own.
 
 ## Google, in its own words
 
 - **Crawling:** "Crawling can take anywhere from a few days to a few weeks"
   ([Google, Dec 2025](https://developers.google.com/search/docs/crawling-indexing/ask-google-to-recrawl)).
 - **Listing a page:** "Indexing typically takes only a day or so, but can take much longer in some
-  cases", and "a few days" for a page Google hasn't seen before
+  cases", and "a few days" for a page Google has not seen before
   ([Google](https://support.google.com/webmasters/answer/9012289)).
 - **Seeing results of your changes:** "Some changes might take effect in a few hours, others could
   take several months"
@@ -35,7 +35,7 @@ company's own website.
 watched its logs. The first visits came from [GPTBot](/glossary/#gptbot) after "14 minutes",
 [OAI-SearchBot](/glossary/#oai-searchbot) after "2 hours 18 min",
 [ClaudeBot](/glossary/#claudebot) after "4 hours 42 min" and [PerplexityBot](/glossary/#perplexitybot) after "6 hours 11 min"
-([Presenc AI](https://presenc.ai/research/how-fast-ai-crawlers-index-new-pages)). A visit isn't a
+([Presenc AI](https://presenc.ai/research/how-fast-ai-crawlers-index-new-pages)). A visit is not a
 [citation](/glossary/#citation), though.
 
 **When do they cite you?** MaxAEO followed 740 new pages on 132 companies' sites between February
@@ -74,7 +74,7 @@ exists, not a brand-new domain.
 
 | Date | What we did | What happened |
 |---|---|---|
-| — | Not launched yet | — |
+| Not yet | Not launched yet | Not yet |
 
 ## What you can do to be found sooner
 
@@ -91,7 +91,7 @@ We suggest:
 
 ## Questions
 
-**My site is a week old and ChatGPT doesn't know it. Is something wrong?**
+**My site is a week old and ChatGPT does not know it. Is something wrong?**
 Not necessarily. In MaxAEO's figures the median for ChatGPT was 11 days, and that was for new pages
 on existing sites (above).
 

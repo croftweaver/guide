@@ -258,7 +258,7 @@ does not change in this repo: it changes in the hub, goes through the hub's chec
 check runs there, because it reads the research notes), and is copied here.
 1. Copy the checked file to `content/pricing.md`. Headings that other pages link to end in
    `{#anchor}`; a link to another page is written `/pricing/` or `pricing.md#anchor`, and the
-   build turns both into `/pricing` (no trailing slash).
+   build turns them into `/pricing` or `/pricing#anchor` (no trailing slash).
 2. Add the page to `GUIDE_PAGES` in `src/pages-meta.ts`: `title` at most 40 characters,
    `description` 140 to 160 characters (test: 120 to 160).
 3. Link the page from somewhere. A page without a link fails a test.

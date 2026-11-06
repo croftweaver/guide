@@ -50,6 +50,8 @@ export const KNOWS_ABOUT: string[] = [];
 //
 // The privacy policy is croftweaver.com's (this site has no copy): "the privacy page" below
 // means that one, and it must name the analytics before USE_ANALYTICS goes to true.
+// tests/privacy-host.spec.ts reads this site's own pages only, so it checks nothing while the
+// policy is elsewhere: the host named there is a manual check.
 //
 // The starter ships with analytics OFF (USE_ANALYTICS = false): no build, the live one
 // included, writes the script or the stub, and nothing on the page sends anything to an

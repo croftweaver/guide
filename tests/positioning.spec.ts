@@ -35,7 +35,7 @@ export const POSITIONING: Record<string, TermRule | SurfaceRule> = {
   // '/': { term: '...', body: ['...'] },
 };
 
-// Pages that legitimately own NO positioning term (legal / utility — privacy, imprint,
+// Pages that legitimately own NO positioning term (utility pages such as the
 // 404). Excluded from the coverage flag below so it only nags about real content/offer
 // pages. Add to this set for a genuinely term-free page; don't delete the flag.
 const POSITIONING_EXEMPT = new Set<string>([]);

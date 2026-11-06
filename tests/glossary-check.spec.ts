@@ -37,6 +37,10 @@ const CASES: [string, string, boolean][] = [
   ['words around a heading do not make a term', 'Search\n\n## Unrelated\n\nConsole', true],
   ['words around an empty heading do not make a term', 'Search\n\n##\n\nConsole', true],
   ['words in two paragraphs do not make a term', 'Search\n\nConsole', true],
+  ['words in two articles do not make a term', '<article>Search</article>\n<article>Console</article>', true],
+  ['words in a term and a definition do not make a term', '<dl>\n<dt>Search</dt>\n<dd>Console</dd>\n</dl>', true],
+  ['words in two list items do not make a term', '- Search\n- Console', true],
+  ['words in two table cells do not make a term', '| a | b |\n| --- | --- |\n| Search | Console |', true],
 ];
 
 for (const [name, md, ok] of CASES) {

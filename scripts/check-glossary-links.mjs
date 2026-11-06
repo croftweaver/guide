@@ -19,7 +19,8 @@ const decode = (s) => s
   .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(+d))
   .replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 
-const BLOCK = /^(?:p|li|ul|ol|blockquote|div|table|thead|tbody|tr|th|td|pre|code|hr|section|h[1-6])$/;
+// Tags that run inside a line of prose; every other tag (blocks, lists, tables, code) is an edge.
+const INLINE = /^(?:a|abbr|b|bdi|bdo|cite|data|del|dfn|em|i|img|ins|kbd|mark|q|s|samp|small|span|strong|sub|sup|time|u|var|wbr)$/;
 // The page as prose: `text` has headings and code blanked to a sentinel (same length), and `marks`
 // says, for each character, which link it sits in (its href) and which glossary entry it is under.
 function read(html) {
@@ -49,7 +50,7 @@ function read(html) {
       if (inCode || inHeading) edge(); else { text += ' '; marks.push({ href, entry, link }); }
       continue;
     }
-    if (BLOCK.test(name)) edge();
+    if (!INLINE.test(name)) edge();
     if (name === 'pre' || name === 'code') inCode += close ? -1 : 1;
     else if (/^h[1-6]$/.test(name)) {
       if (close) {
@@ -99,7 +100,7 @@ for (const page of pages) {
     const inLink = (h) => span.every((mk) => mk.href === h && mk.link === span[0].link);
     if (inLink(want) || (isGlossary && inLink('#' + anc))) continue;
     if (isGlossary && entry === anc) continue;
-    problems.push(`${page}: the first "${m[0]}" is not linked to ${want}: ...${text.slice(Math.max(0, m.index - 40), m.index + m[0].length + 20).replace(/\s+/g, ' ')}`);
+    problems.push(`${page}: the first "${m[0]}" is not linked to ${want}: ...${text.slice(Math.max(0, m.index - 40), m.index + m[0].length + 20).replace(/[\s\u0001]+/g, ' ')}`);
   }
 }
 if (problems.length) {

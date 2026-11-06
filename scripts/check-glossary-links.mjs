@@ -27,18 +27,20 @@ function read(html) {
   const marks = [];
   const ids = [];
   const headings = [];
-  let inCode = 0, inHeading = 0, href = null, entry = null, headingText = '', headingId = null;
+  let inCode = 0, inHeading = 0, link = 0, href = null, entry = null, headingText = '', headingId = null;
   for (const m of source.matchAll(/<(\/?)([a-zA-Z][a-zA-Z0-9]*)((?:[^>"']|"[^"]*"|'[^']*')*)>|([^<]+)/g)) {
     if (m[4] !== undefined) {
       const t = decode(m[4]);
       if (inHeading) headingText += t;
-      const shown = inCode || inHeading ? ' '.repeat(t.length) : t;
+      // Code and heading text become a character no term contains, so a term cannot form across them.
+      const shown = inCode || inHeading ? '\u0001'.repeat(t.length) : t;
       text += shown;
-      for (let i = 0; i < t.length; i++) marks.push({ href, entry });
+      for (let i = 0; i < t.length; i++) marks.push({ href, entry, link });
       continue;
     }
     const [, close, tag, attrs] = m;
     const name = tag.toLowerCase();
+    if (name === 'br') { text += ' '; marks.push({ href, entry, link }); continue; }
     if (name === 'pre' || name === 'code') inCode += close ? -1 : 1;
     else if (/^h[1-6]$/.test(name)) {
       if (close) {
@@ -53,7 +55,7 @@ function read(html) {
       }
     } else if (name === 'a') {
       href = close ? null : decode(/\shref="([^"]*)"/.exec(attrs)?.[1] ?? '');
-      if (href !== null) hrefs.push(href);
+      if (href !== null) { hrefs.push(href); link++; }
     }
   }
   return { text, marks, ids, headings, hrefs };
@@ -83,8 +85,9 @@ for (const page of pages) {
     if (!m) continue;
     const { entry } = marks[m.index];
     const want = '/glossary#' + anc;
-    // Every character of the term, not just the first, must sit inside the link to its entry.
-    const inLink = (h) => marks.slice(m.index, m.index + m[0].length).every((mk) => mk.href === h);
+    // Every character of the term must sit inside one single link to its entry.
+    const span = marks.slice(m.index, m.index + m[0].length);
+    const inLink = (h) => span.every((mk) => mk.href === h && mk.link === span[0].link);
     if (inLink(want) || (isGlossary && inLink('#' + anc))) continue;
     if (isGlossary && entry === anc) continue;
     problems.push(`${page}: the first "${m[0]}" is not linked to ${want}: ...${text.slice(Math.max(0, m.index - 40), m.index + m[0].length + 20).replace(/\s+/g, ' ')}`);

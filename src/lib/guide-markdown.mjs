@@ -9,7 +9,9 @@
 import { satteri } from '@astrojs/markdown-satteri';
 
 export function fixHref(href) {
-  const [path, hash] = href.split('#');
+  const i = href.indexOf('#');
+  const path = i < 0 ? href : href.slice(0, i);
+  const hash = i < 0 ? undefined : href.slice(i + 1);
   const md = /^([a-z0-9-]+)\.md$/.exec(path);
   let out = path;
   if (md) out = md[1] === 'index' ? '/' : `/${md[1]}`;

@@ -2,8 +2,8 @@
 
 A free guide for people who run a website and have better things to do than learn jargon.
 
-It is written so that anyone can follow it. When a technical word cannot be avoided, it links to the
-[glossary](/glossary/), where it is explained in everyday language. And every time we say how Google
+It's written so that anyone can follow it. When a technical word can't be avoided, it links to the
+[glossary](/glossary/), where it's explained in everyday language. And every time we say how Google
 or an AI service behaves, we link the page that says so. Where we found no published answer, we
 tell you that too, and show you what we searched.
 
@@ -13,7 +13,7 @@ tell you that too, and show you what we searched.
 [crawlers](/glossary/#crawler)
 ([Google, Dec 2025](https://developers.google.com/search/docs/fundamentals/how-search-works)), and so
 do AI companies such as OpenAI ([OpenAI](https://developers.openai.com/api/docs/bots)). Turn them
-away and some services say plainly that you will not be shown in their answers: sites that block OpenAI's search crawler
+away and some services say plainly that you won't be shown in their answers: sites that block OpenAI's search crawler
 "will not be shown in ChatGPT search answers", though they "can still appear as navigational links"
 ([OpenAI](https://developers.openai.com/api/docs/bots)). → [AI crawlers](/ai-crawlers/)
 
@@ -34,7 +34,7 @@ most important"
 ## Start with your question
 
 - **How does ChatGPT decide what to say about my business?** → [How AI answers work](/how-ai-answers-work/)
-- **Why does it not [mention](/glossary/#mention) us at all?** → [Why AI does not mention you](/why-ai-doesnt-mention-you/)
+- **Why doesn't it [mention](/glossary/#mention) us at all?** → [Why AI doesn't mention you](/why-ai-doesnt-mention-you/)
 - **How long until a new site shows up?** → [How long it takes](/how-long/)
 - **Should I block AI from reading my site?** → [AI crawlers](/ai-crawlers/)
 - **Do I need an [llms.txt](/glossary/#llms-txt) file?** → [llms.txt](/llms-txt/)
@@ -46,9 +46,9 @@ most important"
 
 - **Every claim has a source.** When we say what Google or an AI does, the link goes to the page
   that says so, and the date beside it is the date that page gives.
-- **We say when we found no source.** Then you will read *we found no published …*, with a link to
+- **We say when we found no source.** Then you'll read *we found no published …*, with a link to
   what we searched and when.
-- **Our opinions are marked as advice.** You will recognise them by "we suggest".
+- **Our opinions are marked as advice.** You'll recognise them by "we suggest".
 - **Every page shows when we last checked it.** Mistakes go into a public list of corrections on
   the [About](/about/) page.
 
@@ -70,7 +70,7 @@ Daniel Melter, with an AI assistant helping with research and drafts. Every sour
 opening the page itself. More on the [About](/about/) page.
 
 **Is this guide selling something?**
-It is published by Croftweaver, an open-source toolkit for building small-business websites with
+It's published by Croftweaver, an open-source toolkit for building small-business websites with
 an AI assistant. The guide stands on its own: everything here works whatever you build your site
 with. Where a test ends with something to fix, one line says that Croftweaver can help.
 

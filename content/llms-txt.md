@@ -22,7 +22,7 @@ visibility or [rankings](/glossary/#ranking) in Google Search"
 emerging convention", and if a site has none, the check is marked "Not Applicable (N/A), as
 providing the file is optional at the moment"
 ([Google Chrome, May 2026](https://developer.chrome.com/docs/lighthouse/agentic-browsing/llms-txt)).
-So a missing file does not count against you.
+So a missing file doesn't count against you.
 
 **A Google employee's view:** Search Engine Journal reports that John Mueller of Google said that
 an AI system "can't trust what is here as a way of differentiating between different websites",
@@ -45,7 +45,7 @@ LLMs." It calls its own findings "context-dependent"
 
 ## What we saw on this site
 
-This guide has its own llms.txt. After launch we will record here which visitors fetch it, with
+This guide has its own llms.txt. After launch we'll record here which visitors fetch it, with
 dates. Until then there is nothing to report.
 
 ## Should you make one?
@@ -54,7 +54,7 @@ dates. Until then there is nothing to report.
   harms nor helps you in Google Search (above).
 - **If it means extra work,** we suggest you spend that time on clear pages instead. None of the
   studies above found a benefit.
-- **Do not treat it as a lock.** It is not a way to keep AI out; that is what
+- **Don't treat it as a lock.** It isn't a way to keep AI out; that's what
   [robots.txt](/glossary/#robots-txt), the file for [crawlers](/glossary/#crawler), is for. See [AI crawlers](/ai-crawlers/).
 
 ## Questions

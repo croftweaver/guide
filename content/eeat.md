@@ -1,9 +1,9 @@
-# E-E-A-T: show who is behind your website
+# E-E-A-T: show who's behind your website
 
 **The short answer:** [E-E-A-T](/glossary/#e-e-a-t) stands for experience, expertise,
-authoritativeness and trustworthiness. It is not, says Google, "a specific [ranking](/glossary/#ranking) factor"
+authoritativeness and trustworthiness. It isn't, says Google, "a specific [ranking](/glossary/#ranking) factor"
 ([Google, Oct 2026](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)).
-It is what Google asks its human reviewers to look for, and of the four, trust matters most. For a
+It's what Google asks its human reviewers to look for, and of the four, trust matters most. For a
 small business that mostly means: make it obvious who you are.
 
 ## What Google says
@@ -14,7 +14,7 @@ isn't a specific ranking factor, using a mix of factors that can identify conten
 is useful"
 ([Google, Oct 2026](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)).
 
-The people who look for it are Google's [quality raters](/glossary/#quality-raters). They do not
+The people who look for it are Google's [quality raters](/glossary/#quality-raters). They don't
 decide where you rank: "Search raters have no control over how pages rank"
 ([Google, Oct 2026](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)).
 Their guidelines put trust at the centre: "Trust is the most important member of the E-E-A-T family
@@ -26,7 +26,7 @@ It weighs more for some topics. Google gives "even more weight to content that a
 E-E-A-T for topics that could significantly impact the health, financial stability, or safety of
 people"
 ([Google, Oct 2026](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)).
-If you are a physiotherapist or a financial adviser, we suggest you take this page seriously.
+If you're a physiotherapist or a financial adviser, we suggest you take this page seriously.
 
 ## Google's three questions: who, how and why
 
@@ -41,8 +41,8 @@ made-up names, or false credentials", "is a form of deception".
 AI-generation, self-evident to visitors through disclosures or in other ways?" These questions are
 for content that automation "substantially" generated, not for every use of AI.
 
-**Why does it exist?** If you are making content mainly to attract search visits, Google says
-that is "not aligned with what our systems seek to reward".
+**Why does it exist?** If you're making content mainly to attract search visits, Google says
+that's "not aligned with what our systems seek to reward".
 
 ## What this means for your site
 
@@ -51,11 +51,11 @@ We suggest:
 - **Put a real name on it.** An About page with the people behind the business, and a name on
   articles.
 - **Show your experience.** Your own photos, your own cases, your qualifications where they matter.
-- **Be easy to check.** Address, phone, opening hours, and the same details wherever you are listed.
+- **Be easy to check.** Address, phone, opening hours, and the same details wherever you're listed.
 - **Say how you used AI** where a reader might wonder. This guide does it on its
   [About](/about/) page.
 
-## What is my E-E-A-T score?
+## What's my E-E-A-T score?
 
 If you ask ChatGPT or Claude for your page's E-E-A-T score, the number you get is the assistant's
 own estimate, not Google's. Google says "No third-party tool has access to our internal ranking or

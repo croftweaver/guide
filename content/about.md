@@ -35,7 +35,7 @@ what that means in practice:
 - **Every claim names its source and links it.** "Google says …" means a page by Google says it.
   The date in the link is the date that page gives for itself.
 - **Studies come with who did them and who paid.** We copy both from the study. When a study
-  does not say, we write "who paid: not stated".
+  doesn't say, we write "who paid: not stated".
 - **When we find no source, we say so,** with *we found no published …* and a link to a dated
   record of [what we searched](/search-records/).
 - **Our own opinions say "we suggest".** Everything else on a page has a source.
@@ -51,7 +51,7 @@ find it, with our own actions on the same timeline. See [How long it takes](/how
 
 | Date | Page | What was wrong | What we changed |
 |---|---|---|---|
-| None | None | No corrections yet | None |
+| — | — | No corrections yet | — |
 
 ---
 

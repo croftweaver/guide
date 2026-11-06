@@ -6,7 +6,7 @@ your site. Each assistant searches in a different place, and some say more about
 
 ## Two ways to answer
 
-**From memory.** AI models are "trained on vast amounts of text data" before they are released
+**From memory.** AI models are "trained on vast amounts of text data" before they're released
 ([Anthropic](https://platform.claude.com/docs/en/about-claude/glossary)): their
 [training data](/glossary/#training-data). For some questions it answers from that alone. Anthropic's
 developer docs for its web search tool say Claude "answers directly without searching when the request draws on stable knowledge", and
@@ -49,7 +49,7 @@ search [crawler](/glossary/#crawler) is [PerplexityBot](/glossary/#perplexitybot
 
 **Claude:** Anthropic's list of the companies that process data for it names three under "Web
 Search": Brave Search,
-TurboPuffer and Parallel Web Systems. The list does not say which one answers which question
+TurboPuffer and Parallel Web Systems. The list doesn't say which one answers which question
 ([Anthropic Trust Center](https://trust.anthropic.com/subprocessors)). In March 2025, a developer
 asked Claude a question and found its ten sources "were an exact match for that search on Brave"
 ([Simon Willison, Mar 2025](https://simonwillison.net/2025/Mar/21/anthropic-use-brave/)).
@@ -67,7 +67,7 @@ We suggest:
   [Bing Webmaster Tools](/glossary/#bing-webmaster-tools) show whether you are. → [Check your site](/check-your-site/)
 - **Let the search crawlers in.** Each assistant needs to reach your pages. → [AI crawlers](/ai-crawlers/)
 - **Search for your business on Brave Search** at [search.brave.com](https://search.brave.com) as
-  well. It is one of the services on Claude's list (above).
+  well. It's one of the services on Claude's list (above).
 - **Ask the assistant to search the web** when you test what it knows about you. Otherwise it may
   answer from memory.
 
@@ -80,7 +80,7 @@ lists a "Training data cutoff" for each Claude model
 web, and check that your site and listings are up to date.
 
 **Does ChatGPT use Google?**
-OpenAI does not name Google among its search providers on the pages above. One consultant's test of a
+OpenAI doesn't name Google among its search providers on the pages above. One consultant's test of a
 single page found ChatGPT relying on Google's snippets
 ([Aleyda Solis, Jul 2025](https://www.aleydasolis.com/en/ai-search/chatgpt-uses-google-serp-snippets-for-answers/)).
 We suggest not reading one test of one page as a rule.

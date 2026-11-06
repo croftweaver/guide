@@ -55,7 +55,7 @@ trigger" ([Google, Dec 2025](https://developers.google.com/search/docs/appearanc
 Apple's crawler. Its data powers search in "Spotlight, Siri, and Safari", and may also be used to
 train Apple's AI models ([Apple, Sep 2026](https://support.apple.com/en-us/119829)).
 
-**For your site:** if your [robots.txt](#robots-txt) does not name Applebot but does name
+**For your site:** if your [robots.txt](#robots-txt) doesn't name Applebot but does name
 [Googlebot](#googlebot), "the Apple robot will follow Googlebot instructions"
 ([Apple, Sep 2026](https://support.apple.com/en-us/119829)).
 
@@ -163,7 +163,7 @@ Anthropic's crawler that collects pages which may be used to train its AI models
 ([Anthropic, Apr 2026](https://support.claude.com/en/articles/8896518-anthropic-crawlers)).
 
 **For your site:** blocking it "signals that the site's future materials should be excluded from
-our AI model training datasets". The page does not say what happens to pages already collected
+our AI model training datasets". The page doesn't say what happens to pages already collected
 ([Anthropic, Apr 2026](https://support.claude.com/en/articles/8896518-anthropic-crawlers)).
 
 ## Core Web Vitals {#core-web-vitals}
@@ -185,7 +185,7 @@ A program that visits web pages on its own and downloads them, so a search engin
 company can read them later. Google's own is called [Googlebot](#googlebot)
 ([Google, Dec 2025](https://developers.google.com/search/docs/fundamentals/how-search-works)).
 
-**For your site:** crawling is not a promise of anything. Google says it does not guarantee it will
+**For your site:** crawling is not a promise of anything. Google says it doesn't guarantee it will
 crawl, list or show a page, even one that follows all its rules
 ([Google, Dec 2025](https://developers.google.com/search/docs/fundamentals/how-search-works)).
 Which crawler belongs to which company: [AI crawlers](/ai-crawlers/).
@@ -218,7 +218,7 @@ its documentation on 15 June 2026
 ([Google changelog](https://developers.google.com/search/updates)).
 
 **For your site:** we suggest keeping the questions and answers on your page for your readers. If
-your page still carries FAQ markup, there is no hurry to remove it: Google said in 2023 that unused
+your page still carries FAQ markup, there's no hurry to remove it: Google said in 2023 that unused
 markup "does not cause problems for Search"
 ([Google, Aug 2023](https://developers.google.com/search/blog/2023/08/howto-faq-changes)).
 
@@ -226,7 +226,7 @@ markup "does not cause problems for Search"
 
 Short for "generative engine optimization": work aimed at being seen, quoted or linked in answers
 written by AI. The name comes from a 2023 research paper by Pranjal Aggarwal and five co-authors
-([arXiv](https://arxiv.org/abs/2311.09735)). You will also see [AEO](#aeo) and [LLMO](#llmo) used
+([arXiv](https://arxiv.org/abs/2311.09735)). You'll also see [AEO](#aeo) and [LLMO](#llmo) used
 for much the same thing; Wikipedia says there is "no consensus definition"
 ([Wikipedia](https://en.wikipedia.org/wiki/Generative_engine_optimization)).
 
@@ -334,7 +334,7 @@ More on [llms.txt](/llms-txt/).
 
 Short for "[large language model](#large-language-model) optimization", another name for
 [GEO](#geo). Wikipedia lists it among the "Other terms for the same concept"
-([Wikipedia](https://en.wikipedia.org/wiki/Generative_engine_optimization)); Google's guide does not
+([Wikipedia](https://en.wikipedia.org/wiki/Generative_engine_optimization)); Google's guide doesn't
 use it ([Google, Jul 2026](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)).
 
 ## Mention {#mention}
@@ -360,11 +360,11 @@ Meta's crawler, for "use cases such as training foundation AI models or improvin
 
 ## Nofollow {#nofollow}
 
-A label on a link that says you do not vouch for the page it points to. Google: use it when "you'd
+A label on a link that says you don't vouch for the page it points to. Google: use it when "you'd
 rather Google not associate your site with, or crawl the linked page from, your site"
 ([Google, Dec 2025](https://developers.google.com/search/docs/crawling-indexing/qualify-outbound-links)).
 
-**For your site:** do not put it on every outside link: "Use nofollow only when you don't trust the
+**For your site:** don't put it on every outside link: "Use nofollow only when you don't trust the
 source, and not for every external link on your site"
 ([Google, Dec 2025](https://developers.google.com/search/docs/crawling-indexing/links-crawlable)).
 For paid links, Google prefers "sponsored", though nofollow is still accepted
@@ -423,7 +423,7 @@ People who check Google's search results by hand, following guidelines Google pu
 can tell whether its changes work
 ([Google, Oct 2026](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)).
 
-**For your site:** they do not rate your site for ranking: "Search raters have no control over how
+**For your site:** they don't rate your site for ranking: "Search raters have no control over how
 pages rank. Rater data is not used directly in our ranking algorithms"
 ([Google, Oct 2026](https://developers.google.com/search/docs/fundamentals/creating-helpful-content)).
 
@@ -465,7 +465,7 @@ A small text file at `yoursite.com/robots.txt` that tells [crawlers](#crawler) w
 may visit
 ([Google, Dec 2025](https://developers.google.com/search/docs/crawling-indexing/robots/intro)).
 
-**For your site:** it does not hide a page. A blocked page "can still appear in search results",
+**For your site:** it doesn't hide a page. A blocked page "can still appear in search results",
 just without a description. To keep a page out of Google, use [noindex](#noindex) or a password
 ([Google, Dec 2025](https://developers.google.com/search/docs/crawling-indexing/robots/intro)).
 
@@ -485,8 +485,8 @@ Google's service that shows how your site does in Google Search: "a free service
 that helps you monitor, maintain, and troubleshoot your site's presence in Google Search results"
 ([Google](https://support.google.com/webmasters/answer/9128668)).
 
-**For your site:** you do not need it to be listed in Google, but it shows which searches find you,
-which pages are listed, and what is wrong
+**For your site:** you don't need it to be listed in Google, but it shows which searches find you,
+which pages are listed, and what's wrong
 ([Google](https://support.google.com/webmasters/answer/9128668)). We suggest every site owner sets
 it up.
 
@@ -567,7 +567,7 @@ Googlebot. It lets servers "identify the application, operating system, vendor, 
 the requesting user agent"
 ([MDN, Oct 2025](https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/User-Agent)).
 
-**For your site:** it is only a name, and names can be faked: "user agent strings are easy to
+**For your site:** it's only a name, and names can be faked: "user agent strings are easy to
 spoof" ([Microsoft](https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0)).
 
 ---

@@ -1,7 +1,7 @@
-# GEO: what it is, and what it is not
+# GEO: what it is, and what it isn't
 
 **The short answer:** [GEO](/glossary/#geo) is a name for work aimed at being quoted in AI
-answers. For Google, it is "still [SEO](/glossary/#seo)"
+answers. For Google, it's "still [SEO](/glossary/#seo)"
 ([Google, Jul 2026](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)). The research paper behind the name found that
 adding quotations and figures helped on a test engine, and that stuffing in keywords did little or nothing. We
 suggest clear pages with real facts and sources, and no tricks.
@@ -13,7 +13,7 @@ co-authors: three from Princeton University and two independent researchers. It 
 2023, "Accepted to KDD 2024", a computer-science conference, and paid for, the paper says, by the
 US National Science Foundation ([arXiv](https://arxiv.org/abs/2311.09735)).
 
-You will also see [AEO](/glossary/#aeo) ("answer engine optimization"), [LLMO](/glossary/#llmo) and
+You'll also see [AEO](/glossary/#aeo) ("answer engine optimization"), [LLMO](/glossary/#llmo) and
 "AI SEO". Wikipedia lists them as other names for the same idea and says there is "no consensus
 definition"
 ([Wikipedia](https://en.wikipedia.org/wiki/Generative_engine_optimization)). Google names AEO and
@@ -42,9 +42,9 @@ of each page made it into the answer
 
 - **What helped:** its three best methods, "Cite Sources, Quotation Addition, and Statistics
   Addition", improved visibility by "30-40%" on its word-count measure. Adding quotations did best.
-- **What did not:** keyword stuffing offered "little to no improvement", and on the word-count
+- **What didn't:** keyword stuffing offered "little to no improvement", and on the word-count
   measure scored below an unchanged page.
-- **Good news if you are not number one:** citing sources raised visibility by 115.1% for pages ranked
+- **Good news if you're not number one:** citing sources raised visibility by 115.1% for pages ranked
   fifth in the search results, while pages ranked first lost 30.3% on average.
 - **On a real AI service:** on Perplexity, on the word-count measure, adding quotations gave "a 22% improvement", and keyword
   stuffing performed "10% worse than the baseline". That test used 200 questions, with the pages
@@ -70,7 +70,7 @@ The 1% is a share of visits to results pages with a summary, not of all searches
   questions your customers really ask.
 - **Back it up.** Real figures, short quotations and named sources were what helped in the
   original study (above).
-- **Skip the tricks.** Keyword stuffing did not help in the study, and Google lists "chunking" and
+- **Skip the tricks.** Keyword stuffing didn't help in the study, and Google lists "chunking" and
   rewriting for AI among things to ignore (above).
 - **Measure honestly.** See [Check your site](/check-your-site/) for free reports from Google and
   Bing.
@@ -78,7 +78,7 @@ The 1% is a share of visits to results pages with a summary, not of all searches
 ## Questions
 
 **Is GEO different from SEO?**
-For Google, no: it is "still SEO". For the other AI services, see
+For Google, no: it's "still SEO". For the other AI services, see
 [How AI answers work](/how-ai-answers-work/).
 
 **Should I hire a GEO agency?**

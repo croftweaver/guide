@@ -76,13 +76,9 @@ const UNIVERSAL_RULES: { label: string; re: RegExp }[] = [
   { label: 'em dash —', re: /—/g },
 ];
 const ENGLISH_RULES: { label: string; re: RegExp }[] = [
-  // ANY apostrophe contraction (don't, doesn't, won't, we're, you've, I'll, I'd, I'm) —
-  // generic, so the guard can't silently lag behind an enumerated list.
-  // Known gaps (accepted): y'all, 'tis, int'l, ma'am slip through; gov't/cont'd/OK'd
-  // false-positive (ALLOWLIST them). Names like O'Brien/o'clock are safe (suffix list).
-  { label: 'contraction', re: /\b[a-z]+[’'](t|re|ve|ll|d|m)\b/gi },
-  // 's only on pronouns/determiners — possessives ("the company's", "one's") stay legal.
-  { label: "'s contraction", re: /\b(it|that|what|there|here|who|let|she|he|how|where|when)[’']s\b/gi },
+  // The kit's two contraction rules are off on this site. The guide's pages are written with
+  // contractions ("can't", "it's", "you'll") and are shipped as checked, unchanged. If the
+  // pages are ever rewritten without them, restore the two rules from the starter (v0.34).
   { label: 'buzzword', re: /\b(supercharge|world-class|best in class|best-in-class|leverage|leverages|leveraging|unlock|unlocks|unlocking|utilize|utilizes|seamless|seamlessly|robust|cutting-edge|empower|empowers|holistic|game-changing|revolutionary|synergy|synergies|next-level|turbocharge)\b/gi },
 ];
 const GERMAN_RULES: { label: string; re: RegExp }[] = [
@@ -127,8 +123,6 @@ const GERMAN_RULES: { label: string; re: RegExp }[] = [
 // Exact matches to tolerate (lowercase) — e.g. a brand name like "rock 'n' roll".
 const ALLOWLIST = new Set<string>([
   'leverages',  // /how-ai-answers-work quotes OpenAI's own wording
-  // Contractions that occur only inside quotations from sources, which stay word for word.
-  "can't", "didn't", "doesn't", "don't", "isn't", "wasn't", "it's", "that's", "that'll", "there's", "what's", "you'd", "you're",
 ]);
 
 // Every place `text` breaks the tone rules for `lang` (an <html lang> value), each as

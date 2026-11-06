@@ -167,8 +167,9 @@ applies there; instead of steps 2 to 4, only this:
 
 ## 3. Where the content lives
 
-- Pages: `src/pages/<slug>.astro`, each using the `Base` layout with a `title` and a
-  `description`. Site-wide facts (name, URL, legal name, analytics) live in
+- Pages: one Markdown file per page in `content/<slug>.md`, rendered by
+  `src/pages/[...slug].astro` inside the `Base` layout; each page's `title`, `description`
+  and share card come from `src/pages-meta.ts`. Site-wide facts (name, URL, legal name, analytics) live in
   `src/config.ts`; only the URL is also in `astro.config.mjs` (`site:`), keep the two
   equal.
 - If the site has content collections (blog posts, projects, events, …): one folder per
@@ -192,8 +193,10 @@ applies there; instead of steps 2 to 4, only this:
   Placeholders must not go live; see the draft rule in §2. The test
   `tests/placeholders.spec.ts` reads the finished pages for them, and for filler
   text and author notes (`TODO`).
-- Forbidden (the test `tests/tone.spec.ts` rejects it): the long dash (—), buzzwords
-  and typical AI filler phrases, and in English any contraction. The full,
+- Forbidden (the test `tests/tone.spec.ts` rejects it): the long dash (—), and buzzwords
+  and typical AI filler phrases. (The English contraction rule is switched off here: the
+  pages are written without contractions already. Restore it from the starter, v0.34, if
+  pages are rewritten.) The full,
   language-specific list is in `tests/_helpers.ts`; read it before writing copy.
   House style beyond the test: one form of address per site (German: du or Sie,
   never mixed).

@@ -30,7 +30,8 @@ const linkPlugin = {
 
 const kids = (node) => (node?.children ?? []).filter((c) => c.type === 'element');
 
-// The visitor sees the table first, then its cells, so the table's own pass sets every property.
+// A factory, so each document starts with no heading (a table before the first heading gets no
+// prefix, not the previous page's). The visitor sees the table first, then its cells.
 function tablePlugin() {
   let lastHeading = '';
   return {
@@ -87,6 +88,6 @@ function tablePlugin() {
 }
 
 export const guideMarkdown = satteri({
-  hastPlugins: [linkPlugin, tablePlugin()],
+  hastPlugins: [linkPlugin, tablePlugin], // a function: Sätteri calls it once per document
   features: { headingAttributes: true, smartPunctuation: false },
 });

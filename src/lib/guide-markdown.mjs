@@ -38,7 +38,7 @@ function tablePlugin() {
     name: 'guide-tables',
     element: [
       {
-        filter: ['h1', 'h2', 'h3', 'h4'],
+        filter: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
         visit(node, ctx) {
           lastHeading = ctx.textContent(node).replace(/\s*\{#[^}]*\}\s*$/, '').trim();
         },

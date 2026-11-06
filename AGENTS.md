@@ -195,8 +195,8 @@ applies there; instead of steps 2 to 4, only this:
   text and author notes (`TODO`).
 - Forbidden (the test `tests/tone.spec.ts` rejects it): the long dash (—), and buzzwords
   and typical AI filler phrases. (The English contraction rule is switched off here: the
-  pages are written without contractions already. Restore it from the starter, v0.34, if
-  pages are rewritten.) The full,
+  pages, copied unchanged from the checked drafts, use contractions. Restore the rule from
+  the starter, v0.34, if the pages are rewritten without them.) The full,
   language-specific list is in `tests/_helpers.ts`; read it before writing copy.
   House style beyond the test: one form of address per site (German: du or Sie,
   never mixed).

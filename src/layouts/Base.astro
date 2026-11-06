@@ -171,7 +171,6 @@ const chrome = CHROME[SITE.locale.toLowerCase().split('-')[0]] ?? CHROME.en;
       <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
     ))}
 
-    {/* Server mode (src/config.ts) counts from the Pages Function: no tag in the page. */}
     {ANALYTICS.enabled && ANALYTICS.mode === 'script' && (
       <Fragment>
         <script is:inline async src={`${ANALYTICS.scriptHost}/js/${ANALYTICS.scriptId}.js`} />

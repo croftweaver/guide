@@ -1,0 +1,16 @@
+// Cloudflare Worker that serves the built site from dist/ as static assets, with no code of its own
+// (there is no `main`, and no functions/ folder: the Pages Functions of the starter do not run here).
+// No domain until launch day; the workers.dev address stays off, so only Previews
+// (npm run deploy:preview) answer.
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "croftweaver-guide",
+  "compatibility_date": "2026-11-06",
+  "workers_dev": false,
+  "preview_urls": true,
+  "previews": {},
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}

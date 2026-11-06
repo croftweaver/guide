@@ -260,7 +260,7 @@ For everyone, the owner included:
 - Deleting a page's entry from `UNFILLED_UNTIL_LAUNCH` in
   `tests/placeholders.spec.ts` once that page is filled belongs to filling it, at
   every rights level. The test asks for it.
-- Changes to `.github/`, `scripts/`, `functions/`, `public/_headers`,
+- Changes to `.github/`, `scripts/`, `wrangler.jsonc`, `public/_headers`,
   `astro.config.mjs`, `package.json` or `AGENTS.md` affect tests, the server or
   publishing. Say so explicitly in the pull request.
 

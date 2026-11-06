@@ -48,6 +48,9 @@ export const KNOWS_ABOUT: string[] = [];
 // version, or your own self-hosted instance). Fire only on the production
 // deploy: Cloudflare Pages sets CF_PAGES_BRANCH to the branch being built.
 //
+// The privacy policy is croftweaver.com's (this site has no copy): "the privacy page" below
+// means that one, and it must name the analytics before USE_ANALYTICS goes to true.
+//
 // The starter ships with analytics OFF (USE_ANALYTICS = false): no build, the live one
 // included, writes the script or the stub, and nothing on the page sends anything to an
 // analytics host. A site without analytics keeps it that way and deletes the analytics

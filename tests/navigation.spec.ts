@@ -6,6 +6,16 @@ import { SITE } from '../src/config';
 // 200 with no redirect hop (clean URLs only). Links written as absolute production
 // URLs (https://site.tld/about) are internal too — they get the same check.
 // Catches dead links and renamed pages before users do.
+// The legal pages are croftweaver.com's own; every page's footer must link to them.
+for (const path of PAGES) {
+  test(`navigation — ${path} footer links croftweaver.com's privacy policy and imprint`, async ({ page }) => {
+    await page.goto(path);
+    const hrefs = await page.locator('footer.site-footer a').evaluateAll((as) =>
+      as.map((a) => (a as HTMLAnchorElement).getAttribute('href')));
+    expect(hrefs).toEqual(['https://croftweaver.com/privacy', 'https://croftweaver.com/imprint']);
+  });
+}
+
 for (const path of PAGES) {
   test(`navigation — ${path} loads and its internal links resolve`, async ({ page, request, baseURL }) => {
     const res = await page.goto(path);

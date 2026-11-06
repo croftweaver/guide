@@ -18,8 +18,7 @@ import { SITE } from '../src/config';
 // Pages you DELIBERATELY leave unlinked (a paid-campaign landing page reached only
 // from an ad, a print-QR page) go in ORPHAN_EXEMPT with a reason — opt OUT explicitly
 // rather than loosen the test (Rule 12). The home page is the crawl root, never an
-// orphan. Empty exempt set = green from commit 1 (the starter's '/' + '/privacy' are
-// both linked from the layout).
+// orphan. Empty exempt set = green from commit 1 ('/' is the crawl root).
 const ORPHAN_EXEMPT = new Set<string>([
   // '/lp/spring-promo',  // reached only from the paid ad — intentionally unlinked
 ]);

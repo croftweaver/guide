@@ -21,6 +21,13 @@ test('glossary check — the real pages pass, entered the way npm run build ente
   expect(r.stdout).toContain('every first use linked to its own entry');
 });
 
+// A tag outside the list the checker knows must fail and be named, not be guessed at.
+const REFUSED: [string, string][] = [
+  ['label', '<label>Search</label> Console is shown.'],
+  ['ruby', 'S<ruby>E</ruby>O is shown.'],
+  ['article', '<article>text</article>'],
+];
+
 const CASES: [string, string, boolean][] = [
   ['an unlinked term fails', 'SEO is shown here.', false],
   ['a linked term passes', '[SEO](/glossary#seo) is shown here.', true],
@@ -37,8 +44,6 @@ const CASES: [string, string, boolean][] = [
   ['words around a heading do not make a term', 'Search\n\n## Unrelated\n\nConsole', true],
   ['words around an empty heading do not make a term', 'Search\n\n##\n\nConsole', true],
   ['words in two paragraphs do not make a term', 'Search\n\nConsole', true],
-  ['words in two articles do not make a term', '<article>Search</article>\n<article>Console</article>', true],
-  ['words in a term and a definition do not make a term', '<dl>\n<dt>Search</dt>\n<dd>Console</dd>\n</dl>', true],
   ['words in two list items do not make a term', '- Search\n- Console', true],
   ['words in two table cells do not make a term', '| a | b |\n| --- | --- |\n| Search | Console |', true],
 ];
@@ -51,6 +56,21 @@ for (const [name, md, ok] of CASES) {
       writeFileSync(join(dir, 'probe.md'), md + '\n');
       const r = run(dir);
       expect(r.status, r.stdout + r.stderr).toBe(ok ? 0 : 1);
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+}
+
+for (const [tag, md] of REFUSED) {
+  test(`glossary check — an unknown <${tag}> tag fails and is named`, () => {
+    const dir = mkdtempSync(join(tmpdir(), 'glossary-check-'));
+    try {
+      copyFileSync(join(root, 'content/glossary.md'), join(dir, 'glossary.md'));
+      writeFileSync(join(dir, 'probe.md'), md + '\n');
+      const r = run(dir);
+      expect(r.status, r.stdout + r.stderr).toBe(1);
+      expect(r.stderr).toContain(`probe.md: uses <${tag}>`);
     } finally {
       rmSync(dir, { recursive: true, force: true });
     }

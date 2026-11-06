@@ -4,6 +4,7 @@
 // used inside its own entry is exempt. A link to a glossary anchor that does not exist fails too.
 // It reads the HTML the site's own Markdown settings produce, not the Markdown, so any way of
 // writing a link, heading or code block is read as the site reads it.
+// A tag the Markdown does not produce (raw HTML such as <label>) fails, naming the tag.
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -19,8 +20,15 @@ const decode = (s) => s
   .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(+d))
   .replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 
-// Tags that run inside a line of prose; every other tag (blocks, lists, tables, code) is an edge.
-const INLINE = /^(?:a|abbr|b|bdi|bdo|cite|data|del|dfn|em|i|img|ins|kbd|mark|q|s|samp|small|span|strong|sub|sup|time|u|var|wbr)$/;
+// The one list of tags the site's Markdown produces (checked on the 14 pages and a probe of every
+// Markdown feature). 'inline' runs inside a line of prose; every other kind is an edge between
+// pieces of prose. Any other tag fails the check: it cannot be read as inline or as a break by guess.
+const TAGS = Object.fromEntries([
+  ...['a', 'del', 'em', 'img', 'input', 'span', 'strong', 'sup'].map((t) => [t, 'inline']),
+  ...['blockquote', 'code', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'li', 'ol', 'p', 'pre',
+    'section', 'table', 'tbody', 'td', 'th', 'thead', 'tr', 'ul'].map((t) => [t, 'edge']),
+  ['br', 'br'],
+]);
 // The page as prose: `text` has headings and code blanked to a sentinel (same length), and `marks`
 // says, for each character, which link it sits in (its href) and which glossary entry it is under.
 function read(html) {
@@ -30,6 +38,7 @@ function read(html) {
   const marks = [];
   const ids = [];
   const headings = [];
+  const unknown = new Set();
   // A character no term contains, in place of excluded text and at block and code edges, so a
   // term cannot form across them (Search / Console in two paragraphs, or around code).
   const edge = () => { text += '\u0001'; marks.push({ href, entry, link }); };
@@ -46,11 +55,12 @@ function read(html) {
     }
     const [, close, tag, attrs] = m;
     const name = tag.toLowerCase();
+    if (!Object.hasOwn(TAGS, name)) unknown.add(name);
     if (name === 'br') {
       if (inCode || inHeading) edge(); else { text += ' '; marks.push({ href, entry, link }); }
       continue;
     }
-    if (!INLINE.test(name)) edge();
+    if (TAGS[name] !== 'inline') edge();
     if (name === 'pre' || name === 'code') inCode += close ? -1 : 1;
     else if (/^h[1-6]$/.test(name)) {
       if (close) {
@@ -68,7 +78,7 @@ function read(html) {
       if (href !== null) { hrefs.push(href); link++; }
     }
   }
-  return { text, marks, ids, headings, hrefs };
+  return { text, marks, ids, headings, hrefs, unknown };
 }
 
 const glossary = read(await html('glossary.md'));
@@ -84,7 +94,8 @@ const problems = [];
 const pages = readdirSync(dir).filter((f) => f.endsWith('.md') && !SKIP.has(f)).sort();
 for (const page of pages) {
   const isGlossary = page === 'glossary.md';
-  const { text, marks, hrefs } = isGlossary ? glossary : read(await html(page));
+  const { text, marks, hrefs, unknown } = isGlossary ? glossary : read(await html(page));
+  for (const t of unknown) problems.push(`${page}: uses <${t}>, a tag the site's Markdown does not produce; write the page in Markdown so the check can read it`);
   for (const h of new Set(hrefs)) {
     // A bare #id is a link within the page; it points at an entry only on the glossary page.
     const mm = isGlossary ? /^(?:\/glossary)?#(.+)$/.exec(h) : /^\/glossary#(.+)$/.exec(h);

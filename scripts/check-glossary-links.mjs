@@ -20,13 +20,15 @@ const decode = (s) => s
 
 // The page as prose: `text` has headings and code blanked to spaces (same length), and `marks`
 // says, for each character, which link it sits in (its href) and which glossary entry it is under.
-function read(source) {
+function read(html) {
+  const source = html.replace(/<!--[\s\S]*?-->/g, '');
+  const hrefs = [];
   let text = '';
   const marks = [];
   const ids = [];
   const headings = [];
   let inCode = 0, inHeading = 0, href = null, entry = null, headingText = '', headingId = null;
-  for (const m of source.matchAll(/<(\/?)([a-zA-Z][a-zA-Z0-9]*)([^>]*)>|([^<]+)/g)) {
+  for (const m of source.matchAll(/<(\/?)([a-zA-Z][a-zA-Z0-9]*)((?:[^>"']|"[^"]*"|'[^']*')*)>|([^<]+)/g)) {
     if (m[4] !== undefined) {
       const t = decode(m[4]);
       if (inHeading) headingText += t;
@@ -49,9 +51,12 @@ function read(source) {
         if (headingId) ids.push(headingId);
         if (name === 'h2') entry = headingId;
       }
-    } else if (name === 'a') href = close ? null : decode(/\shref="([^"]*)"/.exec(attrs)?.[1] ?? '');
+    } else if (name === 'a') {
+      href = close ? null : decode(/\shref="([^"]*)"/.exec(attrs)?.[1] ?? '');
+      if (href !== null) hrefs.push(href);
+    }
   }
-  return { text, marks, ids, headings };
+  return { text, marks, ids, headings, hrefs };
 }
 
 const glossary = read(await html('glossary.md'));
@@ -67,20 +72,20 @@ const problems = [];
 const pages = readdirSync(dir).filter((f) => f.endsWith('.md') && !SKIP.has(f)).sort();
 for (const page of pages) {
   const isGlossary = page === 'glossary.md';
-  const { text, marks } = isGlossary ? glossary : read(await html(page));
-  const links = new Set();
-  for (const mk of marks) if (mk.href) links.add(mk.href);
-  for (const h of links) {
+  const { text, marks, hrefs } = isGlossary ? glossary : read(await html(page));
+  for (const h of new Set(hrefs)) {
     // A bare #id is a link within the page; it points at an entry only on the glossary page.
     const mm = isGlossary ? /^(?:\/glossary)?#(.+)$/.exec(h) : /^\/glossary#(.+)$/.exec(h);
     if (mm && !anchors.includes(mm[1])) problems.push(`${page}: a link to #${mm[1]}, which is no anchor on the glossary page`);
   }
   for (const [term, anc] of terms) {
-    const m = new RegExp('(?<![\\p{L}\\p{N}_-])' + esc(term) + 's?(?![\\p{L}\\p{N}_-])', 'iu').exec(text);
+    const m = new RegExp('(?<![\\p{L}\\p{N}_-])' + esc(term).replace(/ /g, '\\s+') + 's?(?![\\p{L}\\p{N}_-])', 'iu').exec(text);
     if (!m) continue;
-    const { href, entry } = marks[m.index];
+    const { entry } = marks[m.index];
     const want = '/glossary#' + anc;
-    if (href === want || (isGlossary && href === '#' + anc)) continue;
+    // Every character of the term, not just the first, must sit inside the link to its entry.
+    const inLink = (h) => marks.slice(m.index, m.index + m[0].length).every((mk) => mk.href === h);
+    if (inLink(want) || (isGlossary && inLink('#' + anc))) continue;
     if (isGlossary && entry === anc) continue;
     problems.push(`${page}: the first "${m[0]}" is not linked to ${want}: ...${text.slice(Math.max(0, m.index - 40), m.index + m[0].length + 20).replace(/\s+/g, ' ')}`);
   }

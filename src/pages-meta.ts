@@ -3,7 +3,7 @@
 // ('/' for index): no trailing slash, as astro.config.mjs sets.
 export interface GuidePage {
   slug: string;
-  title: string;        // <title> is "{title} | {SITE.name}": keep the title at 40 characters or fewer
+  title: string;        // <title> is "{title} | {SITE.name}": keep the title at 40 characters or fewer (the home page shows SITE.titleHome instead, see Base.astro)
   description: string;  // 120–160 characters
 }
 

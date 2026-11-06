@@ -134,7 +134,7 @@ applies there; instead of steps 2 to 4, only this:
     skips the branch rules, and never `--auto`, which merges later, unasked, on checks
     that were not looked at.
   - Then say what the merge did on this site, as "What a merge means" below describes
-    it: nothing is online until `npm run ship` runs.
+    it: a merge puts nothing online; that happens when `npm run ship` runs.
   - No signed-in GitHub CLI, or `gh` cannot reach GitHub: say so and ask the person to
     press the button.
 - **Preview before merging:** a pull request gets no preview from Cloudflare on this site
@@ -142,8 +142,8 @@ applies there; instead of steps 2 to 4, only this:
   owner runs `npm run deploy:preview` from the branch, with their own Cloudflare login.
   Otherwise check locally with `npm run dev`.
 - **What a merge means.** A merge into `main` builds nothing on Cloudflare. Nothing
-  reaches https://guide.croftweaver.com until someone runs `npm run ship`, which publishes
-  `main` to `production`; Cloudflare's Workers Builds then builds that branch, and ship
+  reaches https://guide.croftweaver.com until `main` is published to `production`, which
+  `npm run ship` does (a push to `production` by hand does the same, so never make one); Cloudflare's Workers Builds then builds that branch, and ship
   verifies that the live site serves the new build. Who may run it is set in §5. The
   assistant never runs `npm run ship` or `npm run deploy:preview` unasked, and always says
   whether an address is a Preview or the live site (see `PUBLISHING.md`). `npm run ship`

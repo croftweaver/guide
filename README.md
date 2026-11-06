@@ -4,8 +4,9 @@ Source of https://guide.croftweaver.com: a small guide to getting found on Googl
 answers. Built with Astro from the Croftweaver starter (kit v0.34), served by a Cloudflare
 Worker that runs no code of its own.
 
-- `npm install`, then `npm run dev` to work locally. `npm run verify` runs the same checks as
-  CI and the pre-push hook.
+- `npm install`, then `npm run dev` to work locally. `npm run verify` is what the pre-push
+  hook runs: type check, build and the Playwright tests. CI runs those too, plus a few more
+  guards (see `.github/workflows/ci.yml`).
 - `npm run deploy:preview` builds the site and puts a Preview online with Wrangler, using your
   own Cloudflare login. There is no `deploy:live`: live goes only through `npm run ship`,
   which pushes `main` to `production`; Cloudflare's Workers Builds builds that branch

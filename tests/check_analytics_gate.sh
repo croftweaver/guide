@@ -90,8 +90,8 @@ if [ -z "$host" ] || [ -z "$id" ]; then
 fi
 host="${host%/}"
 ANALYTICS_SRC="${host}/js/${id}.js"
-# The mode: only 'script' exists on this Workers site. 'server' needs a Pages Function, and
-# functions/ was removed, so a 'server' mode would write /go/email links nothing answers.
+# The mode: only 'script' exists on this Workers site. 'server' counted on a Pages Function,
+# and functions/ was removed, so a 'server' mode would write no tag and count nothing.
 mode="$(sed -nE "s/^[[:space:]]*mode:[[:space:]]*['\"]([a-z]+)['\"].*/\1/p" src/config.ts)"
 mode="${mode:-script}"
 if [ "$mode" != script ]; then
@@ -662,22 +662,16 @@ go_selftest() {
   echo "✓ analytics gate: the email-link reader reads its $k fixture pages as expected"
 }
 
-# expect_go <case> <what> <all|none>: all = every email link on every page goes to
-# /go/email; none = no link goes there (nothing answers /go/email on this site).
+# expect_go <case> <what>: no email link may go to /go/email, because nothing answers it on
+# this site (no Function).
 expect_go() {
-  local name="$1" what="$2" want="$3" counts bad
+  local name="$1" what="$2" counts bad
   counts="$(go_links "$work/$name")" || { echo "✗ $what: could not read the built pages."; fail=1; return; }
-  if [ "$want" = all ]; then
-    bad="$(printf '%s\n' "$counts" | awk '$1 != $2 { path = $0; sub(/^[^ ]* [^ ]* [^ ]* /, "", path); print path }')"
-  else
-    bad="$(printf '%s\n' "$counts" | awk '$3 > 0 { path = $0; sub(/^[^ ]* [^ ]* [^ ]* /, "", path); print path }')"
-  fi
+  bad="$(printf '%s\n' "$counts" | awk '$3 > 0 { path = $0; sub(/^[^ ]* [^ ]* [^ ]* /, "", path); print path }')"
   if [ -z "$bad" ]; then
-    if [ "$want" = all ]; then echo "✓ $what: every email link goes to /go/email"
-    else echo "✓ $what: no link goes to /go/email"; fi
+    echo "✓ $what: no link goes to /go/email"
   else
-    if [ "$want" = all ]; then echo "✗ $what: email links that do not go to /go/email, so their taps would not be counted, on these pages:"
-    else echo "✗ $what: links to /go/email, where this build needs plain mailto: links (the Function is not asked here), on these pages:"; fi
+    echo "✗ $what: links to /go/email, which nothing answers on this site, on these pages:"
     while IFS= read -r page; do printf '    %s\n' "${page#"$work/$name/"}"; done <<< "$bad"
     fail=1
   fi
@@ -701,13 +695,13 @@ if [ "$use" = false ]; then
   report_problems "$(csp_host_left public/_headers)" "analytics is off, and public/_headers lists $host in none of script-src, script-src-elem, connect-src and default-src"
   build live set "$prod"
   expect_off live "CF_PAGES_BRANCH=$prod (the live build, analytics off)"
-  expect_go live "CF_PAGES_BRANCH=$prod (the live build, analytics off)" none
+  expect_go live "CF_PAGES_BRANCH=$prod (the live build, analytics off)"
 else
 report_problems "$(csp_host_problems public/_headers)" "public/_headers lists $host as a token in script-src and connect-src"
 
 build live set "$prod"
 expect_on live "CF_PAGES_BRANCH=$prod (the live build)"
-expect_go live "CF_PAGES_BRANCH=$prod (the live build)" none
+expect_go live "CF_PAGES_BRANCH=$prod (the live build)"
 # The CSP is judged against every distinct stub the live build wrote (the pages normally share one).
 kept=()
 for stubfile in "$work"/stubs/*.js; do
@@ -724,15 +718,15 @@ fi
 
 build unset unset
 expect_off unset "CF_PAGES_BRANCH unset (a plain npm run build)"
-expect_go unset "CF_PAGES_BRANCH unset (a plain npm run build)" none
+expect_go unset "CF_PAGES_BRANCH unset (a plain npm run build)"
 
 build empty set ""
 expect_off empty "CF_PAGES_BRANCH= (a preview by command)"
-expect_go empty "CF_PAGES_BRANCH= (a preview by command)" none
+expect_go empty "CF_PAGES_BRANCH= (a preview by command)"
 
 build preview set "$preview"
 expect_off preview "CF_PAGES_BRANCH=$preview (a preview branch)"
-expect_go preview "CF_PAGES_BRANCH=$preview (a preview branch)" none
+expect_go preview "CF_PAGES_BRANCH=$preview (a preview branch)"
 
 if [ "$fail" -eq 0 ]; then
   if [ "$use" = false ]; then

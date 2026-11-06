@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# Set to the real production domain before launch.
 Sitemap: https://guide.croftweaver.com/sitemap-index.xml

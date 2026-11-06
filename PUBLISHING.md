@@ -16,9 +16,8 @@ read the glossary once, then follow the steps for your site's model.
 | **merge** | **Copy the changes** from one branch into another — e.g. take everything in `main` and bring it into `production` to publish. |
 
 A normal edit is always the same three moves: **commit** (save) → **push** (upload) →
-the site rebuilds automatically (except on a site that deploys by command, see "Deploy by
-command"). The only question is *which branch* you push to, and that's
-what your model below decides.
+publish. A push to `main` builds nothing on Cloudflare; the site is built when `main` is
+published to `production` with `npm run ship`.
 
 ---
 
@@ -40,7 +39,8 @@ A push to any branch except `production` starts no build. The first publish, bef
 domain is attached, ends with `npm run ship` printing its "still serves an OLD build"
 warning and exiting 1 although the build went through: the site has no address for ship to
 poll yet. A build slower than ship's four-minute wait ends the same way. In both cases open
-the build's `/build.txt` yourself and compare it with `git rev-parse HEAD`.
+the build's `/build.txt` yourself and compare it with the commit id ship printed (on a
+folder that publishes GitHub's `main`, `git rev-parse HEAD` may be a different commit).
 
 ---
 
@@ -49,7 +49,8 @@ the build's `/build.txt` yourself and compare it with `git rev-parse HEAD`.
 `main` is the draft; `production` is the **live** site. You can push freely to `main` —
 nothing reaches your live domain until you publish. A push to `main` builds nothing on
 Cloudflare. To look at a draft online, run `npm run deploy:preview` from your computer (see
-below). A Preview answers with `noindex`, but it isn't password-protected: **anyone who has
+below). Cloudflare marks a Preview `noindex` (seen on another Worker's Preview; not yet
+checked on this one), but it isn't password-protected: **anyone who has
 the preview URL can open it.** Don't put confidential content on a preview unless the
 project is behind Cloudflare Access or similar.
 
@@ -76,7 +77,8 @@ branch commands by hand. Then it **waits and verifies** that the live site reall
 new version (every build stamps its id into `/build.txt`; ship polls for it, up to 4 min).
 "✓ LIVE — verified" means it's truly online; a warning means Cloudflare didn't build, or
 built slower than ship waits (see "How this site is published") — open the build in the
-Cloudflare dashboard (Workers & Pages → this Worker → Builds) and read `/build.txt`. Never assume a push went live without that check.
+Cloudflare dashboard (Workers & Pages → this Worker → Builds) and read `/build.txt` against
+the commit id ship printed. Never assume a push went live without that check.
 
 > **Each upload may run a quick self-check** (it builds the site and runs the tests before
 > uploading — so does `npm run ship`, which uploads too). It can take a minute, and **if
@@ -186,8 +188,8 @@ With `ship.fromGitHub` switched on (see "On a shared computer" above), you may a
 - **"has no runnable scripts/hooks/pre-push"?** GitHub's `main` lacks the pre-push check this
   mode insists on, so it publishes nothing. Ask for help.
 
-When in doubt, ask before you `npm run ship` or `git push` to `production` — those are the
-only commands that change what the public sees.
+When in doubt, ask before you `npm run ship`, `npm run deploy:preview` or `git push` to
+`production` — those are the only commands that put anything online.
 
 ---
 
@@ -259,7 +261,8 @@ it live on that result — no manual re-check needed. When ship reports it could
 announcements in the owner's language, like everything else you say to them.
 
 **Which URL to quote.** The Preview alias that `npm run deploy:preview` prints, and the
-version URL beside it, answer with `noindex`. The `*.workers.dev` address is switched off
+version URL beside it, are the only Preview addresses. They should answer with `noindex`
+(seen on another Worker's Preview; not yet checked on this one). The `*.workers.dev` address is switched off
 (`workers_dev: false`) and serves nothing. Whichever URL you quote, **open it and confirm it
 loads** rather than reporting it blind. (If a deploy ever prints a `*.pages.dev` URL, stop:
 you published the wrong project type.)
@@ -279,8 +282,8 @@ URL; wrangler's OAuth token has `zone (read)` only and cannot purge programmatic
   succeeded), verify new pages ONLY on the build's version URL, which the build log prints:
   before it finishes the live domain still serves the *previous* version, so a brand-new path
   404s there no matter how you request it. Check the build without touching the live domain:
-  `npx wrangler deployments list`, or ask the owner — NEVER poll the live custom domain to see
-  whether the build is done. (`npm run ship`'s built-in check is the one exception: it polls
+  the Builds page in the dashboard must show the intended commit's build as succeeded, or ask
+  the owner — NEVER poll the live custom domain to see whether the build is done. (`npm run ship`'s built-in check is the one exception: it polls
   `/build.txt` — a path that exists in every build — with a cache-bust.) Once the build has
   finished, check the live domain with a `?cb=<anything>` cache-bust first (under default
   cache settings that is a distinct cache key, so it cannot poison the bare URL).

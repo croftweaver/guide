@@ -19,8 +19,8 @@
 - [Glossary](https://guide.croftweaver.com/glossary): The words this guide uses, in everyday language. Each entry links the page it comes from, and says when we found no definition from the company concerned.
 - [About this guide](https://guide.croftweaver.com/about): Who publishes the Croftweaver Guide, who wrote it, how AI helped, how sources are checked and where we corrected ourselves.
 - [What we searched](https://guide.croftweaver.com/search-records): The dated record behind every sentence in this guide that says we found no published answer: what we looked for, and what we found.
-- [Privacy](https://guide.croftweaver.com/privacy): privacy policy.
-- [Impressum](https://guide.croftweaver.com/impressum): provider identification (§ 5 DDG).
+- [Privacy](https://croftweaver.com/privacy): privacy policy (croftweaver.com's, shared).
+- [Imprint](https://croftweaver.com/imprint): provider identification (croftweaver.com's, shared).
 
 ## Facts
 - Publisher: Croftweaver (https://croftweaver.com)

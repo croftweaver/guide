@@ -16,8 +16,6 @@ export const PAGES = [
   '/glossary',
   '/about',
   '/search-records',
-  '/privacy',
-  '/impressum',  // German-market legal page; non-DE/AT/CH sites delete it (see new-website checklist)
 ] as const;
 
 // a11y (and any visual check) runs in both themes; the toggle is driven by

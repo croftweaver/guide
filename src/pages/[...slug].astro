@@ -1,0 +1,27 @@
+---
+// Every guide page: the Markdown in content/ rendered inside the shared layout. Titles,
+// descriptions and share cards come from src/pages-meta.ts.
+import Base from '../layouts/Base.astro';
+import { SITE } from '../config';
+import { GUIDE_PAGES } from '../pages-meta';
+
+export function getStaticPaths() {
+  const modules = import.meta.glob('../../content/*.md', { eager: true }) as Record<string, { Content: any }>;
+  return GUIDE_PAGES.map((page) => {
+    const mod = modules[`../../content/${page.slug}.md`];
+    if (!mod) throw new Error(`content/${page.slug}.md is listed in src/pages-meta.ts but does not exist`);
+    return {
+      params: { slug: page.slug === 'index' ? undefined : page.slug },
+      props: { page, Content: mod.Content },
+    };
+  });
+}
+
+const { page, Content } = Astro.props;
+const image = page.slug === 'index' ? undefined : `/images/og/${page.slug}.jpg`;
+---
+<Base title={page.slug === 'index' ? SITE.name : page.title} description={page.description} image={image}>
+  <article class="wrap prose">
+    <Content />
+  </article>
+</Base>

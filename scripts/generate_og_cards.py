@@ -43,8 +43,8 @@ MAX_KB = 300
 # The card is a DARK share card (light text on a deep background): it reads well in
 # every chat app regardless of whether your SITE theme is light or dark. Copy the
 # hexes from src/styles/global.css / BRAND.md and tune to taste.
-BRAND_NAME = "Your Brand"          # wordmark, top-left
-SITE_URL_LABEL = "example.com"     # footer text — your bare domain (no https://)
+BRAND_NAME = "Croftweaver Guide"          # wordmark, top-left
+SITE_URL_LABEL = "guide.croftweaver.com"     # footer text — your bare domain (no https://)
 LOGO = None                        # faint emblem watermark, right side. Point at a
                                    # transparent PNG (e.g. ROOT/"public/logo.png");
                                    # leave None for clean text-only cards. (SVG won't
@@ -58,7 +58,7 @@ FOOTER_COL = (150, 150, 170)       # footer url (muted)
 
 # Home + fallback card (this is Base.astro's default `image`). Edit for your site.
 DEFAULT_TITLE = BRAND_NAME
-DEFAULT_SUBTITLES = ["Your one-line promise —", "who it's for, in plain words."]
+DEFAULT_SUBTITLES = ["Get found on Google", "and in AI answers."]
 
 # ── PAGES ─────────────────────────────────────────────────────────────────────
 # One entry per page that should have its OWN card. The slug is the output filename
@@ -66,8 +66,19 @@ DEFAULT_SUBTITLES = ["Your one-line promise —", "who it's for, in plain words.
 # Pages you don't list here fall back to default.jpg automatically.
 # Title: short, punchy (wraps to ≤ 3 lines). Subtitles: 0–2 supporting lines.
 PAGES: list[tuple[str, str, list[str]]] = [
-    # ("about",    "What we do",  ["One clear promise —", "for the people it's for."]),
-    # ("services", "Services",    ["What you get,", "in plain words."]),
+    ('how-ai-answers-work', 'How AI answers work', ['From memory, or from a search.']),
+    ('seo', 'SEO basics', ['How Google finds, lists', 'and ranks your site.']),
+    ('geo', "GEO: what it is, and what it isn't", ['Clear pages, real facts, sources.']),
+    ('eeat', 'E-E-A-T', ["Show who's behind", 'your website.']),
+    ('ai-crawlers', 'AI crawlers', ["Who's reading your website,", 'and who should you let in?']),
+    ('llms-txt', 'llms.txt: do you need one?', ['What it is, and what', 'the studies found.']),
+    ('schema-and-faq', 'Structured data and FAQs', ['Does special markup', 'help with AI?']),
+    ('how-long', 'How long until they find you?', ['Google and AI assistants,', 'on a new website.']),
+    ('why-ai-doesnt-mention-you', "Why doesn't ChatGPT mention my business?", ['The usual reasons,', 'each with its source.']),
+    ('check-your-site', 'Check your site', ['Five tests you can run', 'yourself.']),
+    ('glossary', 'Glossary', ['The words this guide uses,', 'in everyday language.']),
+    ('about', 'About this guide', ['Who publishes it, and how', 'we check what it says.']),
+    ('search-records', 'What we searched', ['The record behind every', '"we found no published …".']),
 ]
 
 # ── Font resolution (cross-platform; first family with a regular+bold pair wins) ──

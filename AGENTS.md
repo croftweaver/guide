@@ -1,22 +1,8 @@
 # AGENTS.md — rules for AI assistants (Codex, Claude Code) working on this site
 
-Website of [SITE_NAME]. Astro, static, GitHub → Cloudflare Workers (static assets, no Worker code).
+Website of the Croftweaver Guide. Astro, static, GitHub → Cloudflare Workers (static assets, no Worker code).
 Live: https://guide.croftweaver.com · Preview: the address `npm run deploy:preview` prints
 
-<!-- Scaffold note (delete after filling): new-website fills the [BRACKET] slots at
-     scaffold time — SITE_NAME, LIVE_URL, PREVIEW_URL (two-stage: main.<project>.pages.dev;
-     single-stage: "pull-request previews only, <branch>.<project>.pages.dev"; where
-     Cloudflare gave the project another address than its name, the address on its page),
-     TITLE_SUFFIX + SUFFIX_LENGTH + TITLE_MAX in §6, and keeps ONE publish-model block
-     in §2. §5 ships with single-owner defaults; website-team-setup rewrites it
-     (collaborators, rights level, merge rule, who publishes). This file stays English
-     for every owner, like the skills; the Language rule below makes the assistant talk
-     to a non-English owner in their language. A site with non-English content may use
-     its own placeholder token instead of "[MISSING: …]" (e.g. "[FEHLT: …]"): then
-     write it in §2 and §4 here, and change the grep pattern in
-     .github/workflows/ci.yml and DRAFT_TOKEN in tests/placeholders.spec.ts to the
-     same word, or the CI gate never fires and a draft branch cannot be pushed. CLAUDE.md imports this file, so Codex and Claude Code follow
-     the same rules. -->
 
 Several people and several AI assistants may work on this site, sometimes at the same
 time. The rules below stop anyone from working on a stale state or overwriting someone
@@ -258,35 +244,32 @@ share-card list and redirects are checked by no test; work through the steps bel
 completely. Addresses always without accents or umlauts and without a trailing `/`
 (`/about-us`, not `/About-Us/`).
 
-The layout appends "[TITLE_SUFFIX]" ([SUFFIX_LENGTH] characters) to every page title
+The layout appends " | Croftweaver Guide" (20 characters) to every page title
 except the home page, and the total may be at most 60. So a page `title` is at most
-**[TITLE_MAX] characters**.
+**40 characters**.
 
-**New page** (e.g. `/pricing`):
-1. Create `src/pages/pricing.astro` with `Base`, like the other pages. `title` at most
-   [TITLE_MAX] characters, `description` 140 to 160 characters (test: 120 to 160).
-2. Link the page from somewhere, usually the navigation. A page without a link fails a
-   test.
-3. Add the address to `PAGES` in `tests/_helpers.ts`.
-4. Add a line to `public/llms.txt` in the style of the others.
-5. Share card: add the page to `PAGES` in `scripts/generate_og_cards.py`, run
-   `npm run og` (needs Python with Pillow), and pass `image="/images/og/pricing.jpg"`
-   to `Base` on the page. If `npm run og` does not work because Python or Pillow is
-   missing: say so and ask.
-
-**New entry in a content collection** (e.g. a project or a post):
-1. Folder or file under `src/content/<collection>/`, modelled on an existing entry.
-   Mandatory fields: `src/content.config.ts`. The entry's title is the page title:
-   at most [TITLE_MAX] characters.
-2. If the collection has a hand-kept order (a list in `src/config.ts` or similar):
-   add the entry at the wanted position.
-3. Add the entry's address to `PAGES` in `tests/_helpers.ts`.
-4. Add a line to `public/llms.txt`.
-5. Share card as in step 5 above.
+**New page** (e.g. `/pricing`): this site's pages are Markdown files in `content/`, rendered
+by `src/pages/[...slug].astro`. A page's text is written and checked in the private hub
+(`guide-site/drafts/`), and the file here is a copy of it, unchanged. So the text of a page
+does not change in this repo: it changes in the hub, goes through the hub's checks (the quote
+check runs there, because it reads the research notes), and is copied here.
+1. Copy the checked file to `content/pricing.md`. Headings that other pages link to end in
+   `{#anchor}`; a link to another page is written `/pricing/` or `pricing.md#anchor`, and the
+   build turns both into `/pricing` (no trailing slash).
+2. Add the page to `GUIDE_PAGES` in `src/pages-meta.ts`: `title` at most 40 characters,
+   `description` 140 to 160 characters (test: 120 to 160).
+3. Link the page from somewhere. A page without a link fails a test.
+4. Add the address to `PAGES` in `tests/_helpers.ts`.
+5. Add a line to `public/llms.txt` in the style of the others.
+6. Share card: add the page to `PAGES` in `scripts/generate_og_cards.py` and run
+   `npm run og` (needs Python with Pillow). The page picks its card up from its slug. If
+   `npm run og` does not work because Python or Pillow is missing: say so and ask.
+7. `npm run build` runs the glossary check: the first use of a glossary term on a page must
+   link to its entry.
 
 **Renaming or deleting a page or entry:**
-1. First rename or delete the file (`src/pages/<name>.astro`) or the entry folder;
-   the address comes from it.
+1. First rename or delete the file (`content/<name>.md`) and its entry in
+   `src/pages-meta.ts`; the address comes from them.
 2. Search the whole project for the old address and the old name
    (`grep -rn "old-name" src public scripts tests`) and fix every hit: links, `PAGES`,
    order lists, `llms.txt`, the share-card list, image imports.

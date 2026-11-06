@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { guideMarkdown } from './src/lib/guide-markdown.mjs';
 
 // Set `site` to the real production domain BEFORE first deploy — it drives the
 // sitemap, canonical tags and OG URLs. Keep in sync with SITE.url in src/config.ts.
@@ -12,6 +13,7 @@ export default defineConfig({
   // on a live site during this toolkit's own Astro 6→7 migration (2026-07-16).
   // `true` restores the old "lossless" behavior (still compresses, just keeps a rendered
   // space where one exists in source).
+  markdown: { processor: guideMarkdown },
   compressHTML: true,
   trailingSlash: 'never',           // CONVENTION: clean URLs with NO trailing slash (/about, not /about/)
   build: {

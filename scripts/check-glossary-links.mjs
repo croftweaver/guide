@@ -9,7 +9,8 @@ import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { guideMarkdown } from '../src/lib/guide-markdown.mjs';
 
-const dir = fileURLToPath(new URL('../content/', import.meta.url));
+// GLOSSARY_CONTENT_DIR lets tests/glossary-check.spec.ts run this on probe pages.
+const dir = process.env.GLOSSARY_CONTENT_DIR ?? fileURLToPath(new URL('../content/', import.meta.url));
 const renderer = await guideMarkdown.createRenderer();
 const html = async (f) => (await renderer.render(readFileSync(join(dir, f), 'utf8'))).code;
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -18,7 +19,8 @@ const decode = (s) => s
   .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(+d))
   .replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 
-// The page as prose: `text` has headings and code blanked to spaces (same length), and `marks`
+const BLOCK = /^(?:p|li|ul|ol|blockquote|div|table|thead|tbody|tr|th|td|pre|code|hr|section|h[1-6])$/;
+// The page as prose: `text` has headings and code blanked to a sentinel (same length), and `marks`
 // says, for each character, which link it sits in (its href) and which glossary entry it is under.
 function read(html) {
   const source = html.replace(/<!--[\s\S]*?-->/g, '');
@@ -27,6 +29,9 @@ function read(html) {
   const marks = [];
   const ids = [];
   const headings = [];
+  // A character no term contains, in place of excluded text and at block and code edges, so a
+  // term cannot form across them (Search / Console in two paragraphs, or around code).
+  const edge = () => { text += '\u0001'; marks.push({ href, entry, link }); };
   let inCode = 0, inHeading = 0, link = 0, href = null, entry = null, headingText = '', headingId = null;
   for (const m of source.matchAll(/<(\/?)([a-zA-Z][a-zA-Z0-9]*)((?:[^>"']|"[^"]*"|'[^']*')*)>|([^<]+)/g)) {
     if (m[4] !== undefined) {
@@ -40,7 +45,11 @@ function read(html) {
     }
     const [, close, tag, attrs] = m;
     const name = tag.toLowerCase();
-    if (name === 'br') { text += ' '; marks.push({ href, entry, link }); continue; }
+    if (name === 'br') {
+      if (inCode || inHeading) edge(); else { text += ' '; marks.push({ href, entry, link }); }
+      continue;
+    }
+    if (BLOCK.test(name)) edge();
     if (name === 'pre' || name === 'code') inCode += close ? -1 : 1;
     else if (/^h[1-6]$/.test(name)) {
       if (close) {

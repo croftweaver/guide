@@ -134,7 +134,7 @@ applies there; instead of steps 2 to 4, only this:
     skips the branch rules, and never `--auto`, which merges later, unasked, on checks
     that were not looked at.
   - Then say what the merge did on this site, as "What a merge means" below describes
-    it: a merge puts nothing online; that happens when `npm run ship` runs.
+    it: a merge puts nothing online; that happens when `main` is published to `production` (`npm run ship`).
   - No signed-in GitHub CLI, or `gh` cannot reach GitHub: say so and ask the person to
     press the button.
 - **Preview before merging:** a pull request gets no preview from Cloudflare on this site

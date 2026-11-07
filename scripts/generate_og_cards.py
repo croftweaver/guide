@@ -76,6 +76,7 @@ PAGES: list[tuple[str, str, list[str]]] = [
     ('how-long', 'How long until they find you?', ['Google and AI assistants,', 'on a new website.']),
     ('why-ai-doesnt-mention-you', "Why doesn't ChatGPT mention my business?", ['The usual reasons,', 'each with its source.']),
     ('check-your-site', 'Check your site', ['Five tests you can run', 'yourself.']),
+    ('ai-seo-checklist', 'AI SEO checklist', ['What matters, and', "what doesn't."]),
     ('glossary', 'Glossary', ['The words this guide uses,', 'in everyday language.']),
     ('about', 'About this guide', ['Who publishes it, and how', 'we check what it says.']),
     ('search-records', 'What we searched', ['The record behind every', '"we found no published …".']),

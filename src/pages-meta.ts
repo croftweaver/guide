@@ -75,6 +75,12 @@ export const GUIDE_PAGES: GuidePage[] = [
       'Five tests you can run yourself, with only a browser: how to run each one, what the result tells you, and what it does not tell you.',
   },
   {
+    slug: 'ai-seo-checklist',
+    title: 'AI SEO checklist: what matters',
+    description:
+      'A short checklist for being found on Google and named by AI assistants. Each check links to its source and its test, and we list what we left off.',
+  },
+  {
     slug: 'glossary',
     title: 'Glossary',
     description:

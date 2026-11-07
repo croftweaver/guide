@@ -39,6 +39,7 @@ most important"
 - **Should I block AI from reading my site?** → [AI crawlers](/ai-crawlers/)
 - **Do I need an [llms.txt](/glossary/#llms-txt) file?** → [llms.txt](/llms-txt/)
 - **Does special markup ([structured data](/glossary/#structured-data)) help?** → [Structured data and FAQs](/schema-and-faq/)
+- **What should I check, in one list?** → [AI SEO checklist](/ai-seo-checklist/)
 - **How is my site doing right now?** → [Check your site](/check-your-site/), with free tests you
   can run yourself
 

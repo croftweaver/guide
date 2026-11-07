@@ -78,7 +78,7 @@ export const GUIDE_PAGES: GuidePage[] = [
     slug: 'ai-seo-checklist',
     title: 'AI SEO checklist: what matters',
     description:
-      'A short checklist for being found on Google and named by AI assistants. Each check links to its source and its test, and we list what we left off.',
+      'A short checklist for being found on Google and named by AI assistants. Each check links to its page, and to a test where there is one. Plus what we left off.',
   },
   {
     slug: 'glossary',

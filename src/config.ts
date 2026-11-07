@@ -48,6 +48,11 @@ export const KNOWS_ABOUT: string[] = [];
 // version, or your own self-hosted instance). Fire only on the production
 // deploy: Cloudflare Pages sets CF_PAGES_BRANCH to the branch being built.
 //
+// The privacy policy is croftweaver.com's (this site has no copy): "the privacy page" below
+// means that one, and it must name the analytics before USE_ANALYTICS goes to true.
+// tests/privacy-host.spec.ts reads this site's own pages only, so it checks nothing while the
+// policy is elsewhere: the host named there is a manual check.
+//
 // The starter ships with analytics OFF (USE_ANALYTICS = false): no build, the live one
 // included, writes the script or the stub, and nothing on the page sends anything to an
 // analytics host. A site without analytics keeps it that way and deletes the analytics
@@ -73,8 +78,7 @@ export const KNOWS_ABOUT: string[] = [];
 // With analytics on, changing scriptHost also means changing script-src and connect-src
 // in public/_headers; tests/check_analytics_gate.sh checks both against this file. It
 // also means changing the host named in section 3 of the privacy page, in the
-// sentence on refusing the measurement; tests/privacy-host.spec.ts checks that one
-// once its slot is filled.
+// sentence on refusing the measurement. No test checks that host here (see the note above).
 // Base.astro writes two tags: the script, and the short
 // stub that calls plausible.init(); without the stub the script never starts.
 //

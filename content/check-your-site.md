@@ -113,6 +113,9 @@ the section about scores on the [E-E-A-T](/glossary/#e-e-a-t) page ([E-E-A-T](/e
 
 *Want your assistant to make these fixes? That is what Croftweaver does.*
 
+For one list that points to these tests, and to the pages behind them, see the
+[checklist](/ai-seo-checklist/).
+
 ---
 
 Checked on 3 November 2026.

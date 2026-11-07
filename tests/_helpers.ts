@@ -13,6 +13,7 @@ export const PAGES = [
   '/how-long',
   '/why-ai-doesnt-mention-you',
   '/check-your-site',
+  '/ai-seo-checklist',
   '/glossary',
   '/about',
   '/search-records',

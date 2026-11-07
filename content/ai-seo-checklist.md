@@ -48,14 +48,14 @@ sources, and, where you can run one yourself, to the test on [Check your site](/
 6. **Say plainly what you do, where, and for whom.** We suggest the words a customer would use,
    on your home page and in your listings. Explained on the page about why AI may not [mention](/glossary/#mention) a business,
    [Why doesn't ChatGPT mention my business?](/why-ai-doesnt-mention-you/), on the
-   [home page](/), and, for AI answers, on the [GEO](/glossary/#geo) [own page](/geo/).
+   [home page](/), and, for AI answers, on [GEO](/glossary/#geo)'s [own page](/geo/).
 
 7. **Show who is behind the site.** We suggest a real name, an About page, and details a visitor
    can check. This is what [E-E-A-T](/glossary/#e-e-a-t) is about; explained on its
    [own page](/eeat/).
 
 8. **Give others a reason to talk about you.** We suggest claiming your listings and asking happy
-   customers for reviews. Explained on [that same page](/why-ai-doesnt-mention-you/).
+   customers for reviews. Explained on [Why doesn't ChatGPT mention my business?](/why-ai-doesnt-mention-you/)
 
 9. **Ask an AI assistant about your site, and check its sources.** We suggest you open every link
    it gives you. Test: [Check your site](/check-your-site/), test 5, *Ask your AI assistant, and

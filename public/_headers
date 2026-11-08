@@ -2,8 +2,9 @@
 # (astro.config `inlineStylesheets: 'always'`) via style-src 'unsafe-inline' and
 # the inline theme script and analytics stub. The starter ships with analytics off
 # (USE_ANALYTICS = false in src/config.ts), so script-src and connect-src name no analytics
-# host. This site has Plausible on, so both name https://analytics.m-squad.com. To switch
-# Plausible on elsewhere, add its host (ANALYTICS.scriptHost) to both as a whole token; script-src already lets the stub run with 'unsafe-inline' (the stub's own sha256
+# host. The live build of this site has Plausible on, so both name https://analytics.m-squad.com.
+# To switch Plausible on elsewhere, add its host (ANALYTICS.scriptHost) to both as a whole
+# token; script-src already lets the stub run with 'unsafe-inline' (the stub's own sha256
 # hash works too). Then run the analytics gate test by hand: it checks all of it against
 # config.ts and the built stub, either way. Widen script-src/connect-src only as needed.
 /*

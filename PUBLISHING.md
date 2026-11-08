@@ -33,7 +33,8 @@ these settings (changing any of them changes what the public sees):
 | Production branch | `production` |
 | Build command | `npm run build` |
 | Deploy command | `npx wrangler deploy` |
-| Builds for other branches | **off** |
+| Build variable | `CF_PAGES_BRANCH` = `production` (Workers Builds does not set it; without it the live site has no Plausible tag, and no error says so) |
+| Builds for other branches | **off** (the variable is not per branch: with other-branch builds on, a preview would also write the tag) |
 
 A push to any branch except `production` starts no build. The first publish that adds the
 Custom Domain may end with `npm run ship` printing its "still serves an OLD build"

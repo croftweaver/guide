@@ -35,10 +35,10 @@ these settings (changing any of them changes what the public sees):
 | Deploy command | `npx wrangler deploy` |
 | Builds for other branches | **off** |
 
-A push to any branch except `production` starts no build. The first publish, before the
-domain is attached, ends with `npm run ship` printing its "still serves an OLD build"
-warning and exiting 1 although the build went through: the site has no address for ship to
-poll yet. A build slower than ship's four-minute wait ends the same way. In both cases open
+A push to any branch except `production` starts no build. The first publish that adds the
+Custom Domain may end with `npm run ship` printing its "still serves an OLD build"
+warning and exiting 1 although the build went through: the domain's DNS record and
+certificate can take longer than ship's four-minute wait. A slow build ends the same way. In both cases open
 the build's `/build.txt` yourself and compare it with the commit id ship printed (on a
 folder that publishes GitHub's `main`, `git rev-parse HEAD` may be a different commit).
 
@@ -256,7 +256,7 @@ Only after `npm run ship` (or a merge into `production`) **and** the Cloudflare 
 finishes is it actually live at `<live-domain>`. After `npm run ship` prints
 "✓ LIVE — verified" (it polls `/build.txt` until the live site serves the new SHA), announce
 it live on that result — no manual re-check needed. When ship reports it could not verify
-(the first publish, before the domain exists, always does), confirm by reading the build's
+(the first publish with the new Custom Domain may), confirm by reading the build's
 `/build.txt` before announcing ("✅ now live at …"). Deliver these
 announcements in the owner's language, like everything else you say to them.
 

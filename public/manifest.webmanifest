@@ -1,7 +1,7 @@
 {
-  "name": "[SITE NAME]",
-  "short_name": "[SHORT NAME]",
-  "description": "[One-line description, in the site's content language.]",
+  "name": "Croftweaver Guide",
+  "short_name": "Guide",
+  "description": "A free guide for people who run a website and would rather not learn jargon. Every claim about Google or AI names its source, and links it.",
   "lang": "en",
   "start_url": "/",
   "display": "standalone",

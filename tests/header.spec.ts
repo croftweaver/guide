@@ -312,22 +312,30 @@ for (const path of ['/', '/ai-crawlers', '/glossary']) {
   });
 }
 
-// On a phone the logo with its word "Guide" and the Menu button share the first row. A narrow row shrinks the logo (the
-// drawing scales down, it is not cut): about 94% of its size at 375 px and 66% at 320 px. Below 60% it is too small to read.
-// The word must also stay clear of the Menu button.
-for (const width of [375, 320]) {
-  test(`header — on a ${width} px phone the logo stays readable and the word and the Menu button do not overlap`, async ({ page }) => {
+// On a phone the logo, the word "Guide" and the Menu button share the first row. The logo keeps its size; where the word does
+// not fit beside it in a wide font (Verdana, DejaVu Sans where it is missing) it is hidden, below 360 px. A wide font is
+// forced because the machine's own font may be narrower than the one a visitor has.
+for (const [width, wordShown] of [[414, true], [375, true], [360, true], [320, false]] as const) {
+  test(`header — on a ${width} px phone the logo keeps its size and clears the Menu button${wordShown ? ', and so does the word' : ' (the word is hidden)'}`, async ({ page }) => {
     await page.setViewportSize({ width, height: 740 });
     await page.goto('/');
+    await page.addStyleTag({ content: '* { font-family: Verdana, "DejaVu Sans", sans-serif !important; }' });
     const scale = await page.locator('.site-header .brand svg').evaluate((svg) => {
       const box = svg.getBoundingClientRect();
       const vb = (svg as SVGSVGElement).viewBox.baseVal;
       return box.width / (box.height * (vb.width / vb.height));
     });
-    expect(scale, 'the logo is drawn smaller than 60% of its size on a phone').toBeGreaterThanOrEqual(0.6);
-    const word = (await page.locator('.site-header .brand-word').boundingBox())!;
+    expect(scale, 'the logo is squeezed on a phone').toBeGreaterThanOrEqual(0.99);
     const button = (await page.locator('.site-header .menu-button').boundingBox())!;
-    expect(word.x + word.width, `the word "Guide" reaches ${word.x + word.width} px, the Menu button starts at ${button.x} px`).toBeLessThanOrEqual(button.x);
+    const logo = (await page.locator('.site-header .brand svg').boundingBox())!;
+    expect(logo.x + logo.width, `the logo reaches ${logo.x + logo.width} px, the Menu button starts at ${button.x} px`).toBeLessThanOrEqual(button.x);
+    const word = page.locator('.site-header .brand-word');
+    if (!wordShown) {
+      await expect(word, 'the word shows where it does not fit').toBeHidden();
+      return;
+    }
+    const box = (await word.boundingBox())!;
+    expect(box.x + box.width, `the word "Guide" reaches ${box.x + box.width} px, the Menu button starts at ${button.x} px`).toBeLessThanOrEqual(button.x);
   });
 }
 

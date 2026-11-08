@@ -127,7 +127,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
   /* 44px minimum tap target on every header link. */
   .brand, nav a { min-height: 44px; display: inline-flex; align-items: center; text-decoration: none; }
   .brand { color: var(--heading); }
-  .brand :global(svg) { display: block; height: 1.75rem; width: auto; }
+  .brand :global(svg) { display: block; height: 1.75rem; width: auto; flex-shrink: 0; }
   .brand-word { margin-left: 0.6rem; font-size: 1.35rem; font-weight: 600; line-height: 1; }
   .tagline { margin: -0.15rem 0 0.25rem; font-size: 0.85rem; line-height: 1.3; color: var(--muted); }
   /* Shown only on a phone, and only once the script has run (html.js). */
@@ -195,7 +195,10 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
   @media (max-width: 44.99rem) {
     /* The logo is a little smaller here, so logo and button share the first row down to 320px. */
     .site-header { column-gap: 0.75rem; }
-    .brand :global(svg) { height: 1.5rem; }
+    .brand :global(svg) { height: 1.25rem; }
+    .brand-word { margin-left: 0.4rem; font-size: 1.1rem; }
+    /* Below 360px the word does not fit beside the logo and the Menu button in a wide font; the logo keeps its size. */
+    @media (max-width: 22.49rem) { .brand-word { display: none; } }
     :global(html.js) .identity { flex: 1 1 0; min-width: 0; }
     :global(html.js) .menu-button { display: inline-flex; }
     :global(html.js) nav { flex-basis: 100%; }

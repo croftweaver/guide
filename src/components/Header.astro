@@ -124,7 +124,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
     gap: 0.25rem 1.5rem;
   }
-  /* 44px minimum tap target on every header link (BRAND.md, mobile rules). */
+  /* 44px minimum tap target on every header link. */
   .brand, nav a { min-height: 44px; display: inline-flex; align-items: center; text-decoration: none; }
   .brand { color: var(--heading); }
   .brand :global(svg) { display: block; height: 1.75rem; width: auto; }
@@ -170,11 +170,12 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
 
   /* The fold: up to 44.99rem (719px) the navigation folds behind the Menu button (the phone block at the
      end); above it, it stands in the header. 45rem is where the items fit one row with at least 40px to spare in
-     a wide system font (Verdana, close to DejaVu Sans on a Linux machine: the items need about 627px of
-     window on the home page and about 678px on /why-ai-doesnt-mention-you, whose label is the longest, so 720px
-     leaves 42px). Between the fold and about 1000px the tagline leaves no room beside the items, so they stand in
-     one row under the logo. The wide block below is the exact complement of that query, so no width, a fractional
-     one from browser zoom included, falls between the two; tests/navigation.spec.ts keeps the two numbers equal. */
+     a wide system font (Verdana, close to DejaVu Sans on a Linux machine). Measured on all 14 pages, the item
+     row is 627px wide on the home page and 638px on the pages of "Your site", the widest, because the current
+     group's name is bold. With the header's 40px of padding the window needs 667 and 678px, so 720px leaves 42px.
+     Where the tagline and the items do not fit side by side, the items stand in one row under the logo. The wide
+     block below is the exact complement of that query, so no width, a fractional one from browser zoom
+     included, falls between the two; tests/header.spec.ts keeps the two numbers equal. */
 
   /* Wide, with JavaScript: a group is a button that opens its list as a panel under it. */
   @media not all and (max-width: 44.99rem) {

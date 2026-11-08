@@ -299,13 +299,37 @@ for (const width of [768, 800, 900, 960, 1024, 1280]) {
 }
 
 // The tightest width: the narrowest at which the items are not folded, wherever the fold is. The fixed widths above can all
-// sit on one side of it.
-test('header — at the narrowest width where the items are not folded they stand in one row', async ({ page }) => {
-  await page.goto('/');
-  const width = await narrowestUnfolded(page);
-  const rows = await itemRows(page);
-  expect(rows, `the header items wrap onto ${rows} rows at ${width} px, the narrowest width where they are not folded`).toBe(1);
-});
+// sit on one side of it. The pages differ in what is bold: the home page has no current item, /ai-crawlers a group's
+// name, /glossary a plain link, and the group name is the widest.
+for (const path of ['/', '/ai-crawlers', '/glossary']) {
+  test(`header — on ${path}, at the narrowest width where the items are not folded they stand in one row`, async ({ page }) => {
+    await page.goto(path);
+    // The fold is measured in a wide font (see Header.astro); a narrower one fits more, so this fails only when the fold is too low.
+    await page.addStyleTag({ content: '* { font-family: Verdana, "DejaVu Sans", sans-serif !important; }' });
+    const width = await narrowestUnfolded(page);
+    const rows = await itemRows(page);
+    expect(rows, `the header items wrap onto ${rows} rows at ${width} px, the narrowest width where they are not folded`).toBe(1);
+  });
+}
+
+// On a phone the logo with its word "Guide" and the Menu button share the first row. A narrow row shrinks the logo (the
+// drawing scales down, it is not cut): about 94% of its size at 375 px and 66% at 320 px. Below 60% it is too small to read.
+// The word must also stay clear of the Menu button.
+for (const width of [375, 320]) {
+  test(`header — on a ${width} px phone the logo stays readable and the word and the Menu button do not overlap`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 740 });
+    await page.goto('/');
+    const scale = await page.locator('.site-header .brand svg').evaluate((svg) => {
+      const box = svg.getBoundingClientRect();
+      const vb = (svg as SVGSVGElement).viewBox.baseVal;
+      return box.width / (box.height * (vb.width / vb.height));
+    });
+    expect(scale, 'the logo is drawn smaller than 60% of its size on a phone').toBeGreaterThanOrEqual(0.6);
+    const word = (await page.locator('.site-header .brand-word').boundingBox())!;
+    const button = (await page.locator('.site-header .menu-button').boundingBox())!;
+    expect(word.x + word.width, `the word "Guide" reaches ${word.x + word.width} px, the Menu button starts at ${button.x} px`).toBeLessThanOrEqual(button.x);
+  });
+}
 
 test('header — a group closes on Escape, on a click elsewhere and when another opens, and a link in it is followed', async ({ page }) => {
   await page.setViewportSize(DESKTOP);
@@ -461,5 +485,16 @@ for (const [name, viewport] of [['phone', PHONE], ['desktop', DESKTOP]] as const
   });
 }
 
-// The line under the logo says what Croftweaver is for, on every page a visitor can land on.
-// It is the line that opens the toolkit's README (POSITIONING.md, header line).
+// No JavaScript and a dark system: the system-preference colours of global.css are the only dark path left,
+// because Base.astro's script sets data-theme for everyone else. Expected values are written by hand.
+test('header — without JavaScript a dark system gets the dark colours', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false, colorScheme: 'dark', baseURL });
+  const page = await context.newPage();
+  await page.goto('/geo');
+  const vars = await page.evaluate(() => {
+    const css = getComputedStyle(document.documentElement);
+    return { bg: css.getPropertyValue('--bg').trim(), ink: css.getPropertyValue('--ink').trim(), accent: css.getPropertyValue('--accent').trim() };
+  });
+  expect(vars, 'a no-JavaScript visitor with a dark system does not get the dark colours').toEqual({ bg: '#0e1310', ink: '#e3e8e1', accent: '#8fd4ab' });
+  await context.close();
+});

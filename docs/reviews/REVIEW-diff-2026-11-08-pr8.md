@@ -7,7 +7,7 @@ Gate `20261108T183643Z-42371`. Seats: Codex gpt-6.1-sol (read-only), GLM 5.3 on 
 |---|---|---|---|---|---|
 | 1 | `05dd0f0` | full, `aa279af...05dd0f0` | Codex, GLM 5.3, Sonnet fresh-eyes | Codex 79 s / 42,568; GLM 23 s / 3,084; fresh-eyes 83 s / about 119,448 (not in the script's log) | 0 / 4 / 4 (deduplicated) |
 | wording pass | `9461b9a` | delta since `05dd0f0` (`--wording-pass`) | Codex | 95 s / 42,484 | 1 / 1 / 0 |
-| confirmation | `cc9b3e6` area | delta since `9461b9a` | Codex | 49 s / 27,829 | 1 / 0 / 0 |
+| confirmation | `2e8b5ec` | delta since `9461b9a` | Codex | 49 s / 27,829 | 1 / 0 / 0 |
 
 | id | Sev | Source | Round | Finding | Status | Evidence |
 |---|---|---|---|---|---|---|
@@ -17,7 +17,7 @@ Gate `20261108T183643Z-42371`. Seats: Codex gpt-6.1-sol (read-only), GLM 5.3 on 
 | 4 | NIT | fresh-eyes | 1 | `PUBLISHING.md` said the first ship times out because there is no address | fixed | Reworded: the first ship with the domain may time out |
 | 5 | NIT | GLM | 1 | Preview URLs after a custom domain are untested | follow-up | Same Preview check as finding 2 |
 | 6 | BUG | Codex | wording pass | "four-minute wait" ignores request time (`ship.sh:853-860`) | fixed `cc9b3e6` | The figure is removed |
-| 7 | RISK | Codex | wording pass | "overwrites ... without asking" exceeds the evidence | fixed | Comment now states Wrangler's request, not the outcome |
+| 7 | RISK | Codex | wording pass | "overwrites ... without asking" exceeds the evidence | fixed `2e8b5ec` | Comment now states Wrangler's request, not the outcome |
 | 8 | UNVERIFIABLE | Codex | confirmation | "as in a build" assumes a build has no terminal | open | Settled by the first build's log |
 
 Waivers and deferrals: none. Closing edits (findings 6 and 7) are wording; the confirmation found the figure still wrong, and the last edit removed the figure. That edit is not externally re-verified.

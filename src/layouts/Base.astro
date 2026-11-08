@@ -12,6 +12,7 @@
 //   - <slot name="head" /> lets a page add its own <head> tags.
 import '../styles/global.css';
 import '../styles/tables.css';
+import Header from '../components/Header.astro';
 import { SITE, COMPANY, ANALYTICS, SAME_AS, KNOWS_ABOUT, GENERATOR_TAG, ogLocaleFor } from '../config';
 
 interface Props {
@@ -176,11 +177,13 @@ const chrome = CHROME[SITE.locale.toLowerCase().split('-')[0]] ?? CHROME.en;
   </head>
   <body>
     <a class="skip-link" href="#main">{chrome.skip}</a>
+    <Header />
     <main id="main"><slot /></main>
     <!-- The privacy policy and the imprint are croftweaver.com's own; this site has no copies. -->
     <footer class="site-footer">
       <a href={chrome.privacyHref}>{chrome.privacyLabel}</a>
       <a href="https://croftweaver.com/imprint">Imprint</a>
+      <a href={SITE.parentUrl}>croftweaver.com</a>
     </footer>
   </body>
 </html>

@@ -1,7 +1,7 @@
 // Cloudflare Worker that serves the built site from dist/ as static assets, with no code of its own
 // (there is no `main`, and no functions/ folder: the Pages Functions of the starter do not run here).
 // guide.croftweaver.com is attached as a Custom Domain by `routes` below: the deploy asks Cloudflare
-// to write its DNS record, and in a build it overwrites a conflicting record without asking.
+// to write its DNS record; run without a terminal (as in a build), Wrangler asks it to replace a conflicting record without a prompt.
 // Keep every domain of this Worker in `routes`. The workers.dev address stays off.
 {
   "$schema": "./node_modules/wrangler/config-schema.json",

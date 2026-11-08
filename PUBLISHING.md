@@ -38,7 +38,7 @@ these settings (changing any of them changes what the public sees):
 A push to any branch except `production` starts no build. The first publish that adds the
 Custom Domain may end with `npm run ship` printing its "still serves an OLD build"
 warning and exiting 1 although the build went through: the domain's DNS record and
-certificate can take longer than ship's four-minute wait. A slow build ends the same way. In both cases open
+certificate can take longer than ship's polling window of about four minutes. A slow build ends the same way. In both cases open
 the build's `/build.txt` yourself and compare it with the commit id ship printed (on a
 folder that publishes GitHub's `main`, `git rev-parse HEAD` may be a different commit).
 

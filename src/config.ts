@@ -102,7 +102,7 @@ export const KNOWS_ABOUT: string[] = [];
 export const PROD_BRANCH = 'production';
 
 // Keep the value on one line: tests/check_analytics_gate.sh reads it.
-export const USE_ANALYTICS = false;
+export const USE_ANALYTICS = true;
 
 // Writes <meta name="generator" content="Croftweaver"> into every page's head: in the code,
 // not shown on the page, no link, nothing sent. Set to false to remove it.
@@ -111,6 +111,6 @@ export const GENERATOR_TAG: boolean = true;
 export const ANALYTICS = {
   enabled: USE_ANALYTICS && process.env.CF_PAGES_BRANCH === PROD_BRANCH,
   mode: 'script' as 'script', // keep on one line: tests/check_analytics_gate.sh reads it
-  scriptHost: 'https://analytics.example.com',
-  scriptId: 'pa-XXXXXXXXXXXXXXXXXXXX',
+  scriptHost: 'https://analytics.m-squad.com',
+  scriptId: 'pa-3TCzGbdT5EVkDDWPnuvGI',
 } as const;

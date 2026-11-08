@@ -198,7 +198,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     .brand :global(svg) { height: 1.25rem; }
     .brand-word { margin-left: 0.4rem; font-size: 1.1rem; }
     /* Below 360px the word does not fit beside the logo and the Menu button in a wide font; the logo keeps its size. */
-    @media (max-width: 22.49rem) { .brand-word { display: none; } }
+    @media (width < 22.5rem) { .brand-word { display: none; } }
     :global(html.js) .identity { flex: 1 1 0; min-width: 0; }
     :global(html.js) .menu-button { display: inline-flex; }
     :global(html.js) nav { flex-basis: 100%; }

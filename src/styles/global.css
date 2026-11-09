@@ -5,15 +5,15 @@
    runs the full light+dark matrix. astro.config inlines this into <head>. */
 
 :root {
-  --brand: #000000;
-  --accent: #2b50e0;            /* links/highlights — must pass AA on --bg */
-  --heading: #16162a;
-  --ink: #16162a;             /* body text */
-  --muted: #5a5a72;          /* secondary text — keep ≥ 4.5:1 on --bg */
+  --brand: #2e6e4e;             /* croft moss green (matches SITE.themeColor) */
+  --accent: #2e6e4e;            /* links/highlights — must pass AA on --bg */
+  --heading: #1a1f1b;
+  --ink: #1a1f1b;             /* body text */
+  --muted: #586157;          /* secondary text — keep ≥ 4.5:1 on --bg */
   --link: var(--accent);
-  --line: #e3e7f2;
-  --bg: #ffffff;
-  --bg-soft: #f5f7fb;
+  --line: #dfe3d9;
+  --bg: #fbfaf6;
+  --bg-soft: #f1f0e9;
   --surface: #ffffff;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.06);
   --radius: 12px;
@@ -22,28 +22,28 @@
 }
 
 :root[data-theme="dark"] {
-  --accent: #8aa0ff;          /* lighter on dark — keeps links ≥ AA on --bg */
-  --link: #9fb0ff;
-  --heading: #e7e9fb;
-  --ink: #dce0f5;
-  --muted: #a6abce;
-  --line: #272c4d;
-  --bg: #0a0b1e;
-  --bg-soft: #11132c;
-  --surface: #161836;
+  --accent: #8fd4ab;          /* lighter croft green — keeps links ≥ AA on --bg */
+  --link: #a3e0bc;
+  --heading: #e3e8e1;
+  --ink: #e3e8e1;
+  --muted: #a2ac9f;
+  --line: #2a332b;
+  --bg: #0e1310;
+  --bg-soft: #141a15;
+  --surface: #182019;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.5);
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
-    --accent: #8aa0ff;
-    --link: #9fb0ff;
-    --heading: #e7e9fb;
-    --ink: #dce0f5;
-    --muted: #a6abce;
-    --line: #272c4d;
-    --bg: #0a0b1e;
-    --bg-soft: #11132c;
-    --surface: #161836;
+    --accent: #8fd4ab;
+    --link: #a3e0bc;
+    --heading: #e3e8e1;
+    --ink: #e3e8e1;
+    --muted: #a2ac9f;
+    --line: #2a332b;
+    --bg: #0e1310;
+    --bg-soft: #141a15;
+    --surface: #182019;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 10px 28px rgba(0, 0, 0, 0.5);
   }
 }

@@ -7,7 +7,8 @@ export const SITE = {
   name: 'Croftweaver Guide',
   legalName: 'Croftweaver',
   locale: 'en',
-  themeColor: '#000000',               // matches the brand primary + manifest
+  parentUrl: 'https://croftweaver.com/',        // the company site: the header button and the footer link
+  themeColor: '#2e6e4e',               // croft moss green; matches the brand primary + manifest
   // Home <title> is special-cased (NOT "Croftweaver Guide | Croftweaver Guide"). Keep ≤ 60 chars.
   titleHome: 'Get found on Google and in AI answers | Croftweaver Guide',
   tagline: 'A free guide to being found on Google and in AI answers.',
@@ -16,6 +17,48 @@ export const SITE = {
     'A free guide for people who run a website and would rather not learn jargon. ' +
     'Every claim about Google or AI names its source, and links it.',
 } as const;
+
+// Header navigation, in order: groups of links, then single links. Link only to pages that
+// exist; tests/navigation.spec.ts opens every link. "What we searched" (/search-records) is
+// not in the menu on purpose: pages link to it, and tests/orphans.spec.ts keeps it reachable.
+export type NavLink = { label: string; href: string };
+export type NavGroup = { label: string; items: NavLink[] };
+export type NavItem = NavLink | NavGroup;
+export const isNavGroup = (item: NavItem): item is NavGroup => 'items' in item;
+
+export const NAV: NavItem[] = [
+  {
+    label: 'Basics',
+    items: [
+      { label: 'How AI answers work', href: '/how-ai-answers-work' },
+      { label: 'SEO', href: '/seo' },
+      { label: 'GEO', href: '/geo' },
+      { label: 'E-E-A-T', href: '/eeat' },
+      { label: 'How long', href: '/how-long' },
+    ],
+  },
+  {
+    label: 'Your site',
+    items: [
+      { label: 'AI crawlers', href: '/ai-crawlers' },
+      { label: 'llms.txt', href: '/llms-txt' },
+      { label: 'Structured data', href: '/schema-and-faq' },
+      { label: "Why AI doesn't mention you", href: '/why-ai-doesnt-mention-you' },
+    ],
+  },
+  {
+    label: 'Check',
+    items: [
+      { label: 'Check your site', href: '/check-your-site' },
+      { label: 'AI SEO checklist', href: '/ai-seo-checklist' },
+    ],
+  },
+  { label: 'Glossary', href: '/glossary' },
+  { label: 'About', href: '/about' },
+];
+
+// Every link in NAV, the groups' links included, in order.
+export const NAV_LINKS: NavLink[] = NAV.flatMap((item) => (isNavGroup(item) ? item.items : [item]));
 
 // og:locale derivation — ONE implementation shared by Base.astro (emission)
 // and tests/seo.spec.ts (assertion), so they can't drift: 'de' → de_DE via

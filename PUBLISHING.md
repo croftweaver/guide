@@ -33,7 +33,7 @@ these settings (changing any of them changes what the public sees):
 | Production branch | `production` |
 | Build command | `npm run build` |
 | Deploy command | `npx wrangler deploy` |
-| Build variable | `CF_PAGES_BRANCH` = `production` (Workers Builds does not set it; without it the live site has no Plausible tag, and no error says so) |
+| Build variable | `CF_PAGES_BRANCH` = `production` (Workers Builds does not set it, and it wins when set. `src/config.ts` also reads `WORKERS_CI_BRANCH`, which Workers Builds does set, so the variable could go: the owner decides) |
 | Builds for other branches | **off** (the variable is not per branch: with other-branch builds on, a preview would also write the tag) |
 
 A push to any branch except `production` starts no build. The first publish that adds the
@@ -74,12 +74,18 @@ npm run ship
 ```
 
 `npm run ship` uploads `main` to the live (`production`) branch for you — you never run the
-branch commands by hand. Then it **waits and verifies** that the live site really serves the
-new version (every build stamps its id into `/build.txt`; ship polls for it, up to 4 min).
-"✓ LIVE — verified" means it's truly online; a warning means Cloudflare didn't build, or
-built slower than ship waits (see "How this site is published") — open the build in the
-Cloudflare dashboard (Workers & Pages → this Worker → Builds) and read `/build.txt` against
-the commit id ship printed. Never assume a push went live without that check.
+branch commands by hand. Before it uploads, it lists the commits that go live, newest first.
+It names the site first. Run in a terminal window with its output on screen, it then asks you
+to type y before it uploads. Where it has no terminal window to ask in, or its output goes to
+a file, it says it is not asking and goes on.
+Then it **waits and verifies** that the live site really serves the
+new version (every build stamps its id into `/build.txt`; ship polls for it, about 6 min).
+"✓ LIVE — verified" means it's truly online; a warning means the new build isn't live yet:
+it may still be running, or Cloudflare didn't build — the message tells you what to check.
+Never assume a push went live without that check.
+
+Before your site has its own domain, `npm run ship` has nothing live to check: it says the
+change was sent, and that it is checked when the site launches. Look at the Preview link instead.
 
 > **Each upload may run a quick self-check** (it builds the site and runs the tests before
 > uploading — so does `npm run ship`, which uploads too). It can take a minute, and **if
@@ -107,7 +113,8 @@ and removes again. The checks run on exactly what goes live, and none of the fil
 folder are built, published or changed. Unsaved files no longer block it: they're listed under "Not
 published", and the last line says how many there were. So the one thing to keep in mind:
 **an edit that is only in this folder doesn't go live.** Get it onto GitHub's `main` first
-(a pull request, or a push), then ship.
+(a pull request, or a push), then ship. The site it names is the one on GitHub's `main`, not
+the one in this folder, so it names it a moment later, once it has read GitHub.
 
 - The setting is saved in this folder's own git settings, so it covers every copy of the site
   that shares them (an assistant's `git worktree` of it, say), and no other copy. A fresh
@@ -162,6 +169,8 @@ ones you're most likely to meet:
 - **"may or may not have landed"?** The publish was stopped part-way (Ctrl-C, say), or the
   script couldn't read git's result. Run `npm run ship` again: if it already landed, git says
   "Everything up-to-date" and the checks carry on as normal.
+- **"Publish stopped — you did not answer y"?** The run asked "Publish to …?" and got no y
+  (or yes). Nothing was published. Run `npm run ship` again and type y when it asks.
 - **"The publish went out", after a stop?** You stopped it after the upload: the site is being
   published, and only the last check was skipped. In a few minutes, open your live site's
   `/build.txt`: it shows the commit the live site serves.
@@ -173,7 +182,8 @@ ones you're most likely to meet:
 With `ship.fromGitHub` switched on (see "On a shared computer" above), you may also meet these:
 
 - **"another publish holds this clone's lock"?** One publish runs at a time. If the message
-  says that process is still running, a publish is under way: let it finish. If it isn't
+  says that process is still running, a publish is under way (it may be waiting for your
+  yes in another window): let it finish. If it isn't
   running (or the script can't tell), an earlier publish was stopped hard and left its lock
   behind. The message gives the command that removes it; first make sure no `git push` from
   that publish is still running.

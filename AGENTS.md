@@ -132,7 +132,7 @@ applies there; instead of steps 2 to 4, only this:
   reaches https://guide.croftweaver.com until `main` is published to `production`, which
   `npm run ship` does (a push to `production` by hand does the same, so never make one); Cloudflare's Workers Builds then builds that branch, and ship
   verifies that the live site serves the new build. Who may run it is set in §5. The
-  assistant never runs `npm run ship` or `npm run deploy:preview` unasked, and always says
+  assistant never runs `npm run ship`, `npm run deploy:live` or `npm run deploy:preview` unasked, and always says
   whether an address is a Preview or the live site (see `PUBLISHING.md`). `npm run ship`
   stops when the folder is not on `main` or has unsaved files, unless
   `git config ship.fromGitHub true` is set in this folder: then it publishes GitHub's

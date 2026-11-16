@@ -101,8 +101,8 @@ ANALYTICS_SRC="${host}/js/${id}.js"
 # a 0.34 site on Pages may still set.
 mode="$(sed -nE "s/^[[:space:]]*mode:[[:space:]]*['\"]([a-z]+)['\"].*/\1/p" src/config.ts)"
 mode="${mode:-script}"
-if [ "$mode" != script ]; then
-  echo "✗ analytics gate: mode in src/config.ts is '$mode'; this site has no Function, so only 'script' works."
+if [ "$mode" != script ] && [ "$mode" != server ]; then
+  echo "✗ analytics gate: mode in src/config.ts is '$mode'; expected 'script' or 'server'."
   exit 1
 fi
 if [ "$mode" = server ]; then
@@ -709,13 +709,19 @@ go_selftest() {
 # writes one (the browser counts the tap), so a link a stale EmailLink writes fails. all, which
 # no build here needs any more, = every link on every page does.
 expect_go() {
-  local name="$1" what="$2" counts bad
+  local name="$1" what="$2" want="$3" counts bad
   counts="$(go_links "$work/$name")" || { echo "✗ $what: could not read the built pages."; fail=1; return; }
-  bad="$(printf '%s\n' "$counts" | awk '$3 > 0 { path = $0; sub(/^[^ ]* [^ ]* [^ ]* /, "", path); print path }')"
-  if [ -z "$bad" ]; then
-    echo "✓ $what: no link goes to /go/email"
+  if [ "$want" = all ]; then
+    bad="$(printf '%s\n' "$counts" | awk '$1 != $2 { path = $0; sub(/^[^ ]* [^ ]* [^ ]* /, "", path); print path }')"
   else
-    echo "✗ $what: links to /go/email, which nothing answers on this site, on these pages:"
+    bad="$(printf '%s\n' "$counts" | awk '$3 > 0 { path = $0; sub(/^[^ ]* [^ ]* [^ ]* /, "", path); print path }')"
+  fi
+  if [ -z "$bad" ]; then
+    if [ "$want" = all ]; then echo "✓ $what: every email link goes to /go/email"
+    else echo "✓ $what: no link goes to /go/email"; fi
+  else
+    if [ "$want" = all ]; then echo "✗ $what: email links that do not go to /go/email, so their taps would not be counted, on these pages:"
+    else echo "✗ $what: links to /go/email, where this build needs plain mailto: links (the Function is not asked here), on these pages:"; fi
     while IFS= read -r page; do printf '    %s\n' "${page#"$work/$name/"}"; done <<< "$bad"
     fail=1
   fi
@@ -747,7 +753,7 @@ report_problems "$(csp_host_problems public/_headers)" "public/_headers lists $h
 
 build live set "$prod"
 expect_on live "CF_PAGES_BRANCH=$prod (the live build)"
-expect_go live "CF_PAGES_BRANCH=$prod (the live build)"
+expect_go live "CF_PAGES_BRANCH=$prod (the live build)" none
 # The CSP is judged against every distinct stub the live build wrote (the pages normally share one).
 kept=()
 for stubfile in "$work"/stubs/*.js; do
@@ -776,15 +782,15 @@ fi
 
 build unset unset
 expect_off unset "CF_PAGES_BRANCH unset (a plain npm run build)"
-expect_go unset "CF_PAGES_BRANCH unset (a plain npm run build)"
+expect_go unset "CF_PAGES_BRANCH unset (a plain npm run build)" none
 
 build empty set ""
 expect_off empty "CF_PAGES_BRANCH= (a preview by command)"
-expect_go empty "CF_PAGES_BRANCH= (a preview by command)"
+expect_go empty "CF_PAGES_BRANCH= (a preview by command)" none
 
 build preview set "$preview"
 expect_off preview "CF_PAGES_BRANCH=$preview (a preview branch)"
-expect_go preview "CF_PAGES_BRANCH=$preview (a preview branch)"
+expect_go preview "CF_PAGES_BRANCH=$preview (a preview branch)" none
 
 if [ "$fail" -eq 0 ]; then
   if [ "$use" = false ]; then

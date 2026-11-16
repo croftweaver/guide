@@ -8,9 +8,10 @@ Worker that runs no code of its own.
   hook runs: type check, build and the Playwright tests. CI runs those too, plus a few more
   guards (see `.github/workflows/ci.yml`).
 - `npm run deploy:preview` builds the site and puts a Preview online with Wrangler, using your
-  own Cloudflare login. `npm run deploy:live` (the kit's upload by command) exists but this
-  site does not use it: live goes through `npm run ship`, which pushes `main` to `production`; Cloudflare's Workers Builds builds that branch
-  (`npm run build`, then `npx wrangler deploy`; builds for other branches are off).
+  own Cloudflare login. `npm run deploy:live` does the same for the live Worker, but this
+  site does not use it. Live goes through `npm run ship`, which pushes `main` to `production`;
+  Cloudflare's Workers Builds builds that branch (`npm run build`, then `npx wrangler deploy`;
+  builds for other branches are off).
 - `wrangler.jsonc` has no `main`, so only the built files in `dist/` are served. The starter's
   `functions/` folder (Pages Functions) was removed, and with it the analytics server mode.
 - `PUBLISHING.md` explains publishing step by step.

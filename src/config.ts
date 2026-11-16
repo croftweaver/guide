@@ -139,9 +139,9 @@ export const KNOWS_ABOUT: string[] = [];
 // Function that a server mode needs (page views and the email tap counted on the server) was
 // removed with functions/. tests/check_analytics_gate.sh refuses any other mode.
 // IMPORTANT: PROD_BRANCH must equal the branch the live build runs on ('production'). A
-// mismatch means analytics silently never loads — no error, no data. CF_PAGES_BRANCH is a
-// Pages variable that Workers Builds does not set, so with USE_ANALYTICS true the live build
-// writes no tag until the build sets it.
+// mismatch means analytics silently never loads — no error, no data. Workers Builds sets
+// WORKERS_CI_BRANCH, as `npm run deploy:live` does. CF_PAGES_BRANCH, a Pages variable that
+// this site's build also sets by hand, wins when set, even empty.
 export const PROD_BRANCH = 'production';
 
 // Keep the value on one line: tests/check_analytics_gate.sh reads it.
@@ -152,7 +152,7 @@ export const USE_ANALYTICS = true;
 export const GENERATOR_TAG: boolean = true;
 
 export const ANALYTICS = {
-  enabled: USE_ANALYTICS && process.env.CF_PAGES_BRANCH === PROD_BRANCH,
+  enabled: USE_ANALYTICS && (process.env.CF_PAGES_BRANCH ?? process.env.WORKERS_CI_BRANCH) === PROD_BRANCH,
   mode: 'script' as 'script', // keep on one line: tests/check_analytics_gate.sh reads it
   scriptHost: 'https://analytics.m-squad.com',
   scriptId: 'pa-3TCzGbdT5EVkDDWPnuvGI',

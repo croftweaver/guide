@@ -8,7 +8,10 @@ file into a handed-off repo so the receiving party can get running too.
 ## 1. Accounts to create (human action — Claude can't do these)
 
 1. **GitHub — a PRIVATE account/repo.** https://github.com/signup. Client work stays in
-   **private** repos. Run `gh auth login` (see tools) so pushes need no password.
+   **private** repos. Run `gh auth login` (see tools) so pushes need no password. Not needed
+   if you publish from your own computer with no GitHub connection (path A in
+   `CLOUDFLARE_FIRST_DEPLOY.md`): that path then has no push-to-deploy, and `deploy:live` needs
+   only a saved commit in the site's folder.
    **Recommended: protect the account.** The account and the website in it are yours, and
    whoever gets into the account can change or delete the site. At
    https://github.com/settings/security, turn on **two-factor authentication** and add a
@@ -60,7 +63,7 @@ npx playwright install chromium   # the headless browser the tests drive
 winget install OpenJS.NodeJS.LTS      # Node + npm
 winget install Git.Git                # git
 winget install GitHub.cli             # gh
-npm  install -g wrangler              # Cloudflare CLI
+npm  install -g wrangler              # Cloudflare CLI — only for a site still on Pages
 winget install ImageMagick.ImageMagick # `magick` — convert/resize, incl. WebP & AVIF
 winget install Python.Python.3.13      # Python — runtime for the OG share-card generator
 py -m pip install Pillow               # OG share-card generator (`npm run og`); see og-images skill
@@ -82,13 +85,13 @@ npx playwright install chromium        # per machine, once
 > site's `package.json` makes npm warn when its Node is older than that. After installing, and
 > if Node is already on your computer, run `node --version` and update it the way you
 > installed it when it is older. The repo's
-> `.nvmrc` pins 24 for local + Cloudflare Pages. On **npm ≥11.16**, `npm install` warns
+> `.nvmrc` pins 26 for local + Cloudflare's builds. On **npm ≥11.16**, `npm install` warns
 > "packages have install scripts not yet covered" for scripts it hasn't been told to trust
 > — per npm's own docs this is currently advisory only (the scripts still run; a future
-> npm release will start blocking them). The starter's `package.json` already approves the
-> one package that still has an install script, `fsevents` (macOS only), so there is
-> nothing to approve. (Until 7.3.8, Astro installed `esbuild`, which needed approving; since
-> 0.35, sharp ships prebuilt binaries and needs nothing.)
+> npm release will start blocking them). The starter's `package.json` already decides the
+> three packages that have an install script: `fsevents` (macOS only) is approved, `esbuild`
+> and `workerd` (both pulled in by Wrangler) are denied, and Wrangler's deploy works without
+> their scripts, so there is nothing to approve.
 > Approvals are pinned to the exact version reviewed (npm's own default, by design) — if a
 > later update brings a package with an install script, the warning names it: approve it
 > with `npm approve-scripts <name>`.
@@ -181,9 +184,10 @@ which that is (`gh repo view --json defaultBranchRef`): on a two-stage site it s
 The `prepare` script in `package.json` (`node scripts/wire-hooks.mjs`) points
 `core.hooksPath` at `scripts/hooks`, so the shipped **`pre-push` hook** runs `scripts/verify.mjs`
 (the same as `npm run verify`: type check, then the tests, which build the site) and
-**blocks a push that's red** — the local enforcement of "fails → does not ship" (Cloudflare
-deploys independently of CI, so this is what makes that true on a direct-push workflow). It
-needs `npx playwright install chromium` (above). Relax for one push with
+**refuses a push when those local checks fail**. Cloudflare deploys whether CI passes or not,
+so on a direct push this hook is the only check that runs before the deploy. The hook tests
+the files on disk, not the commit being pushed. Its checks need
+`npx playwright install chromium` (above). Relax for one push with
 `git push --no-verify`; disable with `git config --unset core.hooksPath`. See `website-qa`
 §1c — offer this choice, don't impose it.
 `prepare` wires the hook only when the site is the root of its git repo. Kept in a subfolder
@@ -209,7 +213,11 @@ pushing `main:production` and GitHub PR merges are unaffected either way.
 ## 4. Stop Claude asking permission for every command
 
 **Claude Code only.** Copy the permission allowlist into the project so routine build
-commands (npm/astro/playwright/git read+commit, image tools) run without a prompt:
+commands (npm/astro/playwright, git's read verbs and `git add`, the exact fetch and pull
+commands these docs use, and the four exact push commands for `main` and `production`, among them a plain
+`git push`, which pushes the current branch to the one it tracks) run without a prompt. A
+commit, a new working branch and its first push, `node` commands other than
+`node --version`, the image tools and the emergency publish in `PUBLISHING.md` still ask:
 ```bash
 mkdir -p .claude/hooks && cp "$SKILLS_ROOT/new-website/templates/claude/settings.json" .claude/settings.json
 cp "$SKILLS_ROOT/new-website/templates/claude/hooks/git-stand.mjs" .claude/hooks/
@@ -224,9 +232,13 @@ changed on GitHub. It never pulls, merges or changes files.
 It blocks destructive/irreversible commands (`rm -rf`, the usual force pushes,
 `git reset --hard`, `wrangler … delete`, `gh repo delete`): Claude Code refuses them
 outright, with no question, so run one yourself in a terminal if you really mean it. A
-force flag bundled with others (`git push -uf`) is not caught: a rule only matches text. `git push` and `gh repo create` *are* allowed (own private repos, smooth workflow);
-remove them from `allow` if you'd rather confirm each push.
+push with options the list does not name, a bundled force flag (`git push -uf`) among them,
+asks. `git push` and `gh repo create` *are* allowed (own private repos, smooth workflow);
+remove the four `Bash(git push…)` rules and `gh repo create` from `allow` if you'd rather
+confirm each push.
 
 `settings.json` is committed (shared project policy). Personal/secret overrides go in
 `.claude/settings.local.json`, which the `.gitignore` keeps out of the repo. To extend the
-list later, run `/fewer-permission-prompts`.
+list later, run `/fewer-permission-prompts`, and keep only exact commands from what it
+proposes: never re-add a rule `website-permissions` §1 lists as removed (`Bash(git commit:*)`
+among them).

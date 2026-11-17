@@ -16,7 +16,7 @@ const MENU: { group?: string; links: [label: string, href: string][] }[] = [
     ["Why AI doesn't mention you", '/why-ai-doesnt-mention-you'],
   ] },
   { group: 'Check', links: [['Check your site', '/check-your-site'], ['AI SEO checklist', '/ai-seo-checklist']] },
-  { links: [['Cheat sheet', '/seo-cheat-sheet']] },
+  { group: 'Cheat sheets', links: [['SEO cheat sheet', '/seo-cheat-sheet'], ['AI search cheat sheet', '/ai-search-cheat-sheet']] },
   { links: [['Glossary', '/glossary']] },
   { links: [['About', '/about']] },
 ];
@@ -32,7 +32,7 @@ for (const path of PAGES) {
     const hrefs = await page.locator('.site-header nav a').evaluateAll((as) => as.map((a) => a.getAttribute('href')));
     expect(hrefs).toEqual(MENU_HREFS);
     const names = await page.locator('.site-header nav .group-button .group-name').allTextContents();
-    expect(names).toEqual(['Basics', 'Your site', 'Check']);
+    expect(names).toEqual(['Basics', 'Your site', 'Check', 'Cheat sheets']);
     for (const item of MENU) {
       for (const [label, href] of item.links) {
         await expect(page.locator(`.site-header nav a[href="${href}"]`), `${label} is not named ${label}`).toHaveText(label);
@@ -43,7 +43,7 @@ for (const path of PAGES) {
 }
 
 // The page whose link is current is marked on a laptop: underlined link, underlined group name.
-// A page that is in no menu (/search-records) marks nothing.
+// A page that is in no menu (/search-records, /seo-reference) marks nothing.
 test('header — on /geo the GEO link and the Basics group are marked and underlined', async ({ page }) => {
   await page.setViewportSize({ width: 1280, height: 800 });
   await page.goto('/geo');
@@ -56,11 +56,13 @@ test('header — on /geo the GEO link and the Basics group are marked and underl
   expect(await basics.locator('.group-name').evaluate((el) => getComputedStyle(el).textDecorationLine)).toBe('underline');
 });
 
-test('header — on /search-records no menu link and no group is current', async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 800 });
-  await page.goto('/search-records');
-  await expect(page.locator('.site-header [aria-current]')).toHaveCount(0);
-});
+for (const path of ['/search-records', '/seo-reference']) {
+  test(`header — on ${path} no menu link and no group is current`, async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto(path);
+    await expect(page.locator('.site-header [aria-current]')).toHaveCount(0);
+  });
+}
 
 const PHONE = { width: 375, height: 812 };
 const DESKTOP = { width: 1280, height: 800 };

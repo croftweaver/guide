@@ -82,9 +82,21 @@ export const GUIDE_PAGES: GuidePage[] = [
   },
   {
     slug: 'seo-cheat-sheet',
-    title: 'SEO cheat sheet: Google and AI search',
+    title: 'SEO cheat sheet: what matters for Google',
     description:
-      'An SEO cheat sheet for Google and AI search: crawlers, robots.txt, tags, speed and snippets. Every row names its source; every section its check date.',
+      'An SEO cheat sheet on one page: what to do, and what to skip, to be found on Google. Every row names its source, and the page says when it was checked.',
+  },
+  {
+    slug: 'ai-search-cheat-sheet',
+    title: 'AI search cheat sheet: get named by AI',
+    description:
+      'An AI search cheat sheet: what to do so ChatGPT, Claude, Perplexity, Copilot and Google\'s AI answers can find and name your site. Every row names its source.',
+  },
+  {
+    slug: 'seo-reference',
+    title: 'SEO reference: crawlers, tags, snippets',
+    description:
+      'The long look-up page: which crawlers visit, robots.txt recipes, tags, speed numbers, structured data and snippets. Every row names its source and its date.',
   },
   {
     slug: 'glossary',

@@ -59,13 +59,17 @@ AI answer ([Microsoft](https://www.bing.com/webmasters/help/Webmaster-Guidelines
 
 ### My site runs on Cloudflare
 
-Look at Cloudflare first, because it has its own settings for AI visitors. Since 15 September 2026,
-choosing "Block" there stops Googlebot, Bingbot and [Applebot](/glossary/#applebot) too, "search included". To stop
+Look at Cloudflare first, because it has its own settings for AI visitors. You'll find them under
+Security Settings for your domain, in three groups: Search, Agent and Training
+([Cloudflare](https://blog.cloudflare.com/accountable-mixed-use-ai-crawlers/)). Since 15 September 2026,
+choosing "Block" for Training stops Googlebot, Bingbot and [Applebot](/glossary/#applebot) too, "search included". To stop
 training and keep search, Cloudflare says to choose "Disallow AI Training"
-([Cloudflare](https://blog.cloudflare.com/accountable-mixed-use-ai-crawlers/)). You'll find these
-under Security Settings for your domain
-([Cloudflare](https://blog.cloudflare.com/accountable-mixed-use-ai-crawlers/)). Cloudflare's help page, updated 2 November 2026,
-lists that choice as "Disallow", for training only
+([Cloudflare](https://blog.cloudflare.com/accountable-mixed-use-ai-crawlers/)). Bing is the exception for
+now. Cloudflare says Microsoft is building support for a no-training line in robots.txt, targeted for early 2027, and until
+then "Disallow AI Training" "will not automatically convey a no-training preference to Bing through robots.txt"
+([Cloudflare](https://blog.cloudflare.com/accountable-mixed-use-ai-crawlers/)). The reference page
+[Tags on a page](/seo-reference/#tags) lists Bing's own tags. Cloudflare's help page, updated 2 November 2026,
+lists the Training choice as "Disallow", for training only
 ([Cloudflare docs](https://developers.cloudflare.com/bots/additional-configurations/block-ai-bots/)).
 
 ## See what your site says today

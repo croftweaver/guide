@@ -1,7 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 
-// Each section of the cheat sheet says when its sources were last opened and when they are due again, so a reader can
-// see how old a row is. This checks the structure, not the clock: it never compares a date with today, so the build
+// The SEO reference says, section by section, when its sources were last opened and when they are due again; each short
+// cheat sheet says it once, in one line before its first section. A reader can see how old a row is. This checks the structure, not the clock: it never compares a date with today, so the build
 // does not turn red when a date goes by with nothing changed; the quarterly re-check moves the dates.
 // It reads the built page, not the Markdown: a date line counts only as a paragraph directly under its H2, so a line
 // in a code block or a comment never counts, whatever way the Markdown wrote it. The real page and the probes go
@@ -63,15 +63,15 @@ function dateProblems(found: Section[]): string[] {
   return problems;
 }
 
-test('cheat sheet dates — every section of the real page has its date line, three months apart', async ({ page }) => {
-  await page.goto('/seo-cheat-sheet');
+test('cheat sheet dates — every section of the real /seo-reference has its date line, three months apart', async ({ page }) => {
+  await page.goto('/seo-reference');
   const found = await sections(page);
   expect(found.length, 'the page has its nine sections').toBe(9);
   expect(dateProblems(found)).toEqual([]);
 });
 
-test('cheat sheet dates — the real page with one date line removed fails, and names the section', async ({ page }) => {
-  await page.goto('/seo-cheat-sheet');
+test('cheat sheet dates — the real /seo-reference with one date line removed fails, and names the section', async ({ page }) => {
+  await page.goto('/seo-reference');
   await page.evaluate(() => {
     const h2 = Array.from(document.querySelectorAll('main > article > h2')).find((h) => h.textContent === 'Tags on a page')!;
     for (let el = h2.nextElementSibling; el && el.tagName !== 'H2'; el = el.nextElementSibling) {
@@ -82,6 +82,68 @@ test('cheat sheet dates — the real page with one date line removed fails, and 
     }
   });
   expect(dateProblems(await sections(page))).toEqual(['"Tags on a page" has no "Checked on … · next check by …" line']);
+});
+
+// The short sheets: exactly one date line in the whole article, before the first H2 (plan scenario S8).
+type Lines = { before: string[]; after: string[] };
+
+// Every paragraph of the article that starts "Checked on", split by whether it comes before the first H2 or after it.
+async function dateLines(page: Page): Promise<Lines> {
+  return page.evaluate(() => {
+    const first = document.querySelector('main > article > h2');
+    const out: { before: string[]; after: string[] } = { before: [], after: [] };
+    for (const p of Array.from(document.querySelectorAll('main > article p'))) {
+      const text = (p.textContent ?? '').trim();
+      if (!text.startsWith('Checked on')) continue;
+      const after = first !== null && Boolean(first.compareDocumentPosition(p) & Node.DOCUMENT_POSITION_FOLLOWING);
+      (after ? out.after : out.before).push(text);
+    }
+    return out;
+  });
+}
+
+// One string per fault: no line, more than one, one below the first H2, or a line whose dates are wrong.
+function oneLineProblems({ before, after }: Lines): string[] {
+  const all = [...before, ...after];
+  if (all.length === 0) return ['the page has no "Checked on … · next check by …" line'];
+  if (all.length > 1) return [`the page has ${all.length} date lines, and one is expected`];
+  if (before.length === 0) return ['the date line comes after the first H2, and it belongs before it'];
+  return dateProblems([{ heading: 'the page', paragraphs: before }]);
+}
+
+const SHEETS = ['/seo-cheat-sheet', '/ai-search-cheat-sheet'];
+for (const path of SHEETS) {
+  test(`cheat sheet dates — ${path} has one date line before its first section, three months apart`, async ({ page }) => {
+    await page.goto(path);
+    expect(oneLineProblems(await dateLines(page))).toEqual([]);
+  });
+}
+
+test('cheat sheet dates — a sheet with its date line removed fails', async ({ page }) => {
+  await page.goto('/seo-cheat-sheet');
+  await page.evaluate(() => {
+    Array.from(document.querySelectorAll('main > article p')).find((p) => p.textContent!.startsWith('Checked on'))!.remove();
+  });
+  expect(oneLineProblems(await dateLines(page))).toEqual(['the page has no "Checked on … · next check by …" line']);
+});
+
+test('cheat sheet dates — a sheet with a second date line under an H2 fails', async ({ page }) => {
+  await page.goto('/ai-search-cheat-sheet');
+  await page.evaluate(() => {
+    const p = document.createElement('p');
+    p.textContent = 'Checked on 17 November 2026 · next check by 17 February 2027';
+    document.querySelector('main > article > h2')!.after(p);
+  });
+  expect(oneLineProblems(await dateLines(page))).toEqual(['the page has 2 date lines, and one is expected']);
+});
+
+test('cheat sheet dates — a sheet with its date line moved below the first H2 fails', async ({ page }) => {
+  await page.goto('/seo-cheat-sheet');
+  await page.evaluate(() => {
+    const line = Array.from(document.querySelectorAll('main > article p')).find((p) => p.textContent!.startsWith('Checked on'))!;
+    document.querySelector('main > article > h2')!.after(line);
+  });
+  expect(oneLineProblems(await dateLines(page))).toEqual(['the date line comes after the first H2, and it belongs before it']);
 });
 
 // Probe pages for the date rule itself: [name, the line, whether it must pass].

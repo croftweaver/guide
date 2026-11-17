@@ -54,6 +54,8 @@ says.
   even need a [sitemap](/glossary/#sitemap)
   ([Google, Dec 2025](https://developers.google.com/search/docs/crawling-indexing/sitemaps/overview)).
 
+The [SEO cheat sheet](/seo-cheat-sheet/) puts the main points on one page.
+
 ## What doesn't work
 
 - **Secrets.** "There are no secrets here that'll automatically rank your site first in Google

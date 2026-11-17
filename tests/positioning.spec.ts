@@ -33,6 +33,7 @@ type TermRule = { term: string; body?: Clause[] };
 type SurfaceRule = { title?: Clause[]; desc?: Clause[]; h1?: Clause[]; body?: Clause[] };
 export const POSITIONING: Record<string, TermRule | SurfaceRule> = {
   '/seo-cheat-sheet': { term: 'SEO cheat sheet' },
+  '/ai-search-cheat-sheet': { term: 'AI search cheat sheet' },
 };
 
 // Pages that legitimately own NO positioning term (utility pages such as the

@@ -17,7 +17,7 @@
 - [Why doesn't ChatGPT mention my business?](https://guide.croftweaver.com/why-ai-doesnt-mention-you): You are not alone. The usual reasons a local business is not named by AI assistants, each with its source named and linked.
 - [Check your site: five tests](https://guide.croftweaver.com/check-your-site): Five tests you can run yourself with a browser: how to run each, what the result tells you, and what it doesn't.
 - [AI SEO checklist: what matters](https://guide.croftweaver.com/ai-seo-checklist): A short checklist for being found on Google and named by AI assistants. Each check links to its page, and to a test where there is one. Plus what we left off.
-- [SEO cheat sheet: Google and AI search](https://guide.croftweaver.com/seo-cheat-sheet): An SEO cheat sheet for Google and AI search: crawlers, robots.txt, tags, speed and snippets. Every row names its source and the date checked.
+- [SEO cheat sheet: Google and AI search](https://guide.croftweaver.com/seo-cheat-sheet): An SEO cheat sheet for Google and AI search: crawlers, robots.txt, tags, speed and snippets. Every row names its source; every section its check date.
 - [Glossary](https://guide.croftweaver.com/glossary): The words this guide uses, in everyday language. Each entry links the page it comes from, and says when we found no definition from the company concerned.
 - [About this guide](https://guide.croftweaver.com/about): Who publishes the Croftweaver Guide, who wrote it, how AI helped, how sources are checked and where we corrected ourselves.
 - [What we searched](https://guide.croftweaver.com/search-records): The dated record behind every sentence in this guide that says we found no published answer: what we looked for, and what we found.

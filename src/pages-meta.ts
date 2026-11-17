@@ -84,7 +84,7 @@ export const GUIDE_PAGES: GuidePage[] = [
     slug: 'seo-cheat-sheet',
     title: 'SEO cheat sheet: Google and AI search',
     description:
-      'An SEO cheat sheet for Google and AI search: crawlers, robots.txt, tags, speed and snippets. Every row names its source and the date checked.',
+      'An SEO cheat sheet for Google and AI search: crawlers, robots.txt, tags, speed and snippets. Every row names its source; every section its check date.',
   },
   {
     slug: 'glossary',

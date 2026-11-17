@@ -4,6 +4,9 @@ The words this guide uses, in everyday language. Each entry links the page it co
 date that page gives for itself. Where we found no definition from the company concerned, the
 entry says so and links what we searched.
 
+To see these words at work, with examples to copy and a source for every row, open the
+[cheat sheet](/seo-cheat-sheet/).
+
 ## AEO {#aeo}
 
 Short for "answer engine optimization": work aimed at getting your site shown or quoted in AI

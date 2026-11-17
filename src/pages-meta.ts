@@ -81,6 +81,12 @@ export const GUIDE_PAGES: GuidePage[] = [
       'A short checklist for being found on Google and named by AI assistants. Each check links to its page, and to a test where there is one. Plus what we left off.',
   },
   {
+    slug: 'seo-cheat-sheet',
+    title: 'SEO cheat sheet: Google and AI search',
+    description:
+      'An SEO cheat sheet for Google and AI search: crawlers, robots.txt, tags, speed and snippets. Every row names its source and the date checked.',
+  },
+  {
     slug: 'glossary',
     title: 'Glossary',
     description:

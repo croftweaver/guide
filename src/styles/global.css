@@ -65,6 +65,8 @@ body {
 }
 img, picture, svg, video { max-width: 100%; height: auto; }  /* responsive media */
 a { color: var(--link); }
+/* Code blocks wrap instead of scrolling sideways: a long line stays readable on a phone, and a wrapped line is still one line in the file. */
+pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 
 /* Keyboard accessibility: visible focus + skip link. */
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }

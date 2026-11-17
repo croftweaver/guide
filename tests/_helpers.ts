@@ -15,6 +15,7 @@ export const PAGES = [
   '/why-ai-doesnt-mention-you',
   '/check-your-site',
   '/ai-seo-checklist',
+  '/seo-cheat-sheet',
   '/glossary',
   '/about',
   '/search-records',

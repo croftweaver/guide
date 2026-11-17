@@ -16,6 +16,7 @@ const MENU: { group?: string; links: [label: string, href: string][] }[] = [
     ["Why AI doesn't mention you", '/why-ai-doesnt-mention-you'],
   ] },
   { group: 'Check', links: [['Check your site', '/check-your-site'], ['AI SEO checklist', '/ai-seo-checklist']] },
+  { links: [['Cheat sheet', '/seo-cheat-sheet']] },
   { links: [['Glossary', '/glossary']] },
   { links: [['About', '/about']] },
 ];

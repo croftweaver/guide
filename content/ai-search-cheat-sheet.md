@@ -19,7 +19,7 @@ For [SEO](/glossary/#seo) and Google's ordinary results, see the [SEO cheat shee
 
 | What | Do this | Source |
 |---|---|---|
-| Requirements | No extra steps for [AI Overviews](/glossary/#ai-overviews) or [AI Mode](/glossary/#ai-mode): "no additional requirements to appear in AI Overviews or AI Mode". The page must be indexed and eligible for a [snippet](/glossary/#snippet). | [Google, AI features](https://developers.google.com/search/docs/appearance/ai-features) |
+| Requirements | No extra steps for [AI Overviews](/glossary/#ai-overviews) or [AI Mode](/glossary/#ai-mode): "no additional requirements to appear in AI Overviews or AI Mode". The page must be indexed and eligible for a [snippet](/glossary/#snippet), and the site must be included in the [Search Console](/glossary/#search-console) control (on by default). | [Google, AI features](https://developers.google.com/search/docs/appearance/ai-features); [Google, AI guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) |
 | The switch | [Search Console](/glossary/#search-console) has a control for them, open to every site since 31 August 2026. | [Google, the control](https://support.google.com/webmasters/answer/16908024) |
 | Training | The switch does not affect training. Use Google-Extended for that. | [Google, the control](https://support.google.com/webmasters/answer/16908024) |
 

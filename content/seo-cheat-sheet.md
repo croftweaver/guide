@@ -25,7 +25,7 @@ The [robots.txt](/glossary/#robots-txt) recipes, tag tables and tested commands 
 | What | Do this | Source |
 |---|---|---|
 | HTTPS | Serve every page over HTTPS. | [SEO reference](/seo-reference/#technical-seo) |
-| Keep a page out | Use [noindex](/glossary/#noindex). A robots.txt rule alone does not do it. | [Google, robots.txt](https://developers.google.com/search/docs/crawling-indexing/robots/intro) |
+| Keep a page out | Use [noindex](/glossary/#noindex), and let Google crawl the page so it can read it. A robots.txt rule alone does not do it. | [Google, robots.txt](https://developers.google.com/search/docs/crawling-indexing/robots/intro); [Google, robots meta](https://developers.google.com/search/docs/crawling-indexing/robots-meta-tag) |
 | Duplicates | Pick one address. Redirect the rest, or use a canonical tag. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Moved page | Use a permanent redirect. | [SEO reference](/seo-reference/#technical-seo) |
 | Phones | Google reads the phone version. Give it the same content. | [Google, mobile-first](https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing) |

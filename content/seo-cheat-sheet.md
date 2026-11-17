@@ -60,5 +60,5 @@ The [robots.txt](/glossary/#robots-txt) recipes, tag tables and tested commands 
 | Keywords tag | Skip it. Google says it "doesn't use the keywords meta tag". | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Heading count | Skip it. Google says there is "no magical, ideal amount of headings". | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Duplicate "penalty" | Don't fear it. Copying others' content is different. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
-| [E-E-A-T](/glossary/#e-e-a-t) as a factor | Not a ranking factor. Google's answer: "No, it's not." | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
-| Domain keywords | They have "hardly any effect beyond appearing in breadcrumbs". | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
+| [E-E-A-T](/glossary/#e-e-a-t) as a factor | Not a ranking factor in itself. Google's answer: "No, it's not." | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
+| Domain keywords | Keywords in the domain name alone have "hardly any effect beyond appearing in breadcrumbs". | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |

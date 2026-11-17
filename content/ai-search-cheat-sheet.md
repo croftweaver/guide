@@ -10,16 +10,16 @@ For [SEO](/glossary/#seo) and Google's ordinary results, see the [SEO cheat shee
 
 | What | Do this | Source |
 |---|---|---|
-| Two kinds of [crawler](/glossary/#crawler) | Search crawlers and training crawlers have separate names. You can allow one and refuse the other. | [AI crawlers](/ai-crawlers/) |
+| Two kinds of [crawler](/glossary/#crawler) | OpenAI and Anthropic give their search and training crawlers separate names. You can allow one and refuse the other. | [AI crawlers](/ai-crawlers/) |
 | Search crawlers | Let in [OAI-SearchBot](/glossary/#oai-searchbot) (ChatGPT), [Claude-SearchBot](/glossary/#claude-searchbot) and [PerplexityBot](/glossary/#perplexitybot). | [AI crawlers](/ai-crawlers/) |
-| Google | [Googlebot](/glossary/#googlebot) serves Search and its AI answers alike. [Google-Extended](/glossary/#google-extended) covers training, not Search. | [Google, AI features](https://developers.google.com/search/docs/appearance/ai-features) |
+| Google | [Googlebot](/glossary/#googlebot) serves Search and its AI answers alike. [Google-Extended](/glossary/#google-extended) covers training, not Search. | [Google, AI features](https://developers.google.com/search/docs/appearance/ai-features); [Google, crawlers](https://developers.google.com/crawling/docs/crawlers-fetchers/google-common-crawlers) |
 | Your host | Check its AI bot settings first. On Cloudflare, some choices block Google and Bing search too. | [AI crawlers](/ai-crawlers/#my-site-runs-on-cloudflare) |
 
 ## Google's AI answers {#google-answers}
 
 | What | Do this | Source |
 |---|---|---|
-| Requirements | None extra for [AI Overviews](/glossary/#ai-overviews) or [AI Mode](/glossary/#ai-mode): "no additional requirements to appear in AI Overviews or AI Mode". | [Google, AI features](https://developers.google.com/search/docs/appearance/ai-features) |
+| Requirements | No extra steps for [AI Overviews](/glossary/#ai-overviews) or [AI Mode](/glossary/#ai-mode): "no additional requirements to appear in AI Overviews or AI Mode". The page must be indexed and eligible for a [snippet](/glossary/#snippet). | [Google, AI features](https://developers.google.com/search/docs/appearance/ai-features) |
 | The switch | [Search Console](/glossary/#search-console) has a control for them, open to every site since 31 August 2026. | [Google, the control](https://support.google.com/webmasters/answer/16908024) |
 | Training | The switch does not affect training. Use Google-Extended for that. | [Google, the control](https://support.google.com/webmasters/answer/16908024) |
 

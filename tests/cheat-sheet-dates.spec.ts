@@ -1,11 +1,13 @@
 import { test, expect, type Page } from '@playwright/test';
 
 // The SEO reference says, section by section, when its sources were last opened and when they are due again; each short
-// cheat sheet says it once, in one line before its first section. A reader can see how old a row is. This checks the structure, not the clock: it never compares a date with today, so the build
-// does not turn red when a date goes by with nothing changed; the quarterly re-check moves the dates.
-// It reads the built page, not the Markdown: a date line counts only as a paragraph directly under its H2, so a line
-// in a code block or a comment never counts, whatever way the Markdown wrote it. The real page and the probes go
-// through the same function, and a probe with a date line removed must fail, or the check could pass checking nothing.
+// cheat sheet says it once, in one line before its first section. A reader can see how old a row is.
+// This checks the structure, not the clock: it never compares a date with today, so the build does not turn red when a
+// date goes by with nothing changed; the quarterly re-check moves the dates.
+// It reads the built page, not the Markdown. On the reference a date line counts only as a paragraph directly under its
+// H2; on a short sheet every paragraph of the article is counted, so a second line anywhere fails. Either way a line in
+// a code block or a comment never counts, whatever way the Markdown wrote it. The real pages and the probes go through
+// the same functions, and a probe with a date line removed must fail, or the check could pass checking nothing.
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DATE = `(\\d{1,2}) (${MONTHS.join('|')}) (\\d{4})`;

@@ -1,18 +1,15 @@
-import { test, expect } from '@playwright/test';
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { test, expect, type Page } from '@playwright/test';
 
 // Each section of the cheat sheet says when its sources were last opened and when they are due again, so a reader can
 // see how old a row is. This checks the structure, not the clock: it never compares a date with today, so the build
-// does not turn red when a date goes by with nothing changed; the quarterly re-check moves the dates. The check reads
-// one file through the path it is given. The page's own file goes through the same function as the probe files, and a
-// probe with a date line removed must fail, or the check could pass while checking nothing.
+// does not turn red when a date goes by with nothing changed; the quarterly re-check moves the dates.
+// It reads the built page, not the Markdown: a date line counts only as a paragraph directly under its H2, so a line
+// in a code block or a comment never counts, whatever way the Markdown wrote it. The real page and the probes go
+// through the same function, and a probe with a date line removed must fail, or the check could pass checking nothing.
 
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const DATE = `(\\d{1,2}) (${MONTHS.join('|')}) (\\d{4})`;
-const LINE = new RegExp(`^Checked on ${DATE} · next check by ${DATE}$`, 'm');
+const LINE = new RegExp(`^Checked on ${DATE} · next check by ${DATE}$`);
 
 // Three months on: the same day number; where that month is shorter, its last day (31 August gives 30 November).
 function threeMonthsOn(day: number, month: number, year: number): [number, number, number] {
@@ -22,36 +19,37 @@ function threeMonthsOn(day: number, month: number, year: number): [number, numbe
   return [Math.min(day, new Date(Date.UTC(y, mm + 1, 0)).getUTCDate()), mm, y];
 }
 
-// Every problem found in the file at `path`: one string per section that has no date line or a wrong next-check date.
-function sectionDateProblems(path: string): string[] {
-  const sections: { heading: string; body: string[] }[] = [];
-  const problems: string[] = [];
-  let fenced = false;
-  for (const line of readFileSync(path, 'utf8').split('\n')) {
-    // Only a plain three-backtick fence at the start of a line is read as code; any other fence line is refused, not guessed at.
-    const fence = line.match(/^( *)(`{3,}|~{3,})(.*)$/);
-    const plain = fence !== null && fence[1] === '' && fence[2] === '```';
-    const opens = plain && !fenced;
-    const closes = plain && fenced && fence![3]!.trim() === '';
-    if (fence && !opens && !closes && (!fenced || fence[2]![0] === '`')) problems.push(`unsupported code fence: ${line.slice(0, 40)}`);
-    if (opens || closes) {
-      fenced = !fenced;
-      continue;
+const real = (d: string, mo: string, y: string) =>
+  Number(d) >= 1 && Number(d) <= new Date(Date.UTC(Number(y), MONTHS.indexOf(mo) + 1, 0)).getUTCDate();
+
+type Section = { heading: string; paragraphs: string[] };
+
+// Each H2 of the page's <main> with the text of the paragraphs that are its direct children, up to the next H2.
+async function sections(page: Page): Promise<Section[]> {
+  return page.evaluate(() => {
+    const out: { heading: string; paragraphs: string[] }[] = [];
+    for (const h2 of Array.from(document.querySelectorAll('main h2'))) {
+      const paragraphs: string[] = [];
+      for (let el = h2.nextElementSibling; el && el.tagName !== 'H2'; el = el.nextElementSibling) {
+        if (el.tagName === 'P') paragraphs.push((el.textContent ?? '').trim());
+      }
+      out.push({ heading: (h2.textContent ?? '').trim(), paragraphs });
     }
-    if (fenced) continue; // a line inside a code block is neither a heading nor a date line
-    if (line.startsWith('## ')) sections.push({ heading: line.slice(3).replace(/\s*\{#[^}]*\}\s*$/, '').trim(), body: [] });
-    else sections.at(-1)?.body.push(line);
-  }
-  if (fenced) problems.push('a code fence is never closed');
-  if (sections.length === 0) return [...problems, `${path} has no H2 section, so there is nothing to check`];
-  for (const { heading, body } of sections) {
-    const m = body.join('\n').match(LINE);
+    return out;
+  });
+}
+
+// One string per section that has no date line, a date that does not exist, or a wrong next-check date.
+function dateProblems(found: Section[]): string[] {
+  if (found.length === 0) return ['the page has no H2 section, so there is nothing to check'];
+  const problems: string[] = [];
+  for (const { heading, paragraphs } of found) {
+    const m = paragraphs.map((p) => p.match(LINE)).find((x) => x !== null);
     if (!m) {
       problems.push(`"${heading}" has no "Checked on … · next check by …" line`);
       continue;
     }
     const [, d1, m1, y1, d2, m2, y2] = m;
-    const real = (d: string, mo: string, y: string) => Number(d) >= 1 && Number(d) <= new Date(Date.UTC(Number(y), MONTHS.indexOf(mo) + 1, 0)).getUTCDate();
     if (!real(d1!, m1!, y1!) || !real(d2!, m2!, y2!)) {
       problems.push(`"${heading}": "${m[0]}" has a day that does not exist in its month`);
       continue;
@@ -65,18 +63,28 @@ function sectionDateProblems(path: string): string[] {
   return problems;
 }
 
-const REAL = fileURLToPath(new URL('../content/seo-cheat-sheet.md', import.meta.url));
-const PROBE = fileURLToPath(new URL('./fixtures/seo-cheat-sheet-one-date-line-removed.md', import.meta.url));
-
-test('cheat sheet dates — every section of the real page has its date line, three months apart', () => {
-  expect(sectionDateProblems(REAL)).toEqual([]);
+test('cheat sheet dates — every section of the real page has its date line, three months apart', async ({ page }) => {
+  await page.goto('/seo-cheat-sheet');
+  const found = await sections(page);
+  expect(found.length, 'the page has its nine sections').toBe(9);
+  expect(dateProblems(found)).toEqual([]);
 });
 
-test('cheat sheet dates — a probe copy with one date line removed fails, and names the section', () => {
-  expect(sectionDateProblems(PROBE)).toEqual(['"Tags on a page" has no "Checked on … · next check by …" line']);
+test('cheat sheet dates — the real page with one date line removed fails, and names the section', async ({ page }) => {
+  await page.goto('/seo-cheat-sheet');
+  await page.evaluate(() => {
+    const h2 = Array.from(document.querySelectorAll('main h2')).find((h) => h.textContent === 'Tags on a page')!;
+    for (let el = h2.nextElementSibling; el && el.tagName !== 'H2'; el = el.nextElementSibling) {
+      if (el.tagName === 'P' && el.textContent!.startsWith('Checked on')) {
+        el.remove();
+        break;
+      }
+    }
+  });
+  expect(dateProblems(await sections(page))).toEqual(['"Tags on a page" has no "Checked on … · next check by …" line']);
 });
 
-// Probe files for the date rule itself: [name, the line, whether it must pass].
+// Probe pages for the date rule itself: [name, the line, whether it must pass].
 const CASES: [string, string, boolean][] = [
   ['three months later passes', 'Checked on 17 November 2026 · next check by 17 February 2027', true],
   ['31 August gives 30 November', 'Checked on 31 August 2026 · next check by 30 November 2026', true],
@@ -90,38 +98,22 @@ const CASES: [string, string, boolean][] = [
   ['a date that is long past still passes (the clock is not read)', 'Checked on 3 March 2020 · next check by 3 June 2020', true],
 ];
 for (const [name, line, ok] of CASES) {
-  test(`cheat sheet dates — ${name}`, () => {
-    const dir = mkdtempSync(join(tmpdir(), 'cheat-sheet-dates-'));
-    try {
-      const file = join(dir, 'probe.md');
-      writeFileSync(file, `# Probe\n\n## One section {#one}\n\n${line}\n\nText.\n`);
-      expect(sectionDateProblems(file).length === 0, line).toBe(ok);
-    } finally {
-      rmSync(dir, { recursive: true, force: true });
-    }
+  test(`cheat sheet dates — ${name}`, async ({ page }) => {
+    await page.setContent(`<main><h2>One section</h2><p>${line}</p><p>Text.</p></main>`);
+    expect(dateProblems(await sections(page)).length === 0, line).toBe(ok);
   });
 }
 
-test('cheat sheet dates — a date line inside a code block does not count', () => {
-  const dir = mkdtempSync(join(tmpdir(), 'cheat-sheet-dates-'));
-  try {
-    const file = join(dir, 'probe.md');
-    writeFileSync(file, '# Probe\n\n## One section {#one}\n\n```\n## Not a heading\nChecked on 17 November 2026 · next check by 17 February 2027\n```\n');
-    expect(sectionDateProblems(file)).toEqual(['"One section" has no "Checked on … · next check by …" line']);
-  } finally {
-    rmSync(dir, { recursive: true, force: true });
-  }
-});
-
-for (const [name, fence] of [['a ~~~ fence', '~~~'], ['a four-backtick fence', '````'], ['an indented fence', ' ```']] as const) {
-  test(`cheat sheet dates — ${name} is refused, not guessed at`, () => {
-    const dir = mkdtempSync(join(tmpdir(), 'cheat-sheet-dates-'));
-    try {
-      const file = join(dir, 'probe.md');
-      writeFileSync(file, `# Probe\n\n## One section {#one}\n\n${fence}\nChecked on 17 November 2026 · next check by 17 February 2027\n${fence}\n`);
-      expect(sectionDateProblems(file).some((p) => p.startsWith('unsupported code fence'))).toBe(true);
-    } finally {
-      rmSync(dir, { recursive: true, force: true });
-    }
+const LINE_OK = 'Checked on 17 November 2026 · next check by 17 February 2027';
+const NOT_A_DATE_LINE: [string, string][] = [
+  ['a code block', `<pre><code>${LINE_OK}</code></pre>`],
+  ['an HTML comment', `<!-- ${LINE_OK} -->`],
+  ['a list item', `<ul><li>${LINE_OK}</li></ul>`],
+  ['a table cell', `<table><tr><td>${LINE_OK}</td></tr></table>`],
+];
+for (const [name, html] of NOT_A_DATE_LINE) {
+  test(`cheat sheet dates — a date line in ${name} does not count`, async ({ page }) => {
+    await page.setContent(`<main><h2>One section</h2>${html}</main>`);
+    expect(dateProblems(await sections(page))).toEqual(['"One section" has no "Checked on … · next check by …" line']);
   });
 }

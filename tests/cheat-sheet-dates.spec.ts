@@ -24,11 +24,11 @@ const real = (d: string, mo: string, y: string) =>
 
 type Section = { heading: string; paragraphs: string[] };
 
-// Each H2 of the page's <main> with the text of the paragraphs that are its direct children, up to the next H2.
+// Each H2 that is a direct child of the page's article (one inside a list or a quote is not a section) with the text of the paragraphs that are its direct children, up to the next H2.
 async function sections(page: Page): Promise<Section[]> {
   return page.evaluate(() => {
     const out: { heading: string; paragraphs: string[] }[] = [];
-    for (const h2 of Array.from(document.querySelectorAll('main h2'))) {
+    for (const h2 of Array.from(document.querySelectorAll('main > article > h2'))) {
       const paragraphs: string[] = [];
       for (let el = h2.nextElementSibling; el && el.tagName !== 'H2'; el = el.nextElementSibling) {
         if (el.tagName === 'P') paragraphs.push((el.textContent ?? '').trim());
@@ -73,7 +73,7 @@ test('cheat sheet dates — every section of the real page has its date line, th
 test('cheat sheet dates — the real page with one date line removed fails, and names the section', async ({ page }) => {
   await page.goto('/seo-cheat-sheet');
   await page.evaluate(() => {
-    const h2 = Array.from(document.querySelectorAll('main h2')).find((h) => h.textContent === 'Tags on a page')!;
+    const h2 = Array.from(document.querySelectorAll('main > article > h2')).find((h) => h.textContent === 'Tags on a page')!;
     for (let el = h2.nextElementSibling; el && el.tagName !== 'H2'; el = el.nextElementSibling) {
       if (el.tagName === 'P' && el.textContent!.startsWith('Checked on')) {
         el.remove();
@@ -99,7 +99,7 @@ const CASES: [string, string, boolean][] = [
 ];
 for (const [name, line, ok] of CASES) {
   test(`cheat sheet dates — ${name}`, async ({ page }) => {
-    await page.setContent(`<main><h2>One section</h2><p>${line}</p><p>Text.</p></main>`);
+    await page.setContent(`<main><article><h2>One section</h2><p>${line}</p><p>Text.</p></article></main>`);
     expect(dateProblems(await sections(page)).length === 0, line).toBe(ok);
   });
 }
@@ -110,10 +110,12 @@ const NOT_A_DATE_LINE: [string, string][] = [
   ['an HTML comment', `<!-- ${LINE_OK} -->`],
   ['a list item', `<ul><li>${LINE_OK}</li></ul>`],
   ['a table cell', `<table><tr><td>${LINE_OK}</td></tr></table>`],
+  ['a heading of its own inside a list item', `<ul><li><h2>Nested</h2><p>${LINE_OK}</p></li></ul>`],
+  ['a heading of its own inside a quote', `<blockquote><h2>Nested</h2><p>${LINE_OK}</p></blockquote>`],
 ];
 for (const [name, html] of NOT_A_DATE_LINE) {
   test(`cheat sheet dates — a date line in ${name} does not count`, async ({ page }) => {
-    await page.setContent(`<main><h2>One section</h2>${html}</main>`);
+    await page.setContent(`<main><article><h2>One section</h2>${html}</article></main>`);
     expect(dateProblems(await sections(page))).toEqual(['"One section" has no "Checked on … · next check by …" line']);
   });
 }

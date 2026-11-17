@@ -14,7 +14,7 @@ This is a quick-reference page for [SEO](/glossary/#seo): which [crawlers](/glos
 
 ## Who visits your site {#who-visits}
 
-Which robots read your pages, and what each one is for. [AI crawlers](/ai-crawlers/) explains what happens when you block each one. This page is about access; what to write so AI answers quote you is on [Being quoted in AI answers](/geo/).
+Which robots read your pages, and what each one is for. [AI crawlers](/ai-crawlers/) explains what happens when you block each one. This page does not cover what to write so AI answers quote you; [Being quoted in AI answers](/geo/) does.
 
 Checked on 17 November 2026 · next check by 17 February 2027
 

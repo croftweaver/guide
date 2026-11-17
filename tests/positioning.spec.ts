@@ -32,7 +32,7 @@ type Clause = string | string[]; // string = required phrase · string[] = any-o
 type TermRule = { term: string; body?: Clause[] };
 type SurfaceRule = { title?: Clause[]; desc?: Clause[]; h1?: Clause[]; body?: Clause[] };
 export const POSITIONING: Record<string, TermRule | SurfaceRule> = {
-  // '/': { term: '...', body: ['...'] },
+  '/seo-cheat-sheet': { term: 'SEO cheat sheet' },
 };
 
 // Pages that legitimately own NO positioning term (utility pages such as the
@@ -53,11 +53,6 @@ const first = (clauses: Clause[]) => {
 const entries = Object.entries(POSITIONING);
 
 test.describe('positioning spine', () => {
-  if (entries.length === 0) {
-    // Nothing declared yet — green from commit 1. Populate during the
-    // website-positioning step (pipeline step 2), before page copy is written.
-    test.skip('no positioning terms declared yet (fill POSITIONING + this map)', () => {});
-  }
 
   // Coverage flag (warn-only, non-blocking): a content page with no POSITIONING entry is
   // not an error — positioning is opt-in and the suite stays green from commit 1 — but it

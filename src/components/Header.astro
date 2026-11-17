@@ -168,17 +168,17 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
   }
   .chevron { font-size: 0.8em; }
 
-  /* The fold: up to 44.99rem (719px) the navigation folds behind the Menu button (the phone block at the
-     end); above it, it stands in the header. 45rem is where the items fit one row with at least 40px to spare in
-     a wide system font (Verdana, close to DejaVu Sans on a Linux machine). Measured on all 14 pages, the item
-     row is 627px wide on the home page and 638px on the pages of "Your site", the widest, because the current
-     group's name is bold. With the header's 40px of padding the window needs 667 and 678px, so 720px leaves 42px.
+  /* The fold: up to 52.99rem (847px) the navigation folds behind the Menu button (the phone block at the
+     end); above it, it stands in the header. 53rem is where the items fit one row with at least 40px to spare in
+     a wide system font (Verdana, close to DejaVu Sans on a Linux machine). Measured on all 16 pages, the item
+     row is 746px wide on the home page and 757px on the pages of "Your site", the widest, because the current
+     group's name is bold. With the header's 40px of padding the window needs 786 and 797px, so 848px leaves 51px.
      Where the tagline and the items do not fit side by side, the items stand in one row under the logo. The wide
      block below is the exact complement of that query, so no width, a fractional one from browser zoom
      included, falls between the two; tests/header.spec.ts keeps the two numbers equal. */
 
   /* Wide, with JavaScript: a group is a button that opens its list as a panel under it. */
-  @media not all and (max-width: 44.99rem) {
+  @media not all and (max-width: 52.99rem) {
     :global(html.js) .group { display: block; position: relative; }
     :global(html.js) .group-button { display: inline-flex; }
     :global(html.js) .group-label { display: none; }
@@ -192,7 +192,7 @@ const isCurrent = (href: string) => !href.includes('#') && href === path;
     :global(html.js) .group-button[aria-expanded='true'] ~ .group-list { display: flex; }
   }
   /* Phones: the list folds behind the button and opens as one column under the logo. */
-  @media (max-width: 44.99rem) {
+  @media (max-width: 52.99rem) {
     /* The logo is a little smaller here, so logo and button share the first row down to 320px. */
     .site-header { column-gap: 0.75rem; }
     .brand :global(svg) { height: 1.25rem; }

@@ -17,7 +17,7 @@ The [robots.txt](/glossary/#robots-txt) recipes, tag tables and tested commands 
 | Your own pages | Link them to each other. Links help people and Google find your other pages. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Old pages | Update them, or delete what is no longer relevant. Don't change dates just to look fresh. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide); [Google, helpful content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content) |
 | Title | Give each page its own clear title. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
-| Description | Write a short one per page. Google may show other text. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
+| Meta description | Write a short one per page. Google may show other text. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Images | Add alt text that says what the image shows. | [Google, images](https://developers.google.com/search/docs/appearance/google-images) |
 | Links | Make the link words say where the link goes. | [Google, links](https://developers.google.com/search/docs/crawling-indexing/links-crawlable) |
 

@@ -1,6 +1,6 @@
 # AI search cheat sheet: get named by AI
 
-What to do so that AI search tools, such as ChatGPT, Claude, Perplexity, Copilot and Google's AI answers, can find your site and name it. Each row says what to do and where to read more.
+What to do so that AI search tools, such as ChatGPT, Claude, Perplexity, Copilot and Google's AI answers, can find your site and name it. Specialists call this work [GEO](/glossary/#geo), short for generative engine optimization; the [GEO page](/geo/) explains the term. Each row says what to do and where to read more.
 
 Checked on 17 November 2026 · next check by 17 February 2027
 

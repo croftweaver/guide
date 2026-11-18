@@ -10,7 +10,7 @@ The [robots.txt](/glossary/#robots-txt) recipes, tag tables and tested commands 
 
 | What | Do this | Source |
 |---|---|---|
-| Useful content | Write pages people find helpful. Google says it likely matters most. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
+| Useful content | Write pages people find helpful. In Google's starter guide this likely matters most. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Search terms | Use the words your customers would type. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Your own words | Write from what you know. Don't rehash others. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Headings | Break long text into sections with headings. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
@@ -37,7 +37,8 @@ The [robots.txt](/glossary/#robots-txt) recipes, tag tables and tested commands 
 
 | What | Do this | Source |
 |---|---|---|
-| Who wrote it | Show who made the content. Add bylines. | [Show who is behind it](/eeat/) |
+| Who wrote it | Show who made the content. Add bylines where readers expect them. | [Show who is behind it](/eeat/) |
+| [E-E-A-T](/glossary/#e-e-a-t) | Google says it is not a [ranking](/glossary/#ranking) factor in itself. Its systems still look for "a mix of factors" that show good E-E-A-T, and trust matters most. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide); [Google, helpful content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content) |
 | Links to you | Earn them. Buying them for [ranking](/glossary/#ranking) breaks Google's spam rules. | [Google, spam policies](https://developers.google.com/search/docs/essentials/spam-policies) |
 | Business Profile | Verify it, keep it complete, answer reviews. | [Google, local ranking](https://support.google.com/business/answer/7091) |
 
@@ -60,5 +61,4 @@ The [robots.txt](/glossary/#robots-txt) recipes, tag tables and tested commands 
 | Keywords tag | Skip it. Google says it "doesn't use the keywords meta tag". | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Heading count | Skip it. Google says there is "no magical, ideal amount of headings". | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Duplicate "penalty" | Don't fear it. Copying others' content is different. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
-| [E-E-A-T](/glossary/#e-e-a-t) as a factor | Not a ranking factor in itself. Google's answer: "No, it's not." | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Domain keywords | Keywords in the domain name alone have "hardly any effect beyond appearing in breadcrumbs". | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |

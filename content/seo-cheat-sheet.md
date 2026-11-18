@@ -14,7 +14,8 @@ The [robots.txt](/glossary/#robots-txt) recipes, tag tables and tested commands 
 | Search terms | Use the words your customers would type. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Your own words | Write from what you know. Don't rehash others. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Headings | Break long text into sections with headings. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
-| Old pages | Update them, or delete what is no longer relevant. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
+| Your own pages | Link them to each other. Links help people and Google find your other pages. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
+| Old pages | Update them, or delete what is no longer relevant. Don't change dates just to look fresh. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide); [Google, helpful content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content) |
 | Title | Give each page its own clear title. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Description | Write a short one per page. Google may show other text. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide) |
 | Images | Add alt text that says what the image shows. | [Google, images](https://developers.google.com/search/docs/appearance/google-images) |
@@ -37,10 +38,11 @@ The [robots.txt](/glossary/#robots-txt) recipes, tag tables and tested commands 
 
 | What | Do this | Source |
 |---|---|---|
-| Who wrote it | Show who made the content. Add bylines where readers expect them. | [Show who is behind it](/eeat/) |
+| Who wrote it | Show who made the content. Add bylines where readers expect them, with a link to the author's background. | [Show who is behind it](/eeat/) |
 | [E-E-A-T](/glossary/#e-e-a-t) | Google says it is not a [ranking](/glossary/#ranking) factor in itself. Its systems still look for "a mix of factors" that show good E-E-A-T, and trust matters most. | [Google starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide); [Google, helpful content](https://developers.google.com/search/docs/fundamentals/creating-helpful-content) |
 | Links to you | Earn them. Buying them for [ranking](/glossary/#ranking) breaks Google's spam rules. | [Google, spam policies](https://developers.google.com/search/docs/essentials/spam-policies) |
-| Business Profile | Verify it, keep it complete, answer reviews. | [Google, local ranking](https://support.google.com/business/answer/7091) |
+| Mass-made pages | Don't make many pages mainly to rank. Google's spam policies name scaled content and doorway pages. | [Google, spam policies](https://developers.google.com/search/docs/essentials/spam-policies) |
+| Business Profile | If you serve local customers, verify it, keep it complete, answer reviews. | [Google, local ranking](https://support.google.com/business/answer/7091) |
 
 ## Measure {#measure}
 

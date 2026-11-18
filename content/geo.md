@@ -74,6 +74,8 @@ The 1% is a share of visits to results pages with a summary, not of all searches
   rewriting for AI among things to ignore (above).
 - **Measure honestly.** See [Check your site](/check-your-site/) for free reports from Google and
   Bing.
+- **Keep a short list.** The [AI search cheat sheet](/ai-search-cheat-sheet/) puts the main points
+  on one page.
 
 ## Questions
 

@@ -53,7 +53,13 @@ export const NAV: NavItem[] = [
       { label: 'AI SEO checklist', href: '/ai-seo-checklist' },
     ],
   },
-  { label: 'Cheat sheet', href: '/seo-cheat-sheet' },
+  {
+    label: 'Cheat sheets',
+    items: [
+      { label: 'SEO cheat sheet', href: '/seo-cheat-sheet' },
+      { label: 'AI search cheat sheet', href: '/ai-search-cheat-sheet' },
+    ],
+  },
   { label: 'Glossary', href: '/glossary' },
   { label: 'About', href: '/about' },
 ];

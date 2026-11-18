@@ -16,6 +16,8 @@ export const PAGES = [
   '/check-your-site',
   '/ai-seo-checklist',
   '/seo-cheat-sheet',
+  '/ai-search-cheat-sheet',
+  '/seo-reference',
   '/glossary',
   '/about',
   '/search-records',

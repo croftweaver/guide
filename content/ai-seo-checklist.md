@@ -61,7 +61,8 @@ sources, and, where you can run one yourself, to the test on [Check your site](/
    it gives you. Test: [Check your site](/check-your-site/), test 5, *Ask your AI assistant, and
    make it show its sources*.
 
-Further reading: [How long until Google and AI find you](/how-long/). If an AI assistant built your
+Further reading: [How long until Google and AI find you](/how-long/). A one-page look-up version
+of this list: the [AI search cheat sheet](/ai-search-cheat-sheet/). If an AI assistant built your
 site, Croftweaver has a checklist for that case too:
 [AI website SEO checklist](https://croftweaver.com/ai-website-seo-checklist).
 

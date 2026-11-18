@@ -40,7 +40,8 @@ most important"
 - **Do I need an [llms.txt](/glossary/#llms-txt) file?** → [llms.txt](/llms-txt/)
 - **Does special markup ([structured data](/glossary/#structured-data)) help?** → [Structured data and FAQs](/schema-and-faq/)
 - **What should I check, in one list?** → [AI SEO checklist](/ai-seo-checklist/)
-- **Where can I look up a tag, a status code or a speed number?** → [SEO cheat sheet](/seo-cheat-sheet/)
+- **What are the main things to get right?** → [SEO cheat sheet](/seo-cheat-sheet/) and [AI search cheat sheet](/ai-search-cheat-sheet/)
+- **Where can I look up a tag, a status code or a speed number?** → [SEO reference](/seo-reference/)
 - **How is my site doing right now?** → [Check your site](/check-your-site/), with free tests you
   can run yourself
 

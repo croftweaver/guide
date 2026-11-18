@@ -22,11 +22,11 @@ for (const width of PHONES) {
   }
 }
 
-// The check must be able to fail: with wrapping turned off the cheat sheet's long lines scroll inside their block.
+// The check must be able to fail: with wrapping turned off the SEO reference's long lines scroll inside their block.
 for (const width of PHONES) {
-  test(`code blocks — the check fails on /seo-cheat-sheet at ${width}px with wrapping turned off`, async ({ page }) => {
+  test(`code blocks — the check fails on /seo-reference at ${width}px with wrapping turned off`, async ({ page }) => {
     await page.setViewportSize({ width, height: 800 });
-    await page.goto('/seo-cheat-sheet');
+    await page.goto('/seo-reference');
     expect((await page.locator('pre').count()), 'the page has no code blocks, so the check would pass on nothing').toBeGreaterThan(0);
     await page.addStyleTag({ content: 'pre { white-space: pre !important; }' });
     expect((await scrolling(page)).length, 'no block scrolls with wrapping off, so the check cannot fail').toBeGreaterThan(0);

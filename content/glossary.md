@@ -5,7 +5,7 @@ date that page gives for itself. Where we found no definition from the company c
 entry says so and links what we searched.
 
 To see these words at work, with examples to copy and a source for every row, open the
-[cheat sheet](/seo-cheat-sheet/).
+[reference page](/seo-reference/).
 
 ## AEO {#aeo}
 

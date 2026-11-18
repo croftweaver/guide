@@ -1,6 +1,6 @@
 # AI search cheat sheet: get named by AI
 
-What to do so that AI search tools, such as ChatGPT, Claude, Perplexity, Copilot and Google's AI answers, can find your site and name it. You may also see this work called [GEO](/glossary/#geo), short for generative engine optimization; the [GEO page](/geo/) explains the term. Each row says what to do and where to read more.
+What to do so that AI search tools, such as ChatGPT, Claude, Perplexity, Copilot and Google's AI answers, can find your site and name it. Each row says what to do and where to read more.
 
 Checked on 17 November 2026 · next check by 17 February 2027
 
@@ -51,6 +51,6 @@ For [SEO](/glossary/#seo) and Google's ordinary results, see the [SEO cheat shee
 
 | What | Do this | Source |
 |---|---|---|
-| [llms.txt](/glossary/#llms-txt) for Google | Skip it. Google says "You don't need to create new machine readable files, AI text files, or markup". | [Google, AI features](https://developers.google.com/search/docs/appearance/ai-features) |
-| Special schema | Skip it. Google says there is "no special [schema.org](/glossary/#schema-org) [structured data](/glossary/#structured-data) that you need to add". | [Google, AI features](https://developers.google.com/search/docs/appearance/ai-features) |
-| Tiny chunks | Skip them. Google says "no requirement to break your content into tiny pieces". | [Google, AI guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) |
+| [llms.txt](/glossary/#llms-txt) | Spend your time elsewhere. Google says it does not affect visibility or [rankings](/glossary/#ranking) in Google Search. We found no statement on OpenAI's, Anthropic's or Perplexity's crawler pages that their crawlers use it. | [Google, AI guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide); [llms.txt: do you need one?](/llms-txt/) |
+| Special schema | Google needs none. It says there is "no special [schema.org](/glossary/#schema-org) [structured data](/glossary/#structured-data) that you need to add". | [Google, AI features](https://developers.google.com/search/docs/appearance/ai-features) |
+| Tiny chunks | Google doesn't ask for them. It says "no requirement to break your content into tiny pieces". | [Google, AI guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) |

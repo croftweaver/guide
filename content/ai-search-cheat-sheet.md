@@ -1,6 +1,6 @@
 # AI search cheat sheet: get named by AI
 
-What to do so that AI search tools, such as ChatGPT, Claude, Perplexity, Copilot and Google's AI answers, can find your site and name it. Each row says what to do and where to read more.
+What to do so that AI search tools, such as ChatGPT, Claude, Perplexity, Copilot and Google's AI answers, can find your site and may name it. Each row says what to do and where to read more.
 
 Checked on 17 November 2026 · next check by 17 February 2027
 
@@ -19,7 +19,7 @@ For [SEO](/glossary/#seo) and Google's ordinary results, see the [SEO cheat shee
 
 | What | Do this | Source |
 |---|---|---|
-| Requirements | No extra steps for [AI Overviews](/glossary/#ai-overviews) or [AI Mode](/glossary/#ai-mode): "no additional requirements to appear in AI Overviews or AI Mode". The page must be indexed and eligible for a [snippet](/glossary/#snippet), and the site must be included in the [Search Console](/glossary/#search-console) control (on by default). | [Google, AI features](https://developers.google.com/search/docs/appearance/ai-features); [Google, AI guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) |
+| Requirements | No extra steps for [AI Overviews](/glossary/#ai-overviews) or [AI Mode](/glossary/#ai-mode): "no additional requirements to appear in AI Overviews or AI Mode". The page must be indexed and eligible for a [snippet](/glossary/#snippet), and the site must be included in the [Search Console](/glossary/#search-console) control (on by default). Even then, showing up is not guaranteed. | [Google, AI features](https://developers.google.com/search/docs/appearance/ai-features); [Google, AI guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) |
 | The switch | [Search Console](/glossary/#search-console) has a control for them, open to every site since 31 August 2026. | [Google, the control](https://support.google.com/webmasters/answer/16908024) |
 | Training | The switch does not affect training. Use Google-Extended for that. | [Google, the control](https://support.google.com/webmasters/answer/16908024) |
 
@@ -29,22 +29,22 @@ For [SEO](/glossary/#seo) and Google's ordinary results, see the [SEO cheat shee
 |---|---|---|
 | Who you are | Say plainly what you do, where, and for whom. | [Why AI skips you](/why-ai-doesnt-mention-you/) |
 | Your own view | Add first-hand detail others lack. Don't recycle. | [Google, AI guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) |
-| Back it up | Give real figures and name your sources. | [The original study](/geo/) |
+| Back it up | Give real figures and name your sources. | [The original study](/geo/); [Microsoft](https://blogs.bing.com/webmaster/2026/2/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview/) |
 | Text | Keep important content as text, not only in images. | [Google, AI features](https://developers.google.com/search/docs/appearance/ai-features) |
 
 ## Be known elsewhere {#known-elsewhere}
 
 | What | Do this | Source |
 |---|---|---|
-| Listings and reviews | Claim your Google and Bing listings. Ask customers for reviews. | [Why AI skips you](/why-ai-doesnt-mention-you/) |
+| Listings and reviews | Claim your Google and Bing listings. Ask customers for honest reviews. Google doesn't allow payment, discounts or gifts in return. | [Why AI skips you](/why-ai-doesnt-mention-you/); [Google, review policy](https://support.google.com/contributionpolicy/answer/7400114) |
 
 ## Measure {#measure}
 
 | What | Do this | Source |
 |---|---|---|
-| Copilot | Read the AI Performance report in [Bing Webmaster Tools](/glossary/#bing-webmaster-tools). | [Microsoft](https://blogs.bing.com/webmaster/2026/2/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview/) |
+| Copilot | Read the AI Performance report in [Bing Webmaster Tools](/glossary/#bing-webmaster-tools). It was a public preview when announced in February 2026. | [Microsoft](https://blogs.bing.com/webmaster/2026/2/Introducing-AI-Performance-in-Bing-Webmaster-Tools-Public-Preview/) |
 | Google | Read the Generative AI performance report in Search Console. | [Google, AI guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide) |
-| Ask | Ask an assistant about your business. Make it show its sources. | [Check your site](/check-your-site/) |
+| Ask | Ask an assistant about your business. Make it show its sources. Note whether it names you, links you or quotes you. | [Check your site](/check-your-site/) |
 | Scores | Treat an assistant's score for a page as a hint: ours were 23 points apart. | [Our test](/eeat/) |
 
 ## Don't bother {#dont-bother}

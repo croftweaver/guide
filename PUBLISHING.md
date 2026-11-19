@@ -83,6 +83,16 @@ new version (every build stamps its id into `/build.txt`; ship polls for it, abo
 "✓ LIVE — verified" means it's truly online; a warning means the new build isn't live yet:
 it may still be running, or Cloudflare didn't build — the message tells you what to check.
 Never assume a push went live without that check.
+If about 3 minutes after the upload the live site still serves the old build, and ship runs in a
+terminal window, it asks once, "Ship again?". Cloudflare sometimes starts no build for a push
+(seen once; why is not known). Type y and ship makes one small commit on `main` that changes one
+line of `SHIP-AGAIN.txt` (the time of the retry; the file is not part of the site), uploads it to
+`main` and `production`, and waits again; anything else keeps waiting. It never does this
+without your y, and only once. Whether Cloudflare then builds is not certain: no one has seen it
+on a live site yet. If you set build watch paths in Cloudflare, include `SHIP-AGAIN.txt` in them,
+or Cloudflare skips that commit (https://developers.cloudflare.com/workers/ci-cd/builds/build-watch-paths/).
+If `main` does not accept direct uploads, ship shows git's error and tells you what to check in Cloudflare.
+Ship also stops if `SHIP-AGAIN.txt` is a link or your site's git ignores it: it writes that file only when it is its own.
 
 Before your site has its own domain, `npm run ship` has nothing live to check: it says the
 change was sent, and that it is checked when the site launches. Look at the Preview link instead.

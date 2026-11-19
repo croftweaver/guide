@@ -1,7 +1,7 @@
 # Croftweaver Guide
 
 Source of https://guide.croftweaver.com: a small guide to getting found on Google and in AI
-answers. Built with Astro from the Croftweaver starter (kit v0.34), served by a Cloudflare
+answers. Built with Astro from the Croftweaver starter (kit v0.36, taken in PR #27 at `eefe17a`), served by a Cloudflare
 Worker that runs no code of its own.
 
 - `npm install`, then `npm run dev` to work locally. `npm run verify` is what the pre-push

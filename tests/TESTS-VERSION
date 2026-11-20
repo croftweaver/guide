@@ -1,4 +1,4 @@
-suite_commit: 39118dc7ef94c2b651adc19d7fd891f6fd5ee50a
-copied: 2026-11-19
+suite_commit: 8e3c002e8b307be9871008ed20eb751c385c4a8f
+copied: 2026-11-20
 kept: AGENTS.md — the site's §5 has no legal-page draft-notice bullet (it has no legal pages), so 0.36's one change to AGENTS.md, in that bullet, is not taken
-kept: PUBLISHING.md — the site's copy is two-stage and drops the single-stage and deploy-by-command sections; only 0.36's "Ship again?" paragraph is taken
+kept: PUBLISHING.md — the site's copy is two-stage and drops the single-stage and deploy-by-command sections; only the "Ship again?" paragraph (0.36, its wording changed in 0.38) is taken

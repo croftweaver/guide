@@ -22,7 +22,7 @@ Worker that runs no code of its own.
 
 How this site follows the Croftweaver kit. Method: the `website-site-sync` skill.
 
-- **Last synced:** v0.38 (`8e3c002e8b307be9871008ed20eb751c385c4a8f`), PR #30, 2026-11-20. Before it: v0.36 (`39118dc7`, PR #27 at `eefe17a`). v0.37 changed no template. The stamp is `tests/TESTS-VERSION`.
+- **Last synced:** v0.38 (`8e3c002e8b307be9871008ed20eb751c385c4a8f`), PR #30 at `96ba226e`, 2026-11-20. Before it: v0.36 (`39118dc7`, PR #27 at `eefe17a`). v0.37 changed no template. The stamp is `tests/TESTS-VERSION`.
 - **Kept at each sync:** `AGENTS.md` and `PUBLISHING.md` are merged by hand (the site's filled slots, its §5, its two-stage Workers text), `tests/navigation.spec.ts` keeps its footer test, `package.json`, `wrangler.jsonc` and this README stay the site's own. The `kept:` lines in `tests/TESTS-VERSION` say what of the kit's change was not taken.
 - **Left on purpose:** `orphan-exempt.txt` does not exist, as no page is left unlinked on purpose (a missing file means none). The site has no bundled `.claude/skills`, so the kit's skills are not synced.
 - **Checks:** `npm run check`, `npm run build`, `bash tests/check_analytics_gate.sh`, `bash tests/check_deploy.sh`, `SHIP_TEST_TTY=1 bash tests/check_ship_push.sh`, `npx playwright test`.
